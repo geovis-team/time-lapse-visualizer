@@ -13,7 +13,13 @@ class Project(models.Model):
         max_digits=6,
         decimal_places=2,
     )
-    Time = models.DateField()
-    shop = JSONField()
-    hospital = JSONField()
-    transport_station = JSONField()
+    time = models.DateField()
+    shop = JSONField(
+        null=True
+    )
+    hospital = JSONField(
+        null=True
+    )
+    transport_station = JSONField(
+        null=True
+    )

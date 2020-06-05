@@ -79,6 +79,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'tlv_db',
+        'TEST': {
+            'NAME': 'test_tlv_db'
+        },
         'USER': 'tlv_user',
         'PASSWORD': 'tlv_pass',
         'HOST': 'localhost',
