@@ -1,0 +1,49 @@
+.body{
+    width: 100%;
+}
+.colorNav{
+    /* background-color: red; */
+    padding: 15;
+}
+
+.navItem{
+    padding: 10;
+}
+
+.container{
+    /* padding:0% 5% 0 5%; */
+    padding: 5%;
+    background-color: silver;
+}
+
+.column{
+    background-color: silver;
+    padding: 7%;
+}
+.midcolumn{
+    background-color: silver;
+    padding: 5%;
+    text-align: center;
+}
+
+.colText{
+    margin-bottom:3%;
+    font-weight: 500;
+}
+
+#buttons{
+    padding: 4%;
+    width: 30%;
+    margin:2%
+}
+
+.footer{
+    background-color: snow;
+    text-align: center;
+    padding: 5%;
+}
+
+.footcol{
+    margin-left:5%;
+    margin-right:5%;
+}
