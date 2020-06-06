@@ -27,7 +27,7 @@ export default class Landing extends Component{
                 <Nav  className="mr-auto">
                 <Nav.Link id={styles.navItem} href="#about">About</Nav.Link>
                 <Nav.Link id={styles.navItem} href="#link">Contact</Nav.Link>
-                <Nav.Link id={styles.navItem} href="#visualisations">Visualisations</Nav.Link>
+                <Nav.Link id={styles.navItem} href="/defaultvis">Visualisations</Nav.Link>
                 </Nav>
                 <Nav className="ml-auto">
                 <Nav.Link id={styles.navItem} href="#api">API</Nav.Link>

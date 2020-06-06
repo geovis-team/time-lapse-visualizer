@@ -51,3 +51,22 @@
 .linkitem:hover{
     color: silver;
 }
+
+.myvis{
+    margin-bottom: 4%;
+    width: 90%;
+}
+
+.visContainer{
+    background-color:"silver";
+    padding: 3%;
+}
+
+.intro{
+    padding: 5%;
+    text-align: center;
+}
+
+.visHeading{
+    color: black;
+}
