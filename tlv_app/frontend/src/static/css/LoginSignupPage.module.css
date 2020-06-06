@@ -2,7 +2,6 @@
     width: 100%;
 }
 .colorNav{
-    /* background-color: red; */
     padding: 15;
 }
 
@@ -11,14 +10,16 @@
 }
 
 .container{
-    /* padding:0% 5% 0 5%; */
     padding: 5%;
     background-color: silver;
 }
 
 .column{
-    background-color: silver;
-    padding: 7%;
+    background-color:white;
+    
+    border-radius: 25px;
+    padding: 10%;
+    padding-left: 50%;
 }
 .midcolumn{
     background-color: silver;
