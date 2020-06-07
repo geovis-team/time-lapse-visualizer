@@ -6,6 +6,8 @@ import {SocialMediaIconsReact} from 'social-media-icons-react';
 import { SocialIcon } from 'react-social-icons';
 
 import styles from '../static/css/LandingPage.module.css'
+import NavigationBar from './NavigationBar'
+import Footer from './Footer'
 
 
 export default class Landing extends Component{
@@ -20,24 +22,7 @@ export default class Landing extends Component{
         const { activeItem } = this.state
         return (
             <div className={styles.body}>
-            <Navbar bg="light" expand="lg" className={styles.colorNav} style={{padding:15}}>
-            <Navbar.Brand href="#home">NAME</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-                <Nav  className="mr-auto">
-                <Nav.Link id={styles.navItem} href="#about">About</Nav.Link>
-                <Nav.Link id={styles.navItem} href="#link">Contact</Nav.Link>
-                <Nav.Link id={styles.navItem} href="/defaultvis">Visualisations</Nav.Link>
-                </Nav>
-                <Nav className="ml-auto">
-                <Nav.Link id={styles.navItem} href="#api">API</Nav.Link>
-                <Nav.Link id={styles.navItem} href="#help">Help</Nav.Link>
-                <Nav.Link id={styles.navItem} href="/log-sign-in">Login</Nav.Link>
-
-                <Button variant="dark" style={{marginLeft:10}}><Link to='/log-sign-in' className={styles.linkitem}> SignUp </Link></Button>
-                </Nav>
-            </Navbar.Collapse>
-            </Navbar>
+            <NavigationBar />
             <Container fluid className={styles.container}>
                 <Row fluid >
                     <Col sm className={styles.column} style={{textAlign: "center"}}>
@@ -73,22 +58,7 @@ export default class Landing extends Component{
                     </Col>
                 </Row>
             </Container>
-            <Container fluid className={`${styles.container} ${styles.footer}`}>
-                <Container>
-                <Row>
-                    <Col md> </Col>
-                    <Col md> </Col>
-                    <Col md> <h4>Name</h4><h6>2019-2020</h6></Col>
-                    <Col md> <SocialIcon url="https://in.linkedin.com/" /> </Col>
-                    <Col md> <SocialIcon url="http://twitter.com/" /></Col>
-                    <Col md> <SocialIcon url="http://facebook.com/" /></Col>
-                    <Col md> <SocialIcon url="https://github.com/" /></Col>
-                    <Col md> <SocialIcon url="https://mail.google.com/" /></Col>
-                    <Col md> </Col>
-                    <Col md> </Col>
-                </Row>
-                </Container>
-            </Container>
+            <Footer />
             </div>
         )
     }

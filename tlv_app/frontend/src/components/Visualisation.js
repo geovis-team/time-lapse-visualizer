@@ -29,10 +29,10 @@ class Visualisation extends Component {
                     <img className={styles.myvis} src={require('../static/assets/placeholder2.png')} alt="" />
                     </Col>
                     <Col md={3} xs={6} lg={2}>
-                        {/* <Button variant="primary">Go somewhere</Button> */}
                         {this.state.filters.map(filter=>(
                             <Form.Check type="checkbox" label={filter} />
                         ))}
+                        <Button variant="dark">Clear all filters</Button>
                     </Col>
                 </Row>
             </Container>
