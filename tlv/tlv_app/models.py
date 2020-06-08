@@ -1,7 +1,8 @@
 from django.db import models
-from django.contrib.postgres.fields import JSONField
+from django_mysql.models import JSONField, Model
 
-class Project(models.Model):
+
+class Project(Model):
     """
     This class has a dummy Project model.
     """

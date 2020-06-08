@@ -77,15 +77,12 @@ WSGI_APPLICATION = 'tlv.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'tlv_db',
-        'TEST': {
-            'NAME': 'test_tlv_db'
-        },
         'USER': 'tlv_user',
-        'PASSWORD': 'tlv_pass',
+        'PASSWORD': 'Tlv_P4ss',
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '3306',
     }
 }
 
