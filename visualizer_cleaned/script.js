@@ -26,10 +26,10 @@ function initMap() {
   // var markers = []
   // var markers = {}
 
-  document.getElementById("su").innerHTML = "<img src="+iconbase+"ylw-circle.png>   Supermarket"; 
-  document.getElementById("st").innerHTML = "<img src="+iconbase+"grn-circle.png>   Stationary"; 
-  document.getElementById("ph").innerHTML = "<img src="+iconbase+"pink-circle.png>   Pharmacy"; 
-  document.getElementById("b").innerHTML = "<img src="+iconbase+"blu-circle.png>   Bakery"; 
+  // document.getElementById("su").innerHTML = "<img src="+iconbase+"ylw-circle.png>   Supermarket"; 
+  // document.getElementById("st").innerHTML = "<img src="+iconbase+"grn-circle.png>   Stationary"; 
+  // document.getElementById("ph").innerHTML = "<img src="+iconbase+"pink-circle.png>   Pharmacy"; 
+  // document.getElementById("b").innerHTML = "<img src="+iconbase+"blu-circle.png>   Bakery"; 
 
   for(var i=1; i<=12; i++)
   {
