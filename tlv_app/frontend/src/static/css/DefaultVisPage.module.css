@@ -52,16 +52,17 @@
     color: silver;
 }
 
-.myvis{
-    margin-bottom: 4%;
-    width: 90%;
+.myVis{
+    /* margin-bottom: 4%; */
+    background-color:"blue";
+    /* width: 90%; */
 }
 
 .visContainer{
     background-color:"silver";
-    padding: 3%;
+    padding-top: 3%;
+    padding-bottom: 3%;
 }
-
 .intro{
     padding: 5%;
     text-align: center;

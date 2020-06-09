@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 // import { Menu, Segment, Button, Dropdown} from 'semantic-ui-react'
-import {Navbar, Nav, NavDropdown, Button, Container,Col, Row, Tabs, Tab, Form} from 'react-bootstrap'
-import {SocialMediaIconsReact} from 'social-media-icons-react';
-import { SocialIcon } from 'react-social-icons';
+import {Container,Col, Row, Tabs, Tab} from 'react-bootstrap'
 
 import styles from '../static/css/LoginSignupPage.module.css'
 import {SignupForm, LoginForm} from './LoginSignupForms'
@@ -19,7 +16,6 @@ export default class LoginSignup extends Component{
     handleItemClick = (e,{ name }) => this.setState({ activeItem: name })
 
     render() {
-        const { activeItem } = this.state
         return (
             <div className={styles.body}>
             <NavigationBar />

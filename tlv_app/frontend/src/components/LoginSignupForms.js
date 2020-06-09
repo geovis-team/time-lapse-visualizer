@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import {Button,Col, Row, Tabs, Tab, Form} from 'react-bootstrap'
+import {Button, Form} from 'react-bootstrap'
 
-import styles from '../static/css/LoginSignupPage.module.css'
 
 class SignupForm extends Component {
     render(){

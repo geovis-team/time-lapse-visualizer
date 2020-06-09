@@ -37,7 +37,7 @@ function initMap() {
     locations[i] = []
   }
 
-  console.log(data.locations.length);
+  // console.log(data.locations.length);
   for(var i=0; i< data.locations.length; i++)
   {
     var location = data.locations[i];
@@ -67,7 +67,7 @@ function initMap() {
       // marker.setLabel('St');
       marker.setIcon(iconbase+"grn-circle.png");
     }
-    console.log("marker pushed",i, month)
+    // console.log("marker pushed",i, month)
     // markers.push(marker);
     markers[month].push(marker);
   }

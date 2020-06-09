@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 // import { Menu, Segment, Button, Dropdown} from 'semantic-ui-react'
-import {Navbar, Nav, NavDropdown, Button, Container,Col, Row} from 'react-bootstrap'
-import {SocialMediaIconsReact} from 'social-media-icons-react';
+import {Container,Col, Row} from 'react-bootstrap'
 import { SocialIcon } from 'react-social-icons';
 
 import styles from '../static/css/LandingPage.module.css'

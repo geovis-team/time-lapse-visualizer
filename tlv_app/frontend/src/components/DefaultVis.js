@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 // import { Menu, Segment, Dropdown} from 'semantic-ui-react'
-import {Navbar, Nav, Button, Container,Col, Row, Accordion, Card, Form} from 'react-bootstrap'
-import {SocialMediaIconsReact} from 'social-media-icons-react';
-import { SocialIcon } from 'react-social-icons';
+import {Button, Container,Accordion, Card} from 'react-bootstrap'
 
 import styles from '../static/css/DefaultVisPage.module.css'
 import {Visualisation} from './Visualisation'
 import NavigationBar from './NavigationBar';
 import Footer from './Footer';
+import {data as mapdata} from './visualizer/data'
 
 export default class DefaultVis extends Component{
     
     constructor(props){
         super(props);
-        this.state = { activeItem: 'home' }
+        this.state = { 
+            activeItem: 'home',
+            data:mapdata
+        }
     }
     handleItemClick = (e,{ name }) => this.setState({ activeItem: name })
-
+    componentDidMount(){
+        // console.log("your data",this.state.data );
+    }
     render() {
-        const { activeItem } = this.state
         return (
             <div className={styles.body}>
             <NavigationBar />
@@ -39,7 +41,7 @@ export default class DefaultVis extends Component{
                             </Accordion.Toggle>
                             </Card.Header>
                             <Accordion.Collapse eventKey="0">
-                                <Visualisation vis={{title:"Visualising the COVID-19 cases using a choropleth graph", filters:["Region","Zones","Schools","North"]}}/>
+                                <Visualisation vis={{data:this.state.data, title:"Visualising the COVID-19 cases using a choropleth graph", filters:["Region","Zones","Schools","North"]}}/>
                             </Accordion.Collapse>
                         </Card>
                         <Card>
@@ -49,7 +51,7 @@ export default class DefaultVis extends Component{
                             </Accordion.Toggle>
                             </Card.Header>
                             <Accordion.Collapse eventKey="1">
-                                <Visualisation vis={{title:"Number  of shops that closed and opened during the Pandemic", filters:["Business","Shops","Pharmacies","Opened","Closed"]}}/>
+                                <Visualisation vis={{data:{types:[],locations:[]},title:"Number  of shops that closed and opened during the Pandemic", filters:["Business","Shops","Pharmacies","Opened","Closed"]}}/>
                             </Accordion.Collapse>
                         </Card>
                         <Card>
@@ -59,7 +61,7 @@ export default class DefaultVis extends Component{
                             </Accordion.Toggle>
                             </Card.Header>
                             <Accordion.Collapse eventKey="2">
-                                <Visualisation vis={{title:"Rise in Electronic prices", filters:["Region","Companies","Products"]}}/>
+                                <Visualisation vis={{data:{types:[],locations:[]},title:"Rise in Electronic prices", filters:["Region","Companies","Products"]}}/>
                             </Accordion.Collapse>
                         </Card>
                 </Accordion>

@@ -3457,3 +3457,5 @@ var data_world_200 =
 
 
 var data = data_India
+
+export {data};

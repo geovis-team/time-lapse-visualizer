@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 // import { Menu, Segment, Button, Dropdown} from 'semantic-ui-react'
-import {Navbar, Nav, NavDropdown, Button, Container,Col, Row} from 'react-bootstrap'
+import {Navbar, Nav,Button} from 'react-bootstrap'
 import styles from '../static/css/LandingPage.module.css'
 
 
