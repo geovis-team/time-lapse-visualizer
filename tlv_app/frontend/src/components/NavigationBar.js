@@ -9,7 +9,7 @@ class NavigationBar extends Component{
     render(){
         return(
             <Navbar bg="light" expand="lg" className={styles.colorNav} style={{padding:15}}>
-                <Navbar.Brand href="#home">NAME</Navbar.Brand>
+                <Navbar.Brand href="/">NAME</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav  className="mr-auto">

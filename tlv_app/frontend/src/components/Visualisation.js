@@ -18,11 +18,15 @@ class Visualisation extends Component {
 
         }
         this.handleChange = this.handleChange.bind(this);
+        this.handleCheck = this.handleCheck.bind(this);
     }
     handleChange(event) {
         this.setState({value: event.target.value});
-      }
-
+        console.log("months",this.state.value)
+    }
+    handleCheck(event) {
+        console.log("chcek box" ,event.target);
+    }
     render(){
         // console.log("from visualisation",this.state.data);
     return(
@@ -31,11 +35,11 @@ class Visualisation extends Component {
             <Container className={styles.visContainer} fluid>
                 <Row style={mapstyles}>
                     <Col md={9} xs={12} lg={10}>
-                        <MapView map={{data:this.state.data, time : this.state.value}}/>
+                        <MapView map={{data:this.state.data, time : parseInt(this.state.value)}}/>
                     </Col>
                     <Col md={3} xs={6} lg={2} style={checkstyles}>
                         {this.state.filters.map(filter=>(
-                            <Form.Check type="checkbox" label={filter} />
+                            <Form.Check type="checkbox" check = {this.state.checkbox} name={filter} label={filter} onChange={this.handleCheck}/>
                         ))}
                         <Button variant="dark">Clear all filters</Button>
                     </Col>

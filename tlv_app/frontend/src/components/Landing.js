@@ -51,7 +51,7 @@ export default class Landing extends Component{
                     
                     <Col sm className={styles.midcolumn}>
                     <Button id={styles.buttons} variant="dark"><Link to="/log-sign-in" className={styles.linkitem}>SignUp</Link></Button>{' '}
-                    <Button id={styles.buttons} variant="outline-dark">View Examples</Button>
+                    <Button id={styles.buttons} variant="outline-dark"><Link to="/defaultvis" className={styles.linkitem}>View Examples</Link></Button>
                     </Col>
                 </Row>
             </Container>
