@@ -14,7 +14,8 @@ export default class DefaultVis extends Component{
         super(props);
         this.state = { 
             activeItem: 'home',
-            data:mapdata
+            data:mapdata,
+            filters:[]
         }
     }
     handleItemClick = (e,{ name }) => this.setState({ activeItem: name })
@@ -41,7 +42,7 @@ export default class DefaultVis extends Component{
                             </Accordion.Toggle>
                             </Card.Header>
                             <Accordion.Collapse eventKey="0">
-                                <Visualisation vis={{data:this.state.data, title:"Visualising the COVID-19 cases using a choropleth graph", filters:["Region","Zones","Schools","North"]}}/>
+                                <Visualisation vis={{data:this.state.data, title:"Visualising the COVID-19 cases using a choropleth graph", filters:[{name:"Region",sub:["a","b","c","d"],status:false},{name:"Zones",sub:["a","b","c","d"],status:false},{name:"Schools",sub:["a","b","c","d"],status:false},{name:"North",sub:["a","b","c","d"],status:false}]}}/>
                             </Accordion.Collapse>
                         </Card>
                         <Card>
@@ -51,7 +52,7 @@ export default class DefaultVis extends Component{
                             </Accordion.Toggle>
                             </Card.Header>
                             <Accordion.Collapse eventKey="1">
-                                <Visualisation vis={{data:{types:[],locations:[]},title:"Number  of shops that closed and opened during the Pandemic", filters:["Business","Shops","Pharmacies","Opened","Closed"]}}/>
+                                <Visualisation vis={{data:{types:[],locations:[]},title:"Number  of shops that closed and opened during the Pandemic", filters:[{name:"Business",sub:["a","b","c","d"],status:false},{name:"Shops",sub:["a","b","c","d"],status:false},{name:"Pharmacies",sub:["a","b","c","d"],status:false},{name:"Opened",sub:["a","b","c","d"],status:false},{name:"Closed",sub:["a","b","c","d"],status:false}]}}/>
                             </Accordion.Collapse>
                         </Card>
                         <Card>
@@ -61,7 +62,7 @@ export default class DefaultVis extends Component{
                             </Accordion.Toggle>
                             </Card.Header>
                             <Accordion.Collapse eventKey="2">
-                                <Visualisation vis={{data:{types:[],locations:[]},title:"Rise in Electronic prices", filters:["Region","Companies","Products"]}}/>
+                                <Visualisation vis={{data:{types:[],locations:[]},title:"Rise in Electronic prices", filters:[{name:"Region",sub:["a","b","c","d"],status:false},{name:"Companies",sub:["a","b","c","d"],status:false},{name:"Products",sub:["a","b","c","d"],status:false}]}}/>
                             </Accordion.Collapse>
                         </Card>
                 </Accordion>

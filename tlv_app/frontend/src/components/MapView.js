@@ -22,7 +22,7 @@ class MapView extends Component{
 
         const data=this.state.data.locations;
         const month = this.state.time
-        console.log("placing for month", month);
+        // console.log("placing for month", month);
         // console.log("data is ", data);
         return data.filter(rows => rows.month==month).map((mydata, index) => {
             return <Marker key={index} id={index} position={{

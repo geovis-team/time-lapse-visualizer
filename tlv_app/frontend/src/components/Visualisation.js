@@ -13,6 +13,7 @@ class Visualisation extends Component {
             title:props.vis.title,
             filters:props.vis.filters,
             data:props.vis.data,
+            subfilters:{},
             value:1,
             months :{1: "January", 2: "February", 3: "March", 4:"April", 5:"May", 6:"June", 7:"July", 8:"August", 9:"September",10:"October", 11:"November", 12:"December"}
 
@@ -24,8 +25,21 @@ class Visualisation extends Component {
         this.setState({value: event.target.value});
         console.log("months",this.state.value)
     }
-    handleCheck(event) {
-        console.log("chcek box" ,event.target);
+    handleCheck(num , event) {
+        const temp = this.state.filters;
+        console.log("current status = ", event.target.checked)
+        if(event.target.checked){
+            temp[num].status=true;
+        }
+        else{
+            temp[num].status=false;
+        }
+        this.setState({
+            filters:temp
+        })
+    }
+    handleCheckSub(num , event) {
+        console.log("Hi")
     }
     render(){
         // console.log("from visualisation",this.state.data);
@@ -38,8 +52,16 @@ class Visualisation extends Component {
                         <MapView map={{data:this.state.data, time : parseInt(this.state.value)}}/>
                     </Col>
                     <Col md={3} xs={6} lg={2} style={checkstyles}>
-                        {this.state.filters.map(filter=>(
-                            <Form.Check type="checkbox" check = {this.state.checkbox} name={filter} label={filter} onChange={this.handleCheck}/>
+                        {this.state.filters.map((filter, index)=>(
+                            <>
+                            <Form.Check type="checkbox"  name={filter.name} label={filter.name} onChange={(e) => this.handleCheck(index, e)}/>
+                            {
+                                filter.status == true &&
+                                filter.sub.map(sub => (
+                                    <Form.Check style={subfilters} type="checkbox" name={sub} label={sub} onChange={(e) => this.handleCheckSub(sub, e)}/>
+                                ))
+                            }
+                            </>
                         ))}
                         <Button variant="dark">Clear all filters</Button>
                     </Col>
@@ -58,9 +80,13 @@ class Visualisation extends Component {
 
 const mapstyles = {
     height:"500px",
+    marginBottom:"3%",
 }
 const checkstyles={
     paddingLeft:"2%",
+}
+const subfilters={
+    paddingLeft:"20%",
 }
 
 export { Visualisation } ;
