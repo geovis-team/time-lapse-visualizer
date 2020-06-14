@@ -1,90 +1,63 @@
-from django.shortcuts import render
-from .models import Covid, Disasters, Shops
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from django.apps import apps
+
 from .serializers import FilterDataSerializer
+from .constants import CLASSES, FILTERS, SECONDARY_FILTERS, APP_NAME
 
-# Get all filters
 
-@api_view()
-def filter(request, model):
-  # model = request.GET['model']
-  if model == 'Covid':
-    return Response(
-      {
-        "primaryFilters": ["Mild", "Medium", "Severe"], 
-        "secondaryFilters": 
-        {
-          "Mild": ["reported", "unreported"], 
-          "Medium": ["symptomatic", "asymptomatic"], 
-          "Severe": ["recovered", "dead"] 
-        }
-      })
-  elif model == 'Disasters':
-    return Response(
-      {
-        "primaryFilters": ["cyclone", "earthquake","temperature_rise","GHGemissions"], 
-        "secondaryFilters":
-        {
-          "cyclone": ["super_cyclonic_storm", "severe_cyclonic_storm","cyclonic_storm","deep_depression"],
-          "earthquake": ["count"],
-          "temperature_rise": ["value"],
-          "GHGemissions": ["CO2","SO2","NO"]
-        }
-      })
-  elif model == 'Shops':
-    return Response(
-      {
-        "primaryFilters": ["shops","covid_cases","shops_closed","medical_centres"], 
-        "secondaryFilters":
-        {
-          "shops": ["grocery", "stationary","bakery","salon"],
-          "covid_cases": ["count"],
-          "shops_closed": ["grocery", "stationary","bakery","salon"],
-          "medical_centres": ["private", "government"]
-        }
-      })
-  return Response({"filters": []})
+@api_view(['GET'])
+def get_filters(request, *args, **kwargs):
+    """
+    This method returns the primary and secondary filters of
+    the specific model.
+    :param request: get request containing model name in params
+    :return: filters
+    """
+    model = request.GET['model']
+    if model == CLASSES[0]:
+        return Response(FILTERS[0])
+    elif model == CLASSES[1]:
+        return Response(FILTERS[1])
+    elif model == CLASSES[2]:
+        return Response(FILTERS[2])
+    return Response({"filters": []})
 
-# Get data corresponding to given filters
 
-@api_view()
-def filter_data(request, model, filterString):
-  filters = filterString.split("+")
-  filters = list(dict.fromkeys(filters))
-  print(filters)
-  data = {}
-  if model == "Covid":
-    subtypes = {
-      "Mild": ["reported", "unreported"],
-      "Medium": ["symptomatic", "asymptomatic"],
-      "Severe": ["recovered", "dead"]
-    }
-  elif model == "Disasters":
-    subtypes = {
-      "cyclone": ["super_cyclonic_storm", "severe_cyclonic_storm","cyclonic_storm","deep_depression"],
-      "earthquake": ["count"],
-      "temperature_rise": ["value"],
-      "GHGemissions": ["CO2","SO2","NO"]
-    }
-  elif model == "Shops":
-    subtypes = {
-      "shops": ["grocery", "stationary","bakery","salon"],
-      "covid_cases": ["count"],
-      "shops_closed": ["grocery", "stationary","bakery","salon"],
-      "medical_centres": ["private", "government"]
-    }
-  else:
-    return Response({"primaryFilters": [], "data": {}})
+@api_view(['GET'])
+def filter_data(request, *args, **kwargs):
+    """
+    This function filters the data according to the given
+    get parameters.
+    :param request: contains model name and filters
+    :return: filtered data in appropriate format
+    """
+    model_name = request.GET.get('model', None)
+    filters = request.GET.getlist('filters')
+    data = {}
+    if model_name == CLASSES[0]:
+        subtypes = SECONDARY_FILTERS[0]
+    elif model_name == CLASSES[1]:
+        subtypes = SECONDARY_FILTERS[1]
+    elif model_name == CLASSES[2]:
+        subtypes = SECONDARY_FILTERS[2]
+    else:
+        return Response({"primaryFilters": [], "data": {}})
+    for x in subtypes.keys():
+        print(x)
+    for x in filters:
+        print(x)
+    print(subtypes.keys())
+    print(filters)
+    if not all(x in subtypes.keys() for x in filters):
+        return Response({"primaryFilters": [], "data": {}})
 
-  if not all(x in subtypes.keys() for x in filters):
-    return Response({"primaryFilters": [], "data": {}})
-  
-  for filter in filters:
-    data[filter] = {}
-    for subtype in subtypes[filter]:
-      q = Covid.objects.filter(category=filter).filter(entity__has_key=subtype).values("latitude","longitude","time")
-      serializer = FilterDataSerializer(q,many=True)
-      data[filter][subtype] = serializer.data
-  return Response({"primaryFilters":filters, "data":data})
-
+    model = apps.get_model(app_label=APP_NAME, model_name=model_name)
+    for filter in filters:
+        data[filter] = {}
+        for subtype in subtypes[filter]:
+            q = model.objects.filter(category=filter).filter(entity__has_key=subtype).values("latitude", "longitude",
+                                                                                             "time")
+            serializer = FilterDataSerializer(q, many=True)
+            data[filter][subtype] = serializer.data
+    return Response({"primaryFilters": filters, "data": data})

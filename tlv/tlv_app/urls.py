@@ -13,16 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from . import views
-from django.urls import path, re_path
+from .views import get_filters, filter_data
+from django.urls import path
 
 app_name = "api"
 
 urlpatterns = [
-    path('visualization/<slug:model>/',views.filter),
-    path('visualization/<slug:model>/<str:filterString>/',views.filter_data),
-    # path('visualization/<slug:model>/<slug:filters>/',views.FilterView.as_view()),
-    # re_path(r'visualization/$',views.filter),
-    # re_path(r'visualization/$/$',views.FilterView.as_view()),
-    # path('', views.FilterData.as_view(), name='filter-data'),
+    path('visualization/get_filters/', get_filters, name="get filters"),
+    path('visualization/filter_data/', filter_data, name="filter data"),
 ]
