@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Covid, Disasters, Shops
 
-admin.register(Covid)
-admin.register(Disasters)
-admin.register(Shops)
+admin.site.register(Covid)
+admin.site.register(Disasters)
+admin.site.register(Shops)
