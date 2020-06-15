@@ -1,0 +1,40 @@
+#map {
+  height: 400px;
+  width: 70%;
+  /* border: 10px outset rgb(7, 130, 238); */
+  /* background-color: gray; */
+  /* float: left; */
+}
+
+
+.slidecontainer {
+  width: 70%;
+  padding: 10px;
+}
+
+.slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 100%; /* Full-width */
+  height: 25px; /* Specified height */
+  background: #d3d3d3; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.5; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+}
+
+#myRange:hover, #myRange2:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: rgb(7, 130, 238); /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+

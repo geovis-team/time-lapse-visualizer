@@ -1,0 +1,73 @@
+.body{
+    width: 100%;
+}
+.colorNav{
+    padding: 15;
+}
+
+.navItem{
+    padding: 10;
+}
+
+.container{
+    padding: 5%;
+    background-color: silver;
+}
+
+.column{
+    background-color:white;
+    
+    border-radius: 25px;
+    padding: 10%;
+    padding-left: 50%;
+}
+.midcolumn{
+    background-color: silver;
+    padding: 5%;
+    text-align: center;
+}
+
+.colText{
+    margin-bottom:3%;
+    font-weight: 500;
+}
+
+#buttons{
+    padding: 4%;
+    width: 30%;
+    margin:2%
+}
+
+.footer{
+    background-color: #F5F5F5	;
+    text-align: center;
+    /* padding: 5%; */
+}
+
+.linkitem{
+    color: white;
+}
+
+.linkitem:hover{
+    color: silver;
+}
+
+.myVis{
+    /* margin-bottom: 4%; */
+    background-color:"blue";
+    /* width: 90%; */
+}
+
+.visContainer{
+    background-color:"silver";
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
+.intro{
+    padding: 5%;
+    text-align: center;
+}
+
+.visHeading{
+    color: black;
+}
