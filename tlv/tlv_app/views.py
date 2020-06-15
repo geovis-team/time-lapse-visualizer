@@ -20,6 +20,7 @@ def get_filters(request, *args, **kwargs):
     :return: filters
     """
     model = request.GET.get('model', None)
+    print("modelll == ",model)
     if model is None:
         return Response(
             status=HTTP_400_BAD_REQUEST,
