@@ -12,7 +12,6 @@ class Visualisation extends Component {
       title: props.vis.title,
       filters: props.vis.filters,
       data: props.vis.data,
-      subfilters: {},
       value: 1,
       months: {
         1: 'January',
@@ -65,14 +64,17 @@ class Visualisation extends Component {
               {this.state.filters.map((filter, index) => (
                 <>
                   <Form.Check
+                    key={index}
                     type='checkbox'
+                    checked={filter.status}
                     name={filter.name}
                     label={filter.name}
                     onChange={e => this.handleCheck(index, e)}
                   />
-                  {filter.status == true &&
-                    filter.sub.map(sub => (
+                  {filter.status === true &&
+                    filter.sub.map((sub, index) => (
                       <Form.Check
+                        key={index}
                         style={subfilters}
                         type='checkbox'
                         name={sub}
