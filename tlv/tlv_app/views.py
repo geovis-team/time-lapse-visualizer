@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from django.apps import apps
 
 from .serializers import FilterDataSerializer
-from .constants import CLASSES, FILTERS, SECONDARY_FILTERS, APP_NAME
+from .constants import CLASSES, FILTERS, SECONDARY_FILTERS, APP_NAME, PRIMARY_FILTERS
 
 
 @api_view(['GET'])
@@ -52,19 +52,22 @@ def filter_data(request, *args, **kwargs):
             status=HTTP_400_BAD_REQUEST,
             data="Model name not passed in params"
         )
-    filters = request.GET.getlist('filters')
     data = {}
     if model_name == CLASSES[0]:
         subtypes = SECONDARY_FILTERS[0]
+        default_filter = PRIMARY_FILTERS[0][0]
     elif model_name == CLASSES[1]:
         subtypes = SECONDARY_FILTERS[1]
+        default_filter = PRIMARY_FILTERS[1][0]
     elif model_name == CLASSES[2]:
         subtypes = SECONDARY_FILTERS[2]
+        default_filter = PRIMARY_FILTERS[2][0]
     else:
         return Response(
             status=HTTP_404_NOT_FOUND,
             data="Model with given name does not exist"
         )
+    filters = request.GET.getlist('filters', [default_filter])
     if not all(x in subtypes.keys() for x in filters):
         return Response(
             status=HTTP_400_BAD_REQUEST,
