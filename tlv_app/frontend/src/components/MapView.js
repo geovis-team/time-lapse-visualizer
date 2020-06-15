@@ -55,10 +55,10 @@ class MapView extends Component {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
-    this.setState({
+  static getDerivedStateFromProps (nextProps) {
+    return {
       time: nextProps.map.time
-    })
+    }
   }
   placeMarkers = () => {
     const data = this.state.data.locations
