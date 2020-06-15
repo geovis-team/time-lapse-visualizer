@@ -1,6 +1,14 @@
 asgiref==3.2.7
+certifi==2020.4.5.2
+chardet==3.0.4
 Django==3.0.7
+django-dynamic-model==0.2.0
+django-mysql==3.5.0
 djangorestframework==3.11.0
+idna==2.9
+mysqlclient==1.4.6
 psycopg2==2.8.5
 pytz==2020.1
+requests==2.23.0
 sqlparse==0.3.1
+urllib3==1.25.9
