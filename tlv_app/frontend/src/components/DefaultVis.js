@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Button, Container, Card, Row, Col } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Button, Container, Accordion, Card } from 'react-bootstrap'
+import axios from 'axios'
 
 import styles from '../static/css/DefaultVisPage.module.css'
 import NavigationBar from './NavigationBar'
@@ -11,29 +11,11 @@ class DefaultVis extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      allvis: [
-        {
-          id: 1,
-          name: 'Covid',
-          heading: 'Rise in COVID-19 cases in India',
-          title: 'Visualising the COVID-19 cases using a cluster graph'
-        },
-        {
-          id: 2,
-          name: 'Disasters',
-          heading: 'Natural Calamities and Climate change',
-          title:
-            'Areas affected due to natural disasters and effects of pollution and climate change'
-        },
-        {
-          id: 3,
-          name: 'Shops',
-          heading: 'Trends in Businesses around the world',
-          title: 'Number  of shops that closed and opened during the Pandemic'
-        }
-      ],
+      activeItem: 'home',
+      models: ['Covid', 'Disasters', 'Shops'],
       data: mapdata,
-      filters: []
+      filters: [],
+      loaded: false
     }
   }
 

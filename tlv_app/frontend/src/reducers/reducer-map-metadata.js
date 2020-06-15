@@ -4,11 +4,10 @@ const initialState = {
   data: {}
 }
 
-
 const GetMapFilters = (state = initialState, action) => {
   switch (action.type) {
     case 'INITIALISE_MAP_FILTERS':
-      return { ...state, ...action.payload}
+      return { ...state, ...action.payload }
     case 'SET_MAP_FILTERS_LOADING':
       return { ...state, loading: action.payload }
     default:
