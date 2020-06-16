@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
-import { Button, Container, Accordion, Card } from 'react-bootstrap'
-import axios from 'axios'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { getFilters } from '../actions/getfilters'
+import { Button, Container, Card, Row, Col } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 import styles from '../static/css/DefaultVisPage.module.css'
 import NavigationBar from './NavigationBar'
@@ -14,34 +11,35 @@ class DefaultVis extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      data: mapdata,
-      filters: [
-        [{ name: 'Filter', sub: [1, 2, 3], status: false }],
-        [{ name: 'Filter', sub: [1, 2, 3], status: false }],
-        [{ name: 'Filter', sub: [1, 2, 3], status: false }]
+      allvis: [
+        {
+          id: 1,
+          name: 'Covid',
+          heading: 'Rise in COVID-19 cases in India',
+          title: 'Visualising the COVID-19 cases using a cluster graph'
+        },
+        {
+          id: 2,
+          name: 'Disasters',
+          heading: 'Natural Calamities and Climate change',
+          title:
+            'Areas affected due to natural disasters and effects of pollution and climate change'
+        },
+        {
+          id: 3,
+          name: 'Shops',
+          heading: 'Trends in Businesses around the world',
+          title: 'Number  of shops that closed and opened during the Pandemic'
+        }
       ],
-      loaded: false
+      data: mapdata,
+      filters: []
     }
-    this.handleClick = this.handleClick.bind(this)
-  }
-  handleClick = e => {
-    console.log(e.target)
-    console.log(e.target.getAttribute('name'))
-    // TODO : Should call the API here onclick for new filters
   }
 
-  componentDidMount () {
-    // TODO : Should load the default filters initally.
-    {
-      console.log('check ----- ', this.props.getFilters('Covid'))
-      // TODO : always logging undefined here.
-    }
-  }
   render () {
-    // if (this.state.loaded === false) {
-    //   return <></>
-    // } else
-    // TODO : removed the onload for now, can add later
+    console.log(this.state.loaded, this.state.filtersloaded)
+
     return (
       <div className={styles.body}>
         <NavigationBar />
@@ -112,14 +110,4 @@ class DefaultVis extends Component {
   }
 }
 
-function mapStateToProps (state) {
-  return {
-    getFilters: state.getFilters
-  }
-}
-// TODO : bind the function here
-function matchDispatchToProps (dispatch) {
-  return bindActionCreators({ getFilters: getFilters }, dispatch)
-}
-
-export default connect(mapStateToProps, matchDispatchToProps)(DefaultVis)
+export default DefaultVis
