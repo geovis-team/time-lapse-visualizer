@@ -68,3 +68,11 @@
 .visHeading {
   color: black;
 }
+
+.linkitem {
+  color: white;
+}
+
+.linkitem:hover {
+  color: silver;
+}

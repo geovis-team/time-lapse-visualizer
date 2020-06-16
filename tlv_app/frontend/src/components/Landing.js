@@ -17,10 +17,13 @@ export default class Landing extends Component {
     return (
       <div className={styles.body}>
         <NavigationBar />
-        <Container fluid className={styles.container}>
-          <Row fluid>
+        <Container fluid='true' className={styles.container}>
+          <Row fluid='true'>
             <Col sm className={styles.column} style={{ textAlign: 'center' }}>
-              <img src={require('../static/assets/placeholder.jpg')} />
+              <img
+                src={require('../static/assets/placeholder.jpg')}
+                alt='Landing Placeholder'
+              />
             </Col>
 
             <Col sm className={styles.column}>
@@ -44,7 +47,7 @@ export default class Landing extends Component {
               </h5>
             </Col>
           </Row>
-          <Row fluid>
+          <Row fluid='true'>
             <Col sm className={styles.midcolumn}>
               <h1>Ready to get started?</h1>
               <h5>Sign Up or view standard visualisations</h5>
