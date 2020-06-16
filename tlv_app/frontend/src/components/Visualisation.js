@@ -41,11 +41,14 @@ class Visualisation extends Component {
     } else {
       temp[num].status = false
     }
+    //TODO : MAKE API REQUEST HERE
     this.setState({
       filters: temp
     })
   }
-  handleCheckSub (num, event) {}
+  handleCheckSub (num, event) {
+    //TODO : FILTER ON FRONTEND HERE
+  }
   render () {
     return (
       <Card.Body>
