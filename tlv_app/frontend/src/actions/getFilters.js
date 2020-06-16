@@ -37,6 +37,7 @@ export const getFilters = (model, successCallback) => {
             error: false
           }
         })
+        successCallback(arr)
       })
       .catch(err => {
         dispatch({
