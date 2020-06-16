@@ -3,8 +3,12 @@ from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK, HTTP_404_NO
 from rest_framework.decorators import api_view
 from django.apps import apps
 
-from .serializers import FilterDataSerializer
 from .constants import CLASSES, FILTERS, SECONDARY_FILTERS, APP_NAME, PRIMARY_FILTERS
+
+from django_mysql.models import GroupConcat
+
+from django.db.models import Q, Value as V
+from django.db.models.functions import Concat
 
 
 @api_view(['GET'])
@@ -72,14 +76,50 @@ def filter_data(request, *args, **kwargs):
         )
 
     model = apps.get_model(app_label=APP_NAME, model_name=model_name)
+    conditions = Q()
     for filter in filters:
-        data[filter] = {}
-        for subtype in subtypes[filter]:
-            q = model.objects.filter(category=filter).filter(entity__has_key=subtype).values("latitude", "longitude",
-                                                                                             "time")
-            serializer = FilterDataSerializer(q, many=True)
-            data[filter][subtype] = serializer.data
+        conditions = conditions | Q(category=filter)
+    
+    data = list(model.objects.filter(
+        conditions
+        ).annotate(
+            concatenated_filters=Concat( V('"'),'category',V('":'),'entity')
+            ).values(
+                "latitude","longitude","time"
+                ).annotate(
+                    filter= GroupConcat('concatenated_filters')
+                    ))
+
+    for item in data:
+        for k in item:
+            if k == "filter":
+                item[k] = eval("{"+item[k]+"}")
+            else:
+                item[k] = str(item[k])
+
     return Response(
         status=HTTP_200_OK,
         data={"primaryFilters": filters, "data": data}
     )
+
+
+# data : [
+#     {
+#         "lat" : lat,
+#         "long": lng,
+#         "time": time,
+#         "filters" : {
+#             "Pfilter1" : {
+#                 "x" : 12,
+#                 "y" : 13
+#             },
+#             "Pfilter2" : {
+#                 "a" : 15,
+#                 "b" : 6
+#             }
+#         }
+#     },
+#     {
+
+#     }
+# ]
