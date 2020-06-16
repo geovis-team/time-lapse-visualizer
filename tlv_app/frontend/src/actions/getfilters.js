@@ -1,6 +1,12 @@
 import axios from 'axios'
 
-export const getFilters = model => {
+export const getFilters = (model, successCallback) => {
+  return dispatch => {
+    dispatch({
+      type: 'SET_MAP_FILTERS_LOADING',
+      payload: true
+    })
+  }
   const arr = []
   console.log('You are in model: ', model)
   axios
@@ -23,13 +29,24 @@ export const getFilters = model => {
         } else obj['status'] = false
         arr.push(obj)
       }
+      dispatch({
+        type: 'INITIALISE_MAP_FILTERS',
+        payload: {
+          loading: false,
+          data: arr,
+          error: false
+        }
+      })
     })
     .catch(err => {
+      dispatch({
+        type: 'INITIALISE_MAP_FILTERS',
+        payload: {
+          loading: false,
+          data: [],
+          error: true
+        }
+      })
       console.log(err)
     })
-  console.log('from acton', arr.toList())
-  return {
-    type: 'GET_MAP_FILTERS',
-    payload: arr
-  }
 }
