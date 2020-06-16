@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { Button, Container, Accordion, Card } from 'react-bootstrap'
 import axios from 'axios'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { getFilters } from '../actions/getfilters'
 
 import styles from '../static/css/DefaultVisPage.module.css'
 import NavigationBar from './NavigationBar'
@@ -11,17 +14,34 @@ class DefaultVis extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      activeItem: 'home',
-      models: ['Covid', 'Disasters', 'Shops'],
       data: mapdata,
-      filters: [],
+      filters: [
+        [{ name: 'Filter', sub: [1, 2, 3], status: false }],
+        [{ name: 'Filter', sub: [1, 2, 3], status: false }],
+        [{ name: 'Filter', sub: [1, 2, 3], status: false }]
+      ],
       loaded: false
     }
+    this.handleClick = this.handleClick.bind(this)
+  }
+  handleClick = e => {
+    console.log(e.target)
+    console.log(e.target.getAttribute('name'))
+    // TODO : Should call the API here onclick for new filters
   }
 
+  componentDidMount () {
+    // TODO : Should load the default filters initally.
+    {
+      console.log('check ----- ', this.props.getFilters('Covid'))
+      // TODO : always logging undefined here.
+    }
+  }
   render () {
-    console.log(this.state.loaded, this.state.filtersloaded)
-
+    // if (this.state.loaded === false) {
+    //   return <></>
+    // } else
+    // TODO : removed the onload for now, can add later
     return (
       <div className={styles.body}>
         <NavigationBar />
@@ -92,4 +112,14 @@ class DefaultVis extends Component {
   }
 }
 
-export default DefaultVis
+function mapStateToProps (state) {
+  return {
+    getFilters: state.getFilters
+  }
+}
+// TODO : bind the function here
+function matchDispatchToProps (dispatch) {
+  return bindActionCreators({ getFilters: getFilters }, dispatch)
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(DefaultVis)
