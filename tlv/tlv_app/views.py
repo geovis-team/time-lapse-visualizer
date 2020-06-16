@@ -7,7 +7,7 @@ from .constants import CLASSES, FILTERS, SECONDARY_FILTERS, APP_NAME, PRIMARY_FI
 
 from django_mysql.models import GroupConcat
 
-from django.db.models import Q, Value as V
+from django.db.models import Q, Value as V, Min, Max
 from django.db.models.functions import Concat
 
 
@@ -80,9 +80,11 @@ def filter_data(request, *args, **kwargs):
     for filter in filters:
         conditions = conditions | Q(category=filter)
     
-    data = list(model.objects.filter(
-        conditions
-        ).annotate(
+    data = model.objects.filter(conditions)
+        
+    mdate = data.aggregate(earliestTime = Min('time'), latestTime = Max('time'))
+    
+    data = list(data.annotate(
             concatenated_filters=Concat( V('"'),'category',V('":'),'entity')
             ).values(
                 "latitude","longitude","time"
@@ -97,9 +99,12 @@ def filter_data(request, *args, **kwargs):
             else:
                 item[k] = str(item[k])
 
+    for k in mdate:
+        mdate[k] = str(mdate[k])
+
     return Response(
         status=HTTP_200_OK,
-        data={"primaryFilters": filters, "data": data}
+        data={"primaryFilters": filters, **mdate, "data": data}
     )
 
 
