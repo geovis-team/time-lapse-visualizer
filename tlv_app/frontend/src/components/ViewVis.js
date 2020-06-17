@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 
 import { getFilters } from '../actions/getFilters'
 import styles from '../static/css/DefaultVisPage.module.css'
-import { Visualisation } from './Visualisation'
+import Visualisation from './Visualisation'
 import NavigationBar from './NavigationBar'
 import Footer from './Footer'
 import { data as mapdata } from './visualizer/data'
@@ -51,6 +51,7 @@ class ViewVis extends Component {
               </Card.Header>
               <Visualisation
                 vis={{
+                  name: this.state.visObj.name,
                   data: this.state.data,
                   title: this.state.visObj.title,
                   filters: this.state.filters

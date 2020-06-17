@@ -33,3 +33,10 @@
   background: rgb(7, 130, 238); /* Green background */
   cursor: pointer; /* Cursor on hover */
 }
+
+.maploader {
+  text-align: 'center';
+}
+.maploadersub {
+  display: 'inline';
+}

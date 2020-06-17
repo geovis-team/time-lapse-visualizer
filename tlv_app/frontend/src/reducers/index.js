@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
 import GetMapFilters from './reducer-map-metadata'
+import GetMapData from './reducer-map-data'
 
 const allReducers = combineReducers({
-  getfilters: GetMapFilters
+  getFilters: GetMapFilters,
+  getMapData: GetMapData
 })
 
 export default allReducers
