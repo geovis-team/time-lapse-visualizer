@@ -21,13 +21,12 @@ def get_filters(request, *args, **kwargs):
             status=HTTP_400_BAD_REQUEST,
             data="Model name not given in params"
         )
-    if model == CLASSES[0]:
-        filters = FILTERS[0]
-    elif model == CLASSES[1]:
-        filters = FILTERS[1]
-    elif model == CLASSES[2]:
-        filters = FILTERS[2]
-    else:
+    num_models = 3
+    for i in range(num_models):
+        if model == CLASSES[i]:
+            filters = FILTERS[i]
+            break
+    if filters is None:
         return Response(
             status=HTTP_404_NOT_FOUND,
             data="Model with the given name not found"
@@ -53,16 +52,14 @@ def filter_data(request, *args, **kwargs):
             data="Model name not passed in params"
         )
     data = {}
-    if model_name == CLASSES[0]:
-        subtypes = SECONDARY_FILTERS[0]
-        default_filter = PRIMARY_FILTERS[0][0]
-    elif model_name == CLASSES[1]:
-        subtypes = SECONDARY_FILTERS[1]
-        default_filter = PRIMARY_FILTERS[1][0]
-    elif model_name == CLASSES[2]:
-        subtypes = SECONDARY_FILTERS[2]
-        default_filter = PRIMARY_FILTERS[2][0]
-    else:
+    num_models = 3
+    for i in range(num_models):
+        if model_name == CLASSES[i]:
+            subtypes = SECONDARY_FILTERS[i]
+            default_filter = PRIMARY_FILTERS[i][0]
+            break
+
+    if subtypes is None:
         return Response(
             status=HTTP_404_NOT_FOUND,
             data="Model with given name does not exist"
