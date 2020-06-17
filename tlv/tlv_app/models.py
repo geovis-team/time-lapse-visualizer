@@ -1,9 +1,8 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django_mysql.models import JSONField, Model
-from .constants import PRIMARY_FILTERS as PF, SECONDARY_FILTERS as SF
-from django.core.exceptions import ValidationError
-from django.utils.translation import gettext_lazy as _
+from .validators import validateJSON
+from .constants import PRIMARY_FILTERS as PF
 
 class Covid(Model):
     """
@@ -27,16 +26,7 @@ class Covid(Model):
     entity = JSONField()
 
     def clean(self):
-        if not all(x in SF[0][self.category] for x in self.entity.keys()):
-            l = []
-            raise ValidationError({'entity': _('Incorrect subfilter for selected Category:')})
-        try:
-            for k in self.entity.keys():
-                if self.entity[k] <= 0:
-                    raise ValidationError({'entity': _('Subfilter value must be greater than 0')})
-        except TypeError as e:
-            raise ValidationError({'entity': _('Wrong subfilter value; Only integer values accepted')})
-
+        validateJSON(self,0)
 
 class Disasters(Model):
     """
@@ -59,6 +49,9 @@ class Disasters(Model):
     )
     entity = JSONField()
 
+    def clean(self):
+        validateJSON(self,1)
+
 
 class Shops(Model):
     """
@@ -80,4 +73,7 @@ class Shops(Model):
         choices=[(c,c) for c in PF[2]]
     )
     entity = JSONField()
+
+    def clean(self):
+        validateJSON(self,2)
 
