@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { getTokenUrl, userCreateUrl } from '../urls'
+import { getTokenUrl, userCreateUrl, revokeTokenUrl } from '../urls'
 
 export const authStart = () => {
   return {
@@ -60,5 +60,25 @@ export const authSignup = (data, successCallBack) => {
       .catch(err => {
         dispatch(authFail(err))
       })
+  }
+}
+
+export const logout = () => {
+  return dispatch => {
+    axios.post(revokeTokenUrl(), {
+      refresh_token: localStorage.getItem('refreshToken')
+    })
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('refreshToken')
+    dispatch({ type: 'AUTH_LOGOUT' })
+  }
+}
+
+export const authCheckState = () => {
+  return dispatch => {
+    const token = localStorage.getItem('refreshToken')
+    if (token === undefined) {
+      dispatch(logout())
+    }
   }
 }
