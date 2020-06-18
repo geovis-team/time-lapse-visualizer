@@ -1,2 +1,2 @@
 from .mvp import get_filters, filter_data
-from .auth import register
+from .auth import register, current_user, revoke_token
