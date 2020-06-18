@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { getTokenUrl, userCreateUrl, revokeTokenUrl } from '../urls'
+import { getTokenUrl, userCreateUrl, revokeTokenUrl, getUserUrl } from '../urls'
+import axiosInstance from './utility'
 
 export const authStart = () => {
   return {
@@ -33,6 +34,8 @@ export const authLogin = (data, successCallBack) => {
       .then(res => {
         const accessToken = res.data.access
         const refreshToken = res.data.refresh
+        axiosInstance.defaults.headers['Authorization'] =
+          'JWT ' + res.data.access
         localStorage.setItem('refreshToken', refreshToken)
         localStorage.setItem('accessToken', accessToken)
         dispatch(authSuccess(accessToken, refreshToken))
@@ -52,6 +55,8 @@ export const authSignup = (data, successCallBack) => {
       .then(res => {
         const accessToken = res.data.access
         const refreshToken = res.data.refresh
+        axiosInstance.defaults.headers['Authorization'] =
+          'JWT ' + res.data.access
         localStorage.setItem('refreshToken', refreshToken)
         localStorage.setItem('accessToken', accessToken)
         dispatch(authSuccess(accessToken, refreshToken))
@@ -80,5 +85,14 @@ export const authCheckState = () => {
     if (token === undefined) {
       dispatch(logout())
     }
+  }
+}
+
+export const whoAmI = () => {
+  return dispatch => {
+    axiosInstance.get(getUserUrl()).then(res => {
+      console.log(res.data)
+      dispatch(res.data)
+    })
   }
 }
