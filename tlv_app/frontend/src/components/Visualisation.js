@@ -39,6 +39,7 @@ class Visualisation extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleCheck = this.handleCheck.bind(this)
     this.preProcess = this.preProcess.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   formatDate (date) {
@@ -121,22 +122,38 @@ class Visualisation extends Component {
     this.setState({ value: x })
     this.setState({ curr: event.target.value })
   }
-  handleCheck (num, event) {
+
+  handleClick () {
+    var temp = this.state.filters
+    for (var primary in temp) {
+      temp[primary].status = false
+    }
+    temp[0].status = true
+  }
+
+  handleCheck (num, event, button) {
     const temp = this.state.filters
     const send = []
     var c
-    if (event.target.checked) {
-      c = this.state.checkcount + 1
-      temp[num].status = true
+    if (!button) {
+      if (event.target.checked) {
+        c = this.state.checkcount + 1
+        temp[num].status = true
+      } else {
+        c = this.state.checkcount - 1
+        // Ensuring first filter is always checked
+        if (c === 0) temp[0].status = true
+        temp[num].status = false
+      }
+      temp.map(fil => {
+        if (fil.status) send.push(fil.name)
+      })
     } else {
-      c = this.state.checkcount - 1
-      // Ensuring first filter is always checked
-      if (c === 0) temp[0].status = true
-      temp[num].status = false
+      for (var primary in temp) {
+        temp[primary].status = false
+      }
+      temp[0].status = true
     }
-    temp.map(fil => {
-      if (fil.status) send.push(fil.name)
-    })
     this.setState({ loaded: false })
     this.props.getMapData(this.state.model, send, this.getDataSuccessCallBack)
     this.setState({
@@ -206,7 +223,7 @@ class Visualisation extends Component {
                     checked={filter.status}
                     name={filter.name}
                     label={filter.name}
-                    onChange={e => this.handleCheck(index, e)}
+                    onChange={e => this.handleCheck(index, e, false)}
                   />
                   {filter.status === true &&
                     filter.sub.map((sub, index) => (
@@ -222,7 +239,12 @@ class Visualisation extends Component {
                     ))}
                 </>
               ))}
-              <Button variant='dark'>Clear all filters</Button>
+              <Button
+                variant='dark'
+                onClick={e => this.handleCheck(0, e, true)}
+              >
+                Clear all filters
+              </Button>
             </Col>
           </Row>
           <Row>

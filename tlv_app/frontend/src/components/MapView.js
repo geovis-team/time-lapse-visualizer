@@ -4,15 +4,6 @@ import styles from '../static/css/Visualisation.module.css'
 import PropTypes from 'prop-types'
 import MarkerClusterer from 'node-js-marker-clusterer'
 
-const onMarkerClick = (props, marker, e) => {
-  console.log('in marker click')
-  // this.setState({
-  //   selectedPlace: props,
-  //   activeMarker: marker,
-  //   showingInfoWindow: true
-  // })
-}
-
 const MarkerCluster = props => {
   const { map, google, markers } = props
   useEffect(() => {
@@ -54,7 +45,6 @@ const MarkerCluster = props => {
         cluster
       ) {
         infoWin.close()
-        console.log('checking why no if', map.getZoom(), map.maxZoom)
         if (map.getZoom() < map.maxZoom) {
           map.setCenter(cluster.center_)
 
@@ -116,12 +106,9 @@ class MapView extends Component {
   placeMarkers = () => {
     const data = this.state.data.data
     const month = this.state.time
-    console.log('data.to plot', data)
-    console.log('in month', month)
     const markers = data
       .filter(rows => rows.time.slice(0, 7) === month.slice(0, 7))
       .map((mydata, index) => {
-        console.log('placing marker', mydata.filter)
         return (
           <Marker
             key={index}
@@ -138,7 +125,6 @@ class MapView extends Component {
   }
 
   onMapClick = props => {
-    console.log('in map click')
     if (this.state.showingInfoWindow) {
       this.setState({
         showingInfoWindow: false,
@@ -160,7 +146,6 @@ class MapView extends Component {
             onClick={this.onMapClick}
           >
             <MarkerCluster
-              onClick={onMarkerClick()}
               markers={this.placeMarkers()}
               mouseover={this.onMouseOver}
               mouseout={this.onMouseOut}
