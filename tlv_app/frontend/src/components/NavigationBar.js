@@ -1,10 +1,19 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import { Navbar, Nav, Button } from 'react-bootstrap'
+import { connect } from 'react-redux'
+import { logout } from '../actions/auth'
+import { withRouter } from 'react-router'
+
 import styles from '../static/css/LandingPage.module.css'
 
 class NavigationBar extends Component {
+  constructor (props) {
+    super(props)
+  }
+
   render () {
+    const { isAutheticated } = this.props
+
     return (
       <Navbar
         bg='light'
@@ -33,16 +42,21 @@ class NavigationBar extends Component {
             <Nav.Link id={styles.navItem} href='#help'>
               Help
             </Nav.Link>
-            <Nav.Link id={styles.navItem} href='/log-sign-in'>
-              Login
-            </Nav.Link>
-
-            <Button variant='dark' style={{ marginLeft: 10 }}>
-              <Link to='/log-sign-in' className={styles.linkitem}>
-                {' '}
-                SignUp{' '}
-              </Link>
-            </Button>
+            {isAutheticated === true ? (
+              <Button
+                variant='dark'
+                style={{ marginLeft: 10 }}
+                onClick={() => {
+                  this.props.Logout(this.logoutSuccessCallBack)
+                }}
+              >
+                Log out
+              </Button>
+            ) : (
+              <Nav.Link id={styles.navItem} href='/log-sign-in'>
+                SignUp
+              </Nav.Link>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -50,4 +64,20 @@ class NavigationBar extends Component {
   }
 }
 
-export default NavigationBar
+const mapStateToProps = state => {
+  return {
+    isAutheticated: localStorage.getItem('refreshToken') !== null
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    Logout: () => {
+      dispatch(logout())
+    }
+  }
+}
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(NavigationBar)
+)
