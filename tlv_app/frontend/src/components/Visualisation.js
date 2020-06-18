@@ -33,7 +33,8 @@ class Visualisation extends Component {
       maxval: 0,
       value: '',
       curr: 1,
-      loaded: false
+      loaded: false,
+      checkcount: 1
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleCheck = this.handleCheck.bind(this)
@@ -123,12 +124,15 @@ class Visualisation extends Component {
   handleCheck (num, event) {
     const temp = this.state.filters
     const send = []
+    var c
     if (event.target.checked) {
+      var c = this.state.checkcount + 1
       temp[num].status = true
     } else {
+      c = this.state.checkcount - 1
       // Ensuring first filter is always checked
-      if (event.target.name !== this.state.filters[0].name)
-        temp[num].status = false
+      if (c === 0) temp[0].status = true
+      temp[num].status = false
     }
     temp.map(fil => {
       if (fil.status) send.push(fil.name)
