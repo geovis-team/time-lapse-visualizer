@@ -126,7 +126,7 @@ class Visualisation extends Component {
     const send = []
     var c
     if (event.target.checked) {
-      var c = this.state.checkcount + 1
+      c = this.state.checkcount + 1
       temp[num].status = true
     } else {
       c = this.state.checkcount - 1
