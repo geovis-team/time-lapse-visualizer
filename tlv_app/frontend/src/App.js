@@ -1,25 +1,44 @@
-import React from 'react'
+import React, { Component } from 'react'
 import './App.css'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Login from './components/LoginSignupPage'
 import Landing from './components/Landing'
 import DefaultVis from './components/DefaultVis'
 import ViewVis from './components/ViewVis'
+import { authCheckState } from './actions/auth'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { connect } from 'react-redux'
 
-function App () {
-  return (
-    <div>
-      <Router>
-        <Switch>
-          <Route exact path='/' component={Landing} />
-          <Route path='/log-sign-in' component={Login} />
-          <Route path='/defaultvis' component={DefaultVis} />
-          <Route path='/viewvis' component={ViewVis} />
-        </Switch>
-      </Router>
-    </div>
-  )
+class App extends Component {
+  componentDidMount () {
+    this.props.onTryAutoSignup()
+  }
+  render () {
+    return (
+      <div>
+        <Router>
+          <Switch>
+            <Route exact path='/' component={Landing} />
+            <Route path='/log-sign-in' component={Login} />
+            <Route path='/defaultvis' component={DefaultVis} />
+            <Route path='/viewvis' component={ViewVis} />
+          </Switch>
+        </Router>
+      </div>
+    )
+  }
 }
 
-export default App
+const mapStateToProps = state => {
+  return {
+    isAutheticated: localStorage.getItem('refreshToken') !== null
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onTryAutoSignup: () => dispatch(authCheckState())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
