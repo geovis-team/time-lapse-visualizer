@@ -1,4 +1,8 @@
+tlv/__pycache__
 tlv/tlv/__pycache__
 tlv/tlv_app/__pycache__
 tlv/tlv_app/migrations/__pycache__
 .idea
+tlv/tlv_app/models/__pycache__
+tlv/tlv_app/views/__pycache__
+tlv/tlv_app/serializers/__pycache__
