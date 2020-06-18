@@ -3,7 +3,8 @@ import React, { Component } from 'react'
 import { Container, Col, Row, Tabs, Tab } from 'react-bootstrap'
 
 import styles from '../static/css/LoginSignupPage.module.css'
-import { SignupForm, LoginForm } from './LoginSignupForms'
+import LoginForm from './Login'
+import SignupForm from './Signup'
 import NavigationBar from './NavigationBar'
 import Footer from './Footer'
 
