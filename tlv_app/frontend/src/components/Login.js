@@ -14,6 +14,14 @@ class LoginForm extends Component {
     }
   }
 
+  errCallBack = () => {
+    this.setState({
+      username: '',
+      password: '',
+      disableDOS: false
+    })
+  }
+
   successCallBack = () => {
     this.props.history.push('/defaultvis')
   }
@@ -26,7 +34,7 @@ class LoginForm extends Component {
     this.setState({
       disableDOS: true
     })
-    this.props.AuthLogin(data, this.successCallBack)
+    this.props.AuthLogin(data, this.successCallBack, this.errCallBack)
   }
 
   render () {
@@ -81,8 +89,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    AuthLogin: (data, successCallBack) => {
-      return dispatch(authLogin(data, successCallBack))
+    AuthLogin: (data, successCallBack, errCallBack) => {
+      return dispatch(authLogin(data, successCallBack, errCallBack))
     }
   }
 }
