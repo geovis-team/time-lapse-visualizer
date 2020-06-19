@@ -20,7 +20,6 @@ def get_filters(request, *args, **kwargs):
     :return: filters
     """
     model = request.GET.get('model', None)
-    print("modelll == ",model)
     if model is None:
         return Response(
             status=HTTP_400_BAD_REQUEST,
@@ -77,6 +76,8 @@ def filter_data(request, *args, **kwargs):
         )
 
     model = apps.get_model(app_label=APP_NAME, model_name=model_name)
+
+    # Aggregate conditions with "OR" operations
     conditions = Q()
     for filter in filters:
         conditions = conditions | Q(category=filter)
@@ -85,21 +86,26 @@ def filter_data(request, *args, **kwargs):
         
     mdate = data.aggregate(earliestTime = Min('time'), latestTime = Max('time'))
     
+    # list(): Converts queryset of dictionaries into list of dictionaries
+    # annotate(): Creates an attribute for each object based on existing attributes (Here, attribute created is "concatenated_filters")
+    # values().annotate(): Groups objects by attributes inside values() (Here: 'latitude', 'longitude', 'time'), annotates each of these groups, and returns a Queryset of dictionaries
     data = list(data.annotate(
             concatenated_filters=Concat( V('"'),'category',V('":'),'entity')
             ).values(
                 "latitude","longitude","time"
                 ).annotate(
-                    filter= GroupConcat('concatenated_filters')
+                    filter= Concat( V('{'),GroupConcat('concatenated_filters'), V('}'))
                     ))
 
+    # Traverses through list of dictionaries and fixes the datatype of values in each dictionary
     for item in data:
-        for k in item:
-            if k == "filter":
-                item[k] = eval("{"+item[k]+"}")
+        for key in item:
+            if key == "filter":
+                item[key] = eval(item[key]) # Evaluates a string in JSON format (corresponding to "filter" key) as a dictionary
             else:
-                item[k] = str(item[k])
+                item[key] = str(item[key]) # Converts values in different data types (Latitude and Longitude in Decimal() type, time in datetime.date() type) into String type
 
+    # Converts datetime.date() values into str()
     for k in mdate:
         mdate[k] = str(mdate[k])
 
@@ -107,25 +113,3 @@ def filter_data(request, *args, **kwargs):
         status=HTTP_200_OK,
         data={"primaryFilters": filters, **mdate, "data": data}
     )
-
-
-# data : [
-#     {
-#         "lat" : lat,
-#         "long": lng,
-#         "time": time,
-#         "filters" : {
-#             "Pfilter1" : {
-#                 "x" : 12,
-#                 "y" : 13
-#             },
-#             "Pfilter2" : {
-#                 "a" : 15,
-#                 "b" : 6
-#             }
-#         }
-#     },
-#     {
-
-#     }
-# ]
