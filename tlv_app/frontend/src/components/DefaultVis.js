@@ -11,7 +11,7 @@ class DefaultVis extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      allvis: [
+      allVisualisations: [
         {
           id: 1,
           name: 'Covid',
@@ -29,7 +29,7 @@ class DefaultVis extends Component {
           id: 3,
           name: 'Shops',
           heading: 'Trends in Businesses around the world',
-          title: 'Number  of shops that closed and opened during the Pandemic'
+          title: 'Number of shops that closed and opened during the Pandemic'
         }
       ],
       data: mapdata,
@@ -38,8 +38,6 @@ class DefaultVis extends Component {
   }
 
   render () {
-    console.log(this.state.loaded, this.state.filtersloaded)
-
     return (
       <div className={styles.body}>
         <NavigationBar />
@@ -62,7 +60,7 @@ class DefaultVis extends Component {
             </h6>
           </div>
           <Row>
-            {this.state.allvis.map((visObj, index) => (
+            {this.state.allVisualisations.map((visObj, index) => (
               <Col
                 xs={8}
                 md={6}

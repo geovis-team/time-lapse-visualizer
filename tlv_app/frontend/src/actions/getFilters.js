@@ -8,7 +8,6 @@ export const getFilters = (model, successCallback) => {
     })
 
     const arr = []
-    console.log('You are in model: ', model)
     axios
       .get('http://127.0.0.1:8000/api/visualization/get_filters/', {
         params: {

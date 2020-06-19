@@ -32,7 +32,6 @@ class ViewVis extends Component {
     })
   }
   render () {
-    console.log('in renderrrrrrr')
     if (!this.state.loaded) return <></>
     else
       return (
