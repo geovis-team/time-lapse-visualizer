@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { toast } from 'react-semantic-toasts'
+
 import { getTokenUrl, userCreateUrl, revokeTokenUrl, getUserUrl } from '../urls'
 import axiosInstance from './utility'
 
@@ -43,6 +45,14 @@ export const authLogin = (data, successCallBack) => {
       })
       .catch(err => {
         dispatch(authFail(err))
+        toast({
+          type: 'error',
+          title: 'Error',
+          description: 'Please enter the currect username and password.',
+          animation: 'fade up',
+          icon: 'frown',
+          time: 4000
+        })
       })
   }
 }
@@ -63,6 +73,15 @@ export const authSignup = (data, successCallBack) => {
         successCallBack()
       })
       .catch(err => {
+        toast({
+          type: 'error',
+          title: 'Error',
+          description: err.response.data['username'][0],
+          animation: 'fade up',
+          icon: 'frown',
+          time: 4000
+        })
+
         dispatch(authFail(err))
       })
   }
@@ -76,6 +95,14 @@ export const logout = () => {
     localStorage.removeItem('accessToken')
     localStorage.removeItem('refreshToken')
     dispatch({ type: 'AUTH_LOGOUT' })
+    toast({
+      type: 'success',
+      title: 'success',
+      description: 'Logged Out',
+      animation: 'fade up',
+      icon: 'check',
+      time: 4000
+    })
   }
 }
 

@@ -9,7 +9,8 @@ class LoginForm extends Component {
     super(props)
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      disableDOS: false
     }
   }
 
@@ -22,12 +23,14 @@ class LoginForm extends Component {
       username: this.state.username,
       password: this.state.password
     }
-
+    this.setState({
+      disableDOS: true
+    })
     this.props.AuthLogin(data, this.successCallBack)
   }
 
   render () {
-    const { username, password } = this.state
+    const { username, password, disableDOS } = this.state
     let disabled = true
     if (username && password) {
       disabled = false
@@ -36,18 +39,19 @@ class LoginForm extends Component {
       <Form>
         <Form.Group>
           <Form.Field required={true}>
+            <label>Username</label>
             <Form.Input
-              fluid
-              label='Username'
               placeholder='username'
               value={username}
               onChange={e => this.setState({ username: e.target.value })}
             />
           </Form.Field>
+        </Form.Group>
+
+        <Form.Group>
           <Form.Field required={true}>
+            <label>Password</label>
             <Form.Input
-              fluid
-              label='Password'
               placeholder='password'
               value={password}
               type={'password'}
@@ -57,9 +61,9 @@ class LoginForm extends Component {
         </Form.Group>
 
         <Button
-          variant='dark'
-          type='submit'
-          disabled={disabled}
+          color='black'
+          placeholder='Submit'
+          disabled={disabled | disableDOS}
           onClick={this.handleSubmit}
         >
           Submit
