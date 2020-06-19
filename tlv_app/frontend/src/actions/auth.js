@@ -25,7 +25,7 @@ export const authFail = error => {
   }
 }
 
-export const authLogin = (data, successCallBack) => {
+export const authLogin = (data, successCallBack, errCallBack) => {
   return dispatch => {
     dispatch(authStart())
     axios
@@ -49,42 +49,23 @@ export const authLogin = (data, successCallBack) => {
           type: 'error',
           title: 'Error',
           description: 'Please enter the currect username and password.',
-          animation: 'fade up',
           icon: 'frown',
           time: 4000
         })
+        errCallBack()
       })
   }
 }
 
-export const authSignup = (data, successCallBack) => {
-  return dispatch => {
-    dispatch(authStart())
-    axios
-      .post(userCreateUrl(), data)
-      .then(res => {
-        const accessToken = res.data.access
-        const refreshToken = res.data.refresh
-        axiosInstance.defaults.headers['Authorization'] =
-          'JWT ' + res.data.access
-        localStorage.setItem('refreshToken', refreshToken)
-        localStorage.setItem('accessToken', accessToken)
-        dispatch(authSuccess(accessToken, refreshToken))
-        successCallBack()
-      })
-      .catch(err => {
-        toast({
-          type: 'error',
-          title: 'Error',
-          description: err.response.data['username'][0],
-          animation: 'fade up',
-          icon: 'frown',
-          time: 4000
-        })
-
-        dispatch(authFail(err))
-      })
-  }
+export const authSignup = (data, successCallBack, errCallBack) => {
+  axios
+    .post(userCreateUrl(), data)
+    .then(res => {
+      successCallBack()
+    })
+    .catch(err => {
+      errCallBack(err.response.data)
+    })
 }
 
 export const logout = () => {
@@ -99,7 +80,6 @@ export const logout = () => {
       type: 'success',
       title: 'success',
       description: 'Logged Out',
-      animation: 'fade up',
       icon: 'check',
       time: 4000
     })
