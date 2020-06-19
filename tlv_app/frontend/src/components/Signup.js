@@ -13,7 +13,8 @@ class SignupForm extends Component {
       lastName: '',
       password: '',
       confirmPass: '',
-      email: ''
+      email: '',
+      disableDOS: false
     }
   }
   successCallBack = () => {
@@ -28,6 +29,9 @@ class SignupForm extends Component {
       first_name: this.state.firstName,
       last_name: this.state.lastName
     }
+    this.setState({
+      disableDOS: true
+    })
     this.props.AuthSignUp(data, this.successCallBack)
   }
 
@@ -38,10 +42,11 @@ class SignupForm extends Component {
       password,
       confirmPass,
       firstName,
-      lastName
+      lastName,
+      disableDOS
     } = this.state
     let disabled = true
-    if (password && password === confirmPass) {
+    if (username && password && password === confirmPass) {
       disabled = false
     }
     return (
@@ -54,13 +59,17 @@ class SignupForm extends Component {
               onChange={e => this.setState({ email: e.target.value })}
             />
           </Form.Field>
-          <Form.Field>
+        </Form.Group>
+        <Form.Group>
+          <Form.Field required={true}>
             <label>Username</label>
             <Form.Input
               value={username}
               onChange={e => this.setState({ username: e.target.value })}
             />
           </Form.Field>
+        </Form.Group>
+        <Form.Group>
           <Form.Field>
             <label>First Name</label>
             <Form.Input
@@ -68,6 +77,8 @@ class SignupForm extends Component {
               onChange={e => this.setState({ firstName: e.target.value })}
             />
           </Form.Field>
+        </Form.Group>
+        <Form.Group>
           <Form.Field>
             <label>Last Name</label>
             <Form.Input
@@ -75,7 +86,9 @@ class SignupForm extends Component {
               onChange={e => this.setState({ lastName: e.target.value })}
             />
           </Form.Field>
-          <Form.Field>
+        </Form.Group>
+        <Form.Group>
+          <Form.Field required={true}>
             <label>Password</label>
             <Form.Input
               value={password}
@@ -83,7 +96,9 @@ class SignupForm extends Component {
               onChange={e => this.setState({ password: e.target.value })}
             />
           </Form.Field>
-          <Form.Field>
+        </Form.Group>
+        <Form.Group>
+          <Form.Field required={true}>
             <label>Confirm Password</label>
             <Form.Input
               value={confirmPass}
@@ -96,15 +111,16 @@ class SignupForm extends Component {
             />
           </Form.Field>
         </Form.Group>
-
-        <Button
-          variant='dark'
-          type='submit'
-          disabled={disabled}
-          onClick={this.handleSubmit}
-        >
-          Submit
-        </Button>
+        <Form.Group>
+          <Button
+            color='black'
+            type='submit'
+            disabled={disabled | disableDOS}
+            onClick={this.handleSubmit}
+          >
+            Submit
+          </Button>
+        </Form.Group>
       </Form>
     )
   }

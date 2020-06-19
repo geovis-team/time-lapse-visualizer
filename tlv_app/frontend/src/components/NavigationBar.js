@@ -7,10 +7,6 @@ import { withRouter } from 'react-router'
 import styles from '../static/css/LandingPage.module.css'
 
 class NavigationBar extends Component {
-  constructor (props) {
-    super(props)
-  }
-
   render () {
     const { isAutheticated } = this.props
 

@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import './App.css'
+import 'semantic-ui-css/semantic.min.css'
+import 'react-semantic-toasts/styles/react-semantic-alert.css'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { SemanticToastContainer } from 'react-semantic-toasts'
 import Login from './components/LoginSignupPage'
 import Landing from './components/Landing'
 import DefaultVis from './components/DefaultVis'
@@ -16,6 +19,7 @@ class App extends Component {
   render () {
     return (
       <div>
+        <SemanticToastContainer position='top-right' />
         <Router>
           <Switch>
             <Route exact path='/' component={Landing} />
