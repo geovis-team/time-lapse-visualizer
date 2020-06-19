@@ -80,29 +80,34 @@ class Visualisation extends Component {
   }
 
   getDataSuccessCallBack = data => {
-    var e = {
+    var earliestTime = {
       dd: parseInt(data.earliestTime.slice(8, 10)),
       mm: parseInt(data.earliestTime.slice(5, 7)),
       yy: parseInt(data.earliestTime.slice(0, 4))
     }
-    var l = {
+    var latestTime = {
       dd: parseInt(data.latestTime.slice(8, 10)),
       mm: parseInt(data.latestTime.slice(5, 7)),
       yy: parseInt(data.latestTime.slice(0, 4))
     }
     var months
-    var arr = []
-    var d1 = ''
-    if (e.yy === l.yy) {
+    var sliderSteps = []
+    var startMonth = ''
+    if (earliestTime.yy === latestTime.yy) {
       months = 12
-      d1 = new Date(data.earliestTime.slice(0, 4) + '-01' + '-01')
+      startMonth = new Date(data.earliestTime.slice(0, 4) + '-01' + '-01')
     } else {
-      months = 12 - e.mm + 1 + l.mm + (l.yy - 1 - e.yy - 1 + 1)
-      d1 = new Date(data.earliestTime)
+      months =
+        12 -
+        earliestTime.mm +
+        1 +
+        latestTime.mm +
+        (latestTime.yy - 1 - earliestTime.yy - 1 + 1)
+      startMonth = new Date(data.earliestTime)
     }
     for (var i = 0; i < months; i++) {
-      arr.push(this.formatDate(d1))
-      d1.setMonth(d1.getMonth() + 1)
+      sliderSteps.push(this.formatDate(startMonth))
+      startMonth.setMonth(startMonth.getMonth() + 1)
     }
     this.setState({
       data: data,
@@ -110,8 +115,8 @@ class Visualisation extends Component {
       minDate: data.earliestTime,
       maxDate: data.latestTime,
       maxval: months,
-      times: arr,
-      value: arr[0],
+      times: sliderSteps,
+      value: sliderSteps[0],
       loaded: true
     })
     this.preProcess(this.preSuccessCallBack)
