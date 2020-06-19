@@ -87,8 +87,10 @@ def filter_data(request, *args, **kwargs):
     mdate = data.aggregate(earliestTime = Min('time'), latestTime = Max('time'))
     
     # list(): Converts queryset of dictionaries into list of dictionaries
-    # annotate(): Creates an attribute for each object based on existing attributes (Here, attribute created is "concatenated_filters")
-    # values().annotate(): Groups objects by attributes inside values() (Here: 'latitude', 'longitude', 'time'), annotates each of these groups, and returns a Queryset of dictionaries
+    # annotate(): Creates an attribute for each object based on existing attributes (Here, attribute created is
+    # "concatenated_filters")
+    # values().annotate(): Groups objects by attributes inside values() (Here: 'latitude', 'longitude', 'time'),
+    # annotates each of these groups, and returns a Queryset of dictionaries
     data = list(data.annotate(
             concatenated_filters=Concat( V('"'),'category',V('":'),'entity')
             ).values(
@@ -101,9 +103,12 @@ def filter_data(request, *args, **kwargs):
     for item in data:
         for key in item:
             if key == "filter":
-                item[key] = eval(item[key]) # Evaluates a string in JSON format (corresponding to "filter" key) as a dictionary
+                # Evaluates a string in JSON format (corresponding to "filter" key) as a dictionary
+                item[key] = eval(item[key]) 
             else:
-                item[key] = str(item[key]) # Converts values in different data types (Latitude and Longitude in Decimal() type, time in datetime.date() type) into String type
+                # Converts values in different data types (Latitude and Longitude in Decimal() type, 
+                # time in datetime.date() type) into String type
+                item[key] = str(item[key]) 
 
     # Converts datetime.date() values into str()
     for k in mdate:
