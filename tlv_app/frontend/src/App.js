@@ -8,6 +8,7 @@ import Login from './components/LoginSignupPage'
 import Landing from './components/Landing'
 import DefaultVis from './components/DefaultVis'
 import ViewVis from './components/ViewVis'
+import AddVis from './components/AddVis'
 import { authCheckState } from './actions/auth'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { connect } from 'react-redux'
@@ -26,6 +27,7 @@ class App extends Component {
             <Route path='/log-sign-in' component={Login} />
             <Route path='/defaultvis' component={DefaultVis} />
             <Route path='/viewvis' component={ViewVis} />
+            <Route path='/addvis' component={AddVis} />
           </Switch>
         </Router>
       </div>
