@@ -1,12 +1,14 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
+from tlv_app.models import Config
 
 
 class UserSerializer(serializers.ModelSerializer):
+    config = serializers.PrimaryKeyRelatedField(many=True, queryset=Config.objects.all())
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email')
+        fields = ('username', 'first_name', 'last_name', 'email','config')
 
 
 class UserSerializerWithToken(serializers.ModelSerializer):
