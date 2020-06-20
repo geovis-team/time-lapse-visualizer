@@ -45,13 +45,19 @@ class NavigationBar extends Component {
                 onClick={() => {
                   this.props.Logout(this.logoutSuccessCallBack)
                 }}
+                href='/'
               >
                 Log out
               </Button>
             ) : (
-              <Nav.Link id={styles.navItem} href='/log-sign-in'>
-                SignUp
-              </Nav.Link>
+              <Button
+                variant='dark'
+                style={{ marginLeft: 10 }}
+                id={styles.navItem}
+                href='/log-sign-in'
+              >
+                SignUp / Login
+              </Button>
             )}
           </Nav>
         </Navbar.Collapse>
