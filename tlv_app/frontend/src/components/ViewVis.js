@@ -14,7 +14,6 @@ class ViewVis extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      data: mapdata,
       filters: [],
       loaded: false,
       visObj: props.location.state
@@ -22,6 +21,7 @@ class ViewVis extends Component {
   }
 
   componentDidMount () {
+    // todo : need to fix the get filters API for the custom models
     this.props.getFilters(this.state.visObj.name, this.getFilterSuccessCallBack)
   }
 
@@ -51,7 +51,6 @@ class ViewVis extends Component {
               <Visualisation
                 vis={{
                   name: this.state.visObj.name,
-                  data: this.state.data,
                   title: this.state.visObj.title,
                   filters: this.state.filters
                 }}
@@ -66,7 +65,8 @@ class ViewVis extends Component {
 
 function mapStateToProps (state) {
   return {
-    getFilters: state.getFilters
+    getFilters: state.getFilters,
+    isAutheticated: localStorage.getItem('refreshToken') !== null
   }
 }
 function matchDispatchToProps (dispatch) {
