@@ -8,14 +8,42 @@ import styles from '../static/css/DefaultVisPage.module.css'
 import NavigationBar from './NavigationBar'
 import Footer from './Footer'
 import { data as mapdata } from './visualizer/data'
+import axiosInstance from '../actions/utility'
 
 class AddVis extends Component {
   constructor (props) {
     super(props)
-    this.state = {}
+    this.state = {
+      name: '',
+      heading: '',
+      description: '',
+      filters: {}
+    }
   }
 
   componentDidMount () {}
+
+  handleSubmit = () => {
+    const data = {
+      name: this.state.name,
+      heading: this.state.heading,
+      description: this.state.description,
+      filters: this.state.filters
+    }
+    axiosInstance
+      .post('http://127.0.0.1:8000/api/config/', data)
+      .then(response => {
+        console.log(response.data)
+        //todo : set loaded = true
+        this.setState({
+          loaded: true,
+          allvisualisations: response.data
+        })
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
 
   render () {
     const { isAutheticated } = this.props
@@ -48,6 +76,7 @@ class AddVis extends Component {
                         type='name'
                         placeholder='Enter Name (No Spaces)'
                         maxLength={30}
+                        onChange={e => this.setState({ name: e.target.value })}
                       />
                     </Form.Group>
                     <Form.Group>
@@ -57,6 +86,9 @@ class AddVis extends Component {
                         type='name'
                         placeholder='Enter Heading'
                         maxLength={100}
+                        onChange={e =>
+                          this.setState({ heading: e.target.value })
+                        }
                       />
                     </Form.Group>
                     <Form.Group>
@@ -66,6 +98,9 @@ class AddVis extends Component {
                         type='name'
                         placeholder='Enter a short description'
                         maxLength={500}
+                        onChange={e =>
+                          this.setState({ description: e.target.value })
+                        }
                       />
                     </Form.Group>
                     <Form.Group>
@@ -76,6 +111,9 @@ class AddVis extends Component {
                         rows='5'
                         placeholder='Enter Filters as JSON'
                         maxLength={1000}
+                        onChange={e =>
+                          this.setState({ filters: e.target.value })
+                        }
                       />
                     </Form.Group>
                     <Form.File
@@ -84,7 +122,11 @@ class AddVis extends Component {
                       label='Select a Local Config File'
                       custom
                     />
-                    <Button variant='dark' type='submit'>
+                    <Button
+                      variant='dark'
+                      type='submit'
+                      onClick={this.handleSubmit}
+                    >
                       Submit
                     </Button>
                   </Form>
