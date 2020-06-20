@@ -3,7 +3,7 @@ from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK, HTTP_404_NO
 from rest_framework.decorators import api_view
 from django.apps import apps
 
-from .constants import CLASSES, FILTERS, SECONDARY_FILTERS, APP_NAME, PRIMARY_FILTERS
+from .constants import CLASSES, FILTERS, SECONDARY_FILTERS, APP_NAME, PRIMARY_FILTERS, Lat, Lng, Time, Category, Entity
 
 from django_mysql.models import GroupConcat
 
@@ -82,21 +82,26 @@ def filter_data(request, *args, **kwargs):
     for filter in filters:
         conditions = conditions | Q(category=filter)
     
+    # Apply conditions to filter
     data = model.objects.filter(conditions)
-        
-    mdate = data.aggregate(earliestTime = Min('time'), latestTime = Max('time'))
+
+    # Get Earliest and Latest timestamp in dataset (to be used as range for slider)   
+    mdate = data.aggregate(earliestTime = Min(Time), latestTime = Max(Time))
     
+    concat1 = Concat( V('"'),Category,V('":'),Entity)
+    concat2 = Concat( V('{'),GroupConcat('concatenated_filters'), V('}'))
+
     # list(): Converts queryset of dictionaries into list of dictionaries
     # annotate(): Creates an attribute for each object based on existing attributes (Here, attribute created is
     # "concatenated_filters")
-    # values().annotate(): Groups objects by attributes inside values() (Here: 'latitude', 'longitude', 'time'),
+    # values().annotate(): Groups objects by attributes inside values() (Here: Lat, Lng, Time),
     # annotates each of these groups, and returns a Queryset of dictionaries
     data = list(data.annotate(
-            concatenated_filters=Concat( V('"'),'category',V('":'),'entity')
+            concatenated_filters=concat1
             ).values(
-                "latitude","longitude","time"
+                Lat,Lng,Time
                 ).annotate(
-                    filter= Concat( V('{'),GroupConcat('concatenated_filters'), V('}'))
+                    filter= concat2
                     ))
 
     # Traverses through list of dictionaries and fixes the datatype of values in each dictionary

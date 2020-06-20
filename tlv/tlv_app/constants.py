@@ -46,3 +46,9 @@ FILTERS = [
         "secondaryFilters": SECONDARY_FILTERS[2]
     }
 ]
+
+Lat = 'latitude'
+Lng = 'longitude'
+Time = 'time'
+Category = 'category'
+Entity = 'entity'
