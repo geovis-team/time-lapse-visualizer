@@ -11,13 +11,8 @@ class NavigationBar extends Component {
     const { isAutheticated } = this.props
 
     return (
-      <Navbar
-        bg='light'
-        expand='lg'
-        className={styles.colorNav}
-        style={{ padding: 15 }}
-      >
-        <Navbar.Brand href='/'>NAME</Navbar.Brand>
+      <Navbar variant='dark' bg='dark' expand='lg' style={{ padding: 15 }}>
+        <Navbar.Brand href='/'>GeoVis</Navbar.Brand>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='mr-auto'>
@@ -40,7 +35,7 @@ class NavigationBar extends Component {
             </Nav.Link>
             {isAutheticated === true ? (
               <Button
-                variant='dark'
+                variant='light'
                 style={{ marginLeft: 10 }}
                 onClick={() => {
                   this.props.Logout(this.logoutSuccessCallBack)
@@ -51,7 +46,7 @@ class NavigationBar extends Component {
               </Button>
             ) : (
               <Button
-                variant='dark'
+                variant='light'
                 style={{ marginLeft: 10 }}
                 id={styles.navItem}
                 href='/log-sign-in'
