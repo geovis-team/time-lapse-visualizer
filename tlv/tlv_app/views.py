@@ -19,15 +19,16 @@ def get_filters(request, *args, **kwargs):
     :param request: get request containing model name in params
     :return: filters
     """
-    model = request.GET.get('model', None)
-    if model is None:
+    model_name = request.GET.get('model', None)
+    if model_name is None:
         return Response(
             status=HTTP_400_BAD_REQUEST,
             data="Model name not given in params"
         )
     num_models = 3
+    filters = None
     for i in range(num_models):
-        if model == CLASSES[i]:
+        if model_name == CLASSES[i]:
             filters = FILTERS[i]
             break
     if filters is None:
@@ -35,9 +36,11 @@ def get_filters(request, *args, **kwargs):
             status=HTTP_404_NOT_FOUND,
             data="Model with the given name not found"
         )
+    model = apps.get_model(app_label=APP_NAME, model_name=model_name)
+    mdate = model.objects.aggregate(earliestTime = Min(Time), latestTime = Max(Time))
     return Response(
         status=HTTP_200_OK,
-        data=filters
+        data={**filters,**mdate}
     )
 
 
