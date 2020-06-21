@@ -20,7 +20,10 @@ export default class LoginSignup extends Component {
       <div className={styles.body}>
         <NavigationBar />
         <Container fluid className={styles.container}>
-          <Container>
+          <Container className={styles.container}>
+            <h1 style={{ textAlign: 'center', padding: '5%' }}>
+              Register/Login and get visualising!
+            </h1>
             <Row>
               <Col md> </Col>
               <Col sm className={styles.column} style={{ padding: 70 }}>
