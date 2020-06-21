@@ -14,8 +14,8 @@ class Footer extends Component {
             <Col md> </Col>
             <Col md>
               {' '}
-              <h4>Name</h4>
-              <h6>2019-2020</h6>
+              <h4 style={{ color: '#ffffff' }}>GeoVis</h4>
+              <h6 style={{ color: '#ffffff' }}>2020-2021</h6>
             </Col>
             <Col md>
               {' '}

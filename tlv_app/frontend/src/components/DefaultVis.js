@@ -81,25 +81,36 @@ class DefaultVis extends Component {
             <h1 style={{ marginBottom: '2%' }}>
               Visualisations for a variety of different datasets
             </h1>
-            <h6>
-              Select one of the visualisations from the options to expand and
-              view the plots
-            </h6>
-            <h6>
-              The filters that can be applied for each visualisation are
-              available as checkboxes.
-            </h6>
+            {this.state.allvisualisations.length > 0 &&
+            this.state.loaded === true ? (
+              <h5>
+                Select one of the visualisations from the options to expand and
+                view the plots
+                <br />
+                The filters that can be applied for each visualisation are
+                available as checkboxes.
+              </h5>
+            ) : (
+              <div style={{ margin: '10%' }}>
+                <h5>
+                  Welcome to GeoVis! Time to create your first personalised
+                  project!
+                  <br />
+                  Click the add project button and begin!
+                </h5>
+              </div>
+            )}
             {isAutheticated === true && (
-              <Button variant='dark'>
-                <Link
-                  to={{
-                    pathname: '/addvis'
-                  }}
-                  className={styles.linkitem}
-                >
+              <Link
+                to={{
+                  pathname: '/addvis'
+                }}
+                className={styles.linkitem}
+              >
+                <Button variant='dark' id={styles.buttons}>
                   Add New Project
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             )}
           </div>
           {this.state.loaded && (

@@ -1,5 +1,13 @@
 import React, { Component } from 'react'
-import { Button, Container, Form, Card, Row, Col } from 'react-bootstrap'
+import {
+  Button,
+  Container,
+  Form,
+  Card,
+  Row,
+  Col,
+  Accordion
+} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
@@ -53,15 +61,19 @@ class AddVis extends Component {
         <Container
           fluid
           className={styles.container}
-          style={{ padding: '0% 7% 0 7%' }}
+          style={{ padding: '0% 7% 0 7%', height: '100%' }}
         >
           <div className={styles.intro}>
             <h1>Enter your new project details</h1>
             <h6>An example is attached for your benefit as well</h6>
             <h6>Please ensure the config file format follows the example</h6>
           </div>
-          <Container fluid className={styles.container}>
-            <Container>
+          <Container
+            fluid
+            className={styles.container}
+            style={{ height: '100%' }}
+          >
+            <Container style={{ height: '100%' }}>
               <Row>
                 <Col
                   sm
@@ -131,12 +143,52 @@ class AddVis extends Component {
                     </Button>
                   </Form>
                 </Col>
-                <Col md style={{ padding: 50 }}>
-                  {' '}
-                  <img
-                    src={require('../static/assets/placeholder.jpg')}
-                    alt='Eg Config'
-                  />
+                <Col md style={{ padding: 50, textAlign: 'center' }}>
+                  {/* <h5 style={{ padding: '5%' }}>
+                    Here is an example JSON object for the filters to be sent
+                  </h5>
+                   */}
+                  <Accordion defaultActiveKey='0'>
+                    <Card>
+                      <Card.Header>
+                        <Accordion.Toggle
+                          as={Button}
+                          variant='link'
+                          eventKey='0'
+                        >
+                          View Example of Filters JSON
+                        </Accordion.Toggle>
+                      </Card.Header>
+                      <Accordion.Collapse eventKey='0'>
+                        <Card.Body>
+                          <img
+                            src={require('../static/assets/jsonExample.png')}
+                            alt='Eg Config'
+                          />
+                        </Card.Body>
+                      </Accordion.Collapse>
+                    </Card>
+                    <Card>
+                      <Card.Header>
+                        <Accordion.Toggle
+                          as={Button}
+                          variant='link'
+                          eventKey='1'
+                        >
+                          Example of Data JSON format
+                        </Accordion.Toggle>
+                      </Card.Header>
+                      <Accordion.Collapse eventKey='1'>
+                        <Card.Body>
+                          {' '}
+                          <img
+                            src={require('../static/assets/dataExample.png')}
+                            alt='Eg Config'
+                          />
+                        </Card.Body>
+                      </Accordion.Collapse>
+                    </Card>
+                  </Accordion>
                 </Col>
               </Row>
             </Container>
