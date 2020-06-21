@@ -19,51 +19,70 @@ export default class Landing extends Component {
         <NavigationBar />
         <Container fluid='true' className={styles.container}>
           <Row fluid='true'>
-            <Col sm className={styles.column} style={{ textAlign: 'center' }}>
+            <Col md className={styles.column} style={{ textAlign: 'center' }}>
               <img
-                src={require('../static/assets/placeholder.jpg')}
+                style={{
+                  width: '60%',
+                  height: 'auto'
+                }}
+                src={require('../static/assets/landing2.gif')}
                 alt='Landing Placeholder'
               />
             </Col>
 
-            <Col sm className={styles.column}>
-              <h1>Big Catchy Heading!</h1>
-              <h5 className={styles.colText}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, <br />
-                sed do eiusmod tempor incididunt ut labore et dolore magna
-                aliqua. <br />
-                Need to fill these paragraphs with somecontent we can do this
-                later.
-              </h5>
-              <h6 className={styles.colText}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, <br />
-                sed do eiusmod tempor incididunt ut labore et dolore magna
-                aliqua.
-              </h6>
-              <h5 className={styles.colText}>
-                What else can we write here? Do we even need to write here?{' '}
-                <br />
-                Maybe just keep writing anything here anyways.
-              </h5>
+            <Col md className={styles.column}>
+              <h1>
+                <strong>
+                  <i>Time Lapse Visualiser</i>
+                </strong>
+              </h1>
+              <br />
+              <h3>
+                <strong>
+                  <i>
+                    GeoVis is a tool for all your visualisation requirements!
+                  </i>
+                </strong>
+              </h3>
+              <br />
+              <h4 className={styles.colText} style={contentdiv}>
+                This application allows you to view default visualisations for
+                certain trending datasets as well as create your own
+                personalised projects for customized geographic datasets.
+              </h4>
+              <br />
+              <br />
+              <br />
+              <p>
+                <h4 style={contentDivRight} className={styles.colText}>
+                  The provision of a timeslider enables you to see the change in
+                  the data and observe patterns for analysis. A set of
+                  checkboxes can be used to view a smaller subset of the entire
+                  data set as well. Map markers contain pop-ups that elaborate
+                  further details.
+                </h4>
+              </p>
             </Col>
           </Row>
           <Row fluid='true'>
             <Col sm className={styles.midcolumn}>
-              <h1>Ready to get started?</h1>
-              <h5>Sign Up or view standard visualisations</h5>
+              <h1>
+                <strong>Ready to get started?</strong>
+              </h1>
+              <h4>Sign Up or view standard visualisations</h4>
             </Col>
 
             <Col sm className={styles.midcolumn}>
-              <Button id={styles.buttons} variant='dark'>
-                <Link to='/log-sign-in' className={styles.linkitem}>
+              <Link to='/log-sign-in' className={styles.linkitem}>
+                <Button id={styles.buttons} variant='dark'>
                   SignUp
-                </Link>
-              </Button>{' '}
-              <Button id={styles.buttons} variant='outline-dark'>
-                <Link to='/defaultvis' className={styles.linkitem}>
-                  View Examples
-                </Link>
-              </Button>
+                </Button>{' '}
+              </Link>
+              <Link to='/defaultvis' className={styles.linkitem}>
+                <Button id={styles.buttons} variant='dark'>
+                  Examples
+                </Button>
+              </Link>
             </Col>
           </Row>
         </Container>
@@ -71,4 +90,14 @@ export default class Landing extends Component {
       </div>
     )
   }
+}
+
+const contentdiv = {
+  width: '80%',
+  lineHeight: 1.5
+}
+const contentDivRight = {
+  textAlign: 'right',
+  width: '80%',
+  lineHeight: 1.5
 }

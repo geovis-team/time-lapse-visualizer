@@ -37,7 +37,7 @@ const MarkerCluster = props => {
       })
 
       const clusterer = new MarkerClusterer(map, mapMarkers, {
-        zoomOnClick: false,
+        zoomOnClick: true,
         imagePath:
           'https://raw.githubusercontent.com/googlemaps/js-marker-clusterer/gh-pages/images/m'
       })
@@ -139,8 +139,9 @@ class MapView extends Component {
         <div>
           <Map
             google={this.props.google}
-            zoom={4}
+            zoom={3}
             maxZoom={18}
+            minZoom={1}
             style={mymap}
             initialCenter={{ lat: 25, lng: 80 }}
             onClick={this.onMapClick}

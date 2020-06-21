@@ -11,16 +11,16 @@
 
 .container {
   padding: 5%;
-  background-color: silver;
+  background-color: white;
 }
 
 .column {
-  background-color: silver;
-  padding: 7%;
+  background-color: white;
+  padding: 5% 7% 7% 7%;
 }
 .midcolumn {
-  background-color: silver;
-  padding: 5%;
+  background-color: white;
+  padding: 0 5% 5% 5%;
   text-align: center;
 }
 
@@ -36,7 +36,7 @@
 }
 
 .footer {
-  background-color: #f5f5f5;
+  background-color: #333a40;
   text-align: center;
 }
 
@@ -45,5 +45,5 @@
 }
 
 .linkitem:hover {
-  color: silver;
+  color: white;
 }
