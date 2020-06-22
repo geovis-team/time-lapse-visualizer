@@ -1,8 +1,9 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-from .models import Covid, Disasters, Shops
 import random
 import urllib, json
+
+from tlv_app.models import Covid, Disasters, Shops
 
 
 class CovidTestCase(TestCase):
@@ -12,9 +13,12 @@ class CovidTestCase(TestCase):
 
     def setUp(self) -> None:
         # url corresponds to where the json data is hosted
-        url = "http://127.0.0.1:8000/covid.json"
-        response = urllib.request.urlopen(url)
-        covid_json = json.loads(response.read())
+        try:
+            url = "http://127.0.0.1:8000/covid.json"
+            response = urllib.request.urlopen(url)
+            covid_json = json.loads(response.read())
+        except ConnectionRefusedError:
+            covid_json = {}
         for covid in covid_json:
             Covid.objects.create(
                 latitude=covid['lat'],
@@ -69,4 +73,5 @@ class CovidTestCase(TestCase):
             category=covid['type'],
             entity=covid['filter'],
         )
+
         self.assertRaises(ValidationError)

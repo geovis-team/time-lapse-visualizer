@@ -10,6 +10,7 @@ PRIMARY_FILTERS = [
     ["Mild", "Medium", "Severe"],
     ["cyclone", "earthquake", "temperature_rise", "GHGemissions"],
     ["shops", "covid_cases", "shops_closed", "medical_centres"],
+    ["Maps", "Ads", "GPay", "Youtube"]
 ]
 
 SECONDARY_FILTERS = [
@@ -29,6 +30,12 @@ SECONDARY_FILTERS = [
         "covid_cases": ["count"],
         "shops_closed": ["grocery", "stationary", "bakery", "salon"],
         "medical_centres": ["private", "government"]
+    },
+    {
+        "Maps": ["num_users", "hrs_usage"],
+        "Ads": ["num_users", "hrs_usage"],
+        "GPay": ["num_users", "hrs_usage"],
+        "Youtube": ["num_users", "hrs_usage"]
     }
 ]
 
@@ -44,6 +51,10 @@ FILTERS = [
     {
         "primaryFilters": PRIMARY_FILTERS[2],
         "secondaryFilters": SECONDARY_FILTERS[2]
+    },
+    {
+        "primaryFilters": PRIMARY_FILTERS[3],
+        "secondaryFilters": SECONDARY_FILTERS[3]
     }
 ]
 
