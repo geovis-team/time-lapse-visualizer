@@ -16,8 +16,24 @@ class ViewVis extends Component {
     this.state = {
       filters: [],
       loaded: false,
+      mindDate: '',
+      times: [],
+      maxDate: '',
+      minval: 1,
+      maxval: 0,
+      value: '',
       visObj: props.location.state
     }
+  }
+
+  formatDate (date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      year = d.getFullYear()
+
+    if (month.length < 2) month = '0' + month
+
+    return [year, month].join('-')
   }
 
   componentDidMount () {
@@ -26,8 +42,42 @@ class ViewVis extends Component {
   }
 
   getFilterSuccessCallBack = data => {
+    var earliestTime = {
+      dd: parseInt(data.earliestTime.slice(8, 10)),
+      mm: parseInt(data.earliestTime.slice(5, 7)),
+      yy: parseInt(data.earliestTime.slice(0, 4))
+    }
+    var latestTime = {
+      dd: parseInt(data.latestTime.slice(8, 10)),
+      mm: parseInt(data.latestTime.slice(5, 7)),
+      yy: parseInt(data.latestTime.slice(0, 4))
+    }
+    var months
+    var sliderSteps = []
+    var startMonth = ''
+    if (earliestTime.yy === latestTime.yy) {
+      months = 12
+      startMonth = new Date(data.earliestTime.slice(0, 4) + '-01' + '-01')
+    } else {
+      months =
+        12 -
+        earliestTime.mm +
+        1 +
+        latestTime.mm +
+        (latestTime.yy - 1 - earliestTime.yy - 1 + 1)
+      startMonth = new Date(data.earliestTime)
+    }
+    for (var i = 0; i < months; i++) {
+      sliderSteps.push(this.formatDate(startMonth))
+      startMonth.setMonth(startMonth.getMonth() + 1)
+    }
     this.setState({
-      filters: data,
+      minDate: data.earliestTime,
+      maxDate: data.latestTime,
+      maxval: months,
+      times: sliderSteps,
+      value: sliderSteps[0],
+      filters: data.arr,
       loaded: true
     })
   }
@@ -52,7 +102,12 @@ class ViewVis extends Component {
                 vis={{
                   name: this.state.visObj.name,
                   title: this.state.visObj.title,
-                  filters: this.state.filters
+                  filters: this.state.filters,
+                  minDate: this.state.minDate,
+                  maxDate: this.state.maxDate,
+                  times: this.state.times,
+                  maxval: this.state.maxval,
+                  value: this.state.value
                 }}
               />
             </Card>

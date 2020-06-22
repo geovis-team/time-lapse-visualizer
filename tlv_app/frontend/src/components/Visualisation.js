@@ -26,12 +26,12 @@ class Visualisation extends Component {
       subfilters: {},
       data: [],
       toSend: [],
-      mindDate: '',
-      times: [],
-      maxDate: '',
+      mindDate: props.vis.mindDate,
+      times: props.vis.times,
+      maxDate: props.vis.maxDate,
       minval: 1,
-      maxval: 0,
-      value: '',
+      maxval: props.vis.maxval,
+      value: props.vis.value,
       curr: 1,
       loaded: false,
       checkcount: 1
@@ -40,16 +40,6 @@ class Visualisation extends Component {
     this.handleCheck = this.handleCheck.bind(this)
     this.preProcess = this.preProcess.bind(this)
     this.handleClick = this.handleClick.bind(this)
-  }
-
-  formatDate (date) {
-    var d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      year = d.getFullYear()
-
-    if (month.length < 2) month = '0' + month
-
-    return [year, month].join('-')
   }
 
   preProcess (preSuccessCallBack) {
@@ -78,43 +68,9 @@ class Visualisation extends Component {
   }
 
   getDataSuccessCallBack = data => {
-    var earliestTime = {
-      dd: parseInt(data.earliestTime.slice(8, 10)),
-      mm: parseInt(data.earliestTime.slice(5, 7)),
-      yy: parseInt(data.earliestTime.slice(0, 4))
-    }
-    var latestTime = {
-      dd: parseInt(data.latestTime.slice(8, 10)),
-      mm: parseInt(data.latestTime.slice(5, 7)),
-      yy: parseInt(data.latestTime.slice(0, 4))
-    }
-    var months
-    var sliderSteps = []
-    var startMonth = ''
-    if (earliestTime.yy === latestTime.yy) {
-      months = 12
-      startMonth = new Date(data.earliestTime.slice(0, 4) + '-01' + '-01')
-    } else {
-      months =
-        12 -
-        earliestTime.mm +
-        1 +
-        latestTime.mm +
-        (latestTime.yy - 1 - earliestTime.yy - 1 + 1)
-      startMonth = new Date(data.earliestTime)
-    }
-    for (var i = 0; i < months; i++) {
-      sliderSteps.push(this.formatDate(startMonth))
-      startMonth.setMonth(startMonth.getMonth() + 1)
-    }
     this.setState({
       data: data,
       toSend: data,
-      minDate: data.earliestTime,
-      maxDate: data.latestTime,
-      maxval: months,
-      times: sliderSteps,
-      value: sliderSteps[0],
       loaded: true
     })
     this.preProcess(this.preSuccessCallBack)
@@ -175,7 +131,6 @@ class Visualisation extends Component {
     var tempdata = JSON.parse(JSON.stringify(this.state.data))
     // //TODO : double check complexity
     this.state.data.data.map((obj, index) => {
-      console.log(obj.filter)
       var o = {}
       for (var primary in obj.filter) {
         var fil = {}
@@ -284,7 +239,6 @@ const subfilters = {
 }
 
 function mapStateToProps (state) {
-  console.log(state)
   return {
     getMapData: state.getMapData
   }
