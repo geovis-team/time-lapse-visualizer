@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-from .models import Covid, Disasters, Shops
+from tlv_app.models import Covid, Disasters, Shops
 import random
 import urllib, json
 
@@ -69,4 +69,5 @@ class CovidTestCase(TestCase):
             category=covid['type'],
             entity=covid['filter'],
         )
+
         self.assertRaises(ValidationError)
