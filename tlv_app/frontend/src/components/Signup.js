@@ -13,7 +13,8 @@ class SignupForm extends Component {
       confirmPass: '',
       email: '',
       disableDOS: false,
-      success: false
+      success: false,
+      passwordColor: 'white'
     }
   }
 
@@ -33,9 +34,15 @@ class SignupForm extends Component {
 
   errCallBack = data => {
     var msg
-    if (typeof data['username'][0] !== 'undefined') {
-      msg = data['username'][0]
-    }
+    if ('username' in data)
+      if (typeof data['username'][0] !== 'undefined') {
+        msg = data['username'][0]
+      }
+    if ('email' in data)
+      if (typeof data['email'][0] !== 'undefined') {
+        msg = data['email'][0]
+      }
+
     this.setState({
       disableDOS: false,
       username: '',
@@ -49,18 +56,37 @@ class SignupForm extends Component {
     })
   }
 
-  handleSubmit = () => {
-    const data = {
-      username: this.state.username,
-      password: this.state.password,
-      email: this.state.email,
-      first_name: this.state.firstName,
-      last_name: this.state.lastName
+  emailValidation = () => {
+    let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    return regex.test(this.state.email)
+  }
+
+  passwordStrength = pwd => {
+    const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/
+    const mediumRegex = /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/
+    if (strongRegex.test(this.state.password)) {
+      return '#3cba54'
+    } else if (mediumRegex.test(this.state.password)) {
+      return '#f4c20d'
+    } else {
+      return '#db3236'
     }
-    this.setState({
-      disableDOS: true
-    })
-    authSignup(data, this.successCallBack, this.errCallBack)
+  }
+
+  handleSubmit = () => {
+    if (this.emailValidation()) {
+      const data = {
+        username: this.state.username,
+        password: this.state.password,
+        email: this.state.email,
+        first_name: this.state.firstName,
+        last_name: this.state.lastName
+      }
+      this.setState({
+        disableDOS: true
+      })
+      authSignup(data, this.successCallBack, this.errCallBack)
+    }
   }
 
   render () {
@@ -94,6 +120,7 @@ class SignupForm extends Component {
             <Form.Field>
               <label>Email</label>
               <Form.Input
+                type='email'
                 value={email}
                 onChange={e => this.setState({ email: e.target.value })}
               />
@@ -130,9 +157,19 @@ class SignupForm extends Component {
             <Form.Field required={true}>
               <label>Password</label>
               <Form.Input
+                style={{
+                  backgroundColor: this.state.passwordColor,
+                  padding: '2px',
+                  borderRadius: '2px'
+                }}
                 value={password}
                 type={'password'}
-                onChange={e => this.setState({ password: e.target.value })}
+                onChange={e =>
+                  this.setState({
+                    password: e.target.value,
+                    passwordColor: this.passwordStrength()
+                  })
+                }
               />
             </Form.Field>
           </Form.Group>

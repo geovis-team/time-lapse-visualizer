@@ -6,7 +6,9 @@ import {
   Card,
   Row,
   Col,
-  Accordion
+  Accordion,
+  DropdownButton,
+  Dropdown
 } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -26,7 +28,13 @@ class AddVis extends Component {
       heading: '',
       description: '',
       filters: {},
-      file: null
+      file: null,
+      type: 1,
+      dataFormats: [
+        ['Option1', require('../static/assets/type1.jpeg'), 3],
+        ['Option2', require('../static/assets/type2.jpeg'), 4],
+        ['Option3', require('../static/assets/type3.jpeg'), 5]
+      ]
     }
   }
 
@@ -37,6 +45,7 @@ class AddVis extends Component {
     uploadData.append('name', this.state.name)
     uploadData.append('heading', this.state.heading)
     uploadData.append('description', this.state.description)
+    uploadData.append('type', this.state.type)
     uploadData.append('filters', JSON.parse(this.state.filters))
     uploadData.append('file', this.state.file, this.state.file.name)
     axiosInstance
@@ -55,6 +64,7 @@ class AddVis extends Component {
 
   render () {
     const { isAutheticated } = this.props
+    console.log(this.state.type)
     return (
       <div className={styles.body}>
         <NavigationBar />
@@ -128,21 +138,35 @@ class AddVis extends Component {
                         }
                       />
                     </Form.Group>
-                    {/* <Form.File
-                      style={{ padding: 30 }}
-                      id='custom-file'
-                      label='Select a Local Data File'
-                      custom
-                      onChange={e => this.setState({ file: e.target.value })}
-                    /> */}
-                    <Form.File id='formcheck-api-regular'>
-                      <Form.File.Label>Regular file input</Form.File.Label>
+                    <Form.File
+                      id='formcheck-api-regular'
+                      style={{ margin: '10% 0' }}
+                    >
+                      <Form.File.Label>
+                        Select the Datasource File
+                      </Form.File.Label>
                       <Form.File.Input
                         onChange={e =>
                           this.setState({ file: e.target.files[0] })
                         }
                       />
                     </Form.File>
+                    <DropdownButton
+                      id='dropdown-basic-button'
+                      title='Data Format Type'
+                      variant='secondary'
+                      style={{ marginBottom: '10%' }}
+                    >
+                      <Dropdown.Item onClick={() => this.setState({ type: 1 })}>
+                        Option1
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={() => this.setState({ type: 2 })}>
+                        Option2
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={() => this.setState({ type: 3 })}>
+                        Option3
+                      </Dropdown.Item>
+                    </DropdownButton>
                     <Button
                       variant='dark'
                       type='submit'
@@ -152,12 +176,11 @@ class AddVis extends Component {
                     </Button>
                   </Form>
                 </Col>
-                <Col md style={{ padding: 50, textAlign: 'center' }}>
-                  {/* <h5 style={{ padding: '5%' }}>
-                    Here is an example JSON object for the filters to be sent
-                  </h5>
-                   */}
-                  <Accordion defaultActiveKey='0'>
+                <Col
+                  md
+                  style={{ width: '100%', padding: 10, textAlign: 'center' }}
+                >
+                  <Accordion defaultActiveKey='0' style={{ width: '100%' }}>
                     <Card>
                       <Card.Header>
                         <Accordion.Toggle
@@ -197,6 +220,29 @@ class AddVis extends Component {
                         </Card.Body>
                       </Accordion.Collapse>
                     </Card>
+                    {this.state.dataFormats.map(obj => (
+                      <Card>
+                        <Card.Header>
+                          <Accordion.Toggle
+                            as={Button}
+                            variant='link'
+                            eventKey={obj[2]}
+                          >
+                            {obj[0]}
+                          </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey={obj[2]}>
+                          <Card.Body>
+                            {' '}
+                            <img
+                              src={obj[1]}
+                              alt='Eg Config'
+                              style={{ width: '100%' }}
+                            />
+                          </Card.Body>
+                        </Accordion.Collapse>
+                      </Card>
+                    ))}
                   </Accordion>
                 </Col>
               </Row>
