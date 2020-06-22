@@ -16,7 +16,8 @@ class DefaultVis extends Component {
     super(props)
     this.state = {
       loaded: false,
-      allVisualisations: [
+      allVisualisations: [],
+      defaultVisualisations: [
         {
           id: 1,
           name: 'Covid',
@@ -46,13 +47,10 @@ class DefaultVis extends Component {
   componentDidMount () {
     this.setState({ loaded: false })
     const isAutheticated = this.props.isAutheticated
-    // TODO : Add API to get visualisations
     if (isAutheticated) {
       axiosInstance
         .get('http://127.0.0.1:8000/api/config/')
         .then(response => {
-          console.log(response.data)
-          //todo : set loaded = true
           this.setState({
             loaded: true,
             allVisualisations: response.data
@@ -68,7 +66,6 @@ class DefaultVis extends Component {
   }
 
   render () {
-    const { isAutheticated } = this.props
     return (
       <div className={styles.body}>
         <NavigationBar />
@@ -81,7 +78,7 @@ class DefaultVis extends Component {
             <h1 style={{ marginBottom: '2%' }}>
               Visualisations for a variety of different datasets
             </h1>
-            {this.state.allvisualisations.length > 0 &&
+            {this.state.allVisualisations.length > 0 &&
             this.state.loaded === true ? (
               <h5>
                 Select one of the visualisations from the options to expand and
@@ -91,16 +88,16 @@ class DefaultVis extends Component {
                 available as checkboxes.
               </h5>
             ) : (
-              <div style={{ margin: '10%' }}>
+              <div>
                 <h5>
-                  Welcome to GeoVis! Time to create your first personalised
-                  project!
+                  Welcome to GeoVis! Here are some default visualisations. Time
+                  to create your first personalised project!
                   <br />
                   Click the add project button and begin!
                 </h5>
               </div>
             )}
-            {isAutheticated === true && (
+            {this.props.isAutheticated === true && (
               <Link
                 to={{
                   pathname: '/addvis'
@@ -114,48 +111,110 @@ class DefaultVis extends Component {
             )}
           </div>
           {this.state.loaded && (
-            <Row>
-              {this.state.allVisualisations.map((visObj, index) => (
-                <Col
-                  xs={8}
-                  md={6}
-                  lg={4}
-                  key={visObj.id}
-                  style={{ padding: '2%' }}
-                >
-                  <Card style={{ height: '100%' }}>
-                    <Card.Header>
-                      <h3
-                        className={styles.visHeading}
-                        name={visObj.name}
-                        open={false}
-                      >
-                        {visObj.name.substring(visObj.name.indexOf('_') + 1)}
-                      </h3>
-                    </Card.Header>
-                    <Card.Img
-                      variant='top'
-                      src={require('../static/assets/map-placeholder.png')}
-                    />
-                    <Card.Body>
-                      <Card.Title>{visObj.heading}</Card.Title>
-                      <Card.Text>{visObj.description}</Card.Text>
-                      <Button variant='dark'>
+            <>
+              <h2>List of all Default Visualisation</h2>
+              <Row>
+                {this.state.defaultVisualisations.map((visObj, index) => (
+                  <Col
+                    xs={8}
+                    md={6}
+                    lg={4}
+                    key={visObj.id}
+                    style={{ padding: '2%' }}
+                  >
+                    <Card style={{ height: '100%' }}>
+                      <Card.Header>
+                        <h3
+                          className={styles.visHeading}
+                          name={visObj.name}
+                          open={false}
+                        >
+                          {visObj.name.substring(visObj.name.indexOf('_') + 1)}
+                        </h3>
+                      </Card.Header>
+                      <Card.Img
+                        variant='top'
+                        src={require('../static/assets/map-placeholder.png')}
+                      />
+                      <Card.Body>
+                        <Card.Title>{visObj.heading}</Card.Title>
+                        <Card.Text>{visObj.description}</Card.Text>
                         <Link
                           to={{
                             pathname: '/viewvis',
                             state: visObj
                           }}
                           className={styles.linkitem}
+                          style={{ marginRight: '10%' }}
                         >
-                          View Now
+                          <Button variant='dark'>View Now</Button>
                         </Link>
-                      </Button>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              ))}
-            </Row>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+              {this.props.isAutheticated === true ? (
+                this.state.allVisualisations.length > 0 ? (
+                  <h2>List of your Projects :</h2>
+                ) : (
+                  <h2>Start creating projects to view them here :</h2>
+                )
+              ) : (
+                <></>
+              )}
+              <Row>
+                {this.state.allVisualisations.map((visObj, index) => (
+                  <Col
+                    xs={8}
+                    md={6}
+                    lg={4}
+                    key={visObj.id}
+                    style={{ padding: '2%' }}
+                  >
+                    <Card style={{ height: '100%' }}>
+                      <Card.Header>
+                        <h3
+                          className={styles.visHeading}
+                          name={visObj.name}
+                          open={false}
+                        >
+                          {visObj.name.substring(visObj.name.indexOf('_') + 1)}
+                        </h3>
+                      </Card.Header>
+                      <Card.Img
+                        variant='top'
+                        src={require('../static/assets/map-placeholder.png')}
+                      />
+                      <Card.Body>
+                        <Card.Title>{visObj.heading}</Card.Title>
+                        <Card.Text>{visObj.description}</Card.Text>
+                        <Link
+                          to={{
+                            pathname: '/viewvis',
+                            state: visObj
+                          }}
+                          className={styles.linkitem}
+                          style={{ marginRight: '10%' }}
+                        >
+                          <Button variant='dark'>View Now</Button>
+                        </Link>
+                        <Link
+                          to={{
+                            pathname: '/updatevis',
+                            state: visObj
+                          }}
+                          className={styles.linkitem}
+                          style={{ Left: '10%' }}
+                        >
+                          <Button variant='dark'>Edit Project</Button>
+                        </Link>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            </>
           )}
         </Container>
         <Footer />
