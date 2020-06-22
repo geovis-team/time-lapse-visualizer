@@ -25,27 +25,27 @@ class AddVis extends Component {
       name: '',
       heading: '',
       description: '',
-      filters: {}
+      filters: {},
+      file: null
     }
   }
 
   componentDidMount () {}
 
   handleSubmit = () => {
-    const data = {
-      name: this.state.name,
-      heading: this.state.heading,
-      description: this.state.description,
-      filters: this.state.filters
-    }
+    const uploadData = new FormData()
+    uploadData.append('name', this.state.name)
+    uploadData.append('heading', this.state.heading)
+    uploadData.append('description', this.state.description)
+    uploadData.append('filters', JSON.parse(this.state.filters))
+    uploadData.append('file', this.state.file, this.state.file.name)
     axiosInstance
-      .post('http://127.0.0.1:8000/api/config/', data)
+      .post('http://127.0.0.1:8000/api/config/', uploadData, {
+        headers: { 'content-type': 'multipart/form-data' }
+      })
       .then(response => {
-        console.log(response.data)
-        //todo : set loaded = true
         this.setState({
-          loaded: true,
-          allvisualisations: response.data
+          loaded: true
         })
       })
       .catch(function (error) {
@@ -128,12 +128,21 @@ class AddVis extends Component {
                         }
                       />
                     </Form.Group>
-                    <Form.File
+                    {/* <Form.File
                       style={{ padding: 30 }}
                       id='custom-file'
-                      label='Select a Local Config File'
+                      label='Select a Local Data File'
                       custom
-                    />
+                      onChange={e => this.setState({ file: e.target.value })}
+                    /> */}
+                    <Form.File id='formcheck-api-regular'>
+                      <Form.File.Label>Regular file input</Form.File.Label>
+                      <Form.File.Input
+                        onChange={e =>
+                          this.setState({ file: e.target.files[0] })
+                        }
+                      />
+                    </Form.File>
                     <Button
                       variant='dark'
                       type='submit'

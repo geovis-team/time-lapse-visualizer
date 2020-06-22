@@ -16,6 +16,7 @@ export const getFilters = (model, successCallback) => {
       })
       .then(res => {
         var flag = 0
+        var sendObj = {}
         for (const el in res.data.secondaryFilters) {
           const obj = {
             name: el,
@@ -28,22 +29,26 @@ export const getFilters = (model, successCallback) => {
           } else obj['status'] = false
           arr.push(obj)
         }
+        sendObj['arr'] = arr
+        sendObj['earliestTime'] = res.data.earliestTime
+        sendObj['latestTime'] = res.data.latestTime
+
         dispatch({
           type: 'INITIALISE_MAP_FILTERS',
           payload: {
             loading: false,
-            data: arr,
+            data: sendObj,
             error: false
           }
         })
-        successCallback(arr)
+        successCallback(sendObj)
       })
       .catch(err => {
         dispatch({
           type: 'INITIALISE_MAP_FILTERS',
           payload: {
             loading: false,
-            data: [],
+            data: {},
             error: true
           }
         })

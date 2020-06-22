@@ -19,16 +19,18 @@ from django.contrib.auth.models import User
 
 class ConfigViewSet(viewsets.ModelViewSet):
 
-  queryset = Config.objects.all()
-  serializer_class = ConfigSerializer
-  permission_classes = [permissions.IsAuthenticated,IsOwner]
+    queryset = Config.objects.all()
+    serializer_class = ConfigSerializer
+    permission_classes = [permissions.IsAuthenticated, IsOwner]
 
-  def perform_create(self, serializer):
-    name = self.request.user.username+"_"+self.request.data['name']
-    serializer.save(user=self.request.user, name=name)
-  
-  def get_queryset(self):
-    user = self.request.user
-    queryset = Config.objects.filter(user=user)
-    return queryset
-    
+    def perform_create(self, serializer):
+        print("where is the fileeeeeeee ", self.request.data)
+        print("where is the fileeeeeeee ", self.request.data["file"])
+        name = self.request.user.username + "_" + self.request.data["name"]
+        serializer.save(user=self.request.user, name=name)
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Config.objects.filter(user=user)
+        return queryset
+

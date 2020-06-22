@@ -7,8 +7,6 @@ export const getMapData = (model, filters, successCallback) => {
       payload: true
     })
 
-    console.log('You are in model: ', model)
-    console.log('With filters: ', filters)
     var qs = require('qs')
     var assert = require('assert')
     axios
@@ -23,7 +21,6 @@ export const getMapData = (model, filters, successCallback) => {
         }
       })
       .then(res => {
-        console.log('from action : ', res.data)
         dispatch({
           type: 'MAP_DATA_LOADED',
           payload: {
