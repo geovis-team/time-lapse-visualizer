@@ -46,7 +46,7 @@ class AddVis extends Component {
     uploadData.append('heading', this.state.heading)
     uploadData.append('description', this.state.description)
     uploadData.append('type', this.state.type)
-    uploadData.append('filters', JSON.parse(this.state.filters))
+    uploadData.append('filters', JSON.stringify(JSON.parse(this.state.filters)))
     uploadData.append('file', this.state.file, this.state.file.name)
     axiosInstance
       .post('http://127.0.0.1:8000/api/config/', uploadData, {

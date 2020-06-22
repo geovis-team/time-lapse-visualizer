@@ -9,12 +9,14 @@ class Config(Model):
     This class has a user config model.
     """
 
-    name = models.CharField(max_length=30, primary_key=True)
+    name = models.CharField(max_length=30)
     heading = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
     filters = JSONField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ('name', 'user')
     def save(self, *args, **kwargs):
         super(Config, self).save(*args, **kwargs)
 
