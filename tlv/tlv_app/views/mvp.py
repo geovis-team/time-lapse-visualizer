@@ -3,7 +3,7 @@ from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK, HTTP_404_NO
 from rest_framework.decorators import api_view
 from django.apps import apps
 
-from .constants import CLASSES, FILTERS, SECONDARY_FILTERS, APP_NAME, PRIMARY_FILTERS, Lat, Lng, Time, Category, Entity
+from tlv_app.constants import CLASSES, FILTERS, SECONDARY_FILTERS, APP_NAME, PRIMARY_FILTERS, Lat, Lng, Time, Category, Entity
 
 from django_mysql.models import GroupConcat
 
