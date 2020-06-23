@@ -7,8 +7,8 @@ from tlv_app.constants import CLASSES, FILTERS, SECONDARY_FILTERS, APP_NAME, PRI
 
 from django_mysql.models import GroupConcat
 
-from django.db.models import Q, Value as V, Min, Max
-from django.db.models.functions import Concat
+from django.db.models import Q, Value as V, Min, Max, F
+from django.db.models.functions import Concat, TruncMonth
 
 
 @api_view(['GET'])
@@ -90,9 +90,6 @@ def filter_data(request, *args, **kwargs):
 
     # Get Earliest and Latest timestamp in dataset (to be used as range for slider)   
     mdate = data.aggregate(earliestTime = Min(Time), latestTime = Max(Time))
-    
-    concat1 = Concat( V('"'),Category,V('":'),Entity)
-    concat2 = Concat( V('{'),GroupConcat('concatenated_filters'), V('}'))
 
     # list(): Converts queryset of dictionaries into list of dictionaries
     # annotate(): Creates an attribute for each object based on existing attributes (Here, attribute created is
@@ -100,16 +97,23 @@ def filter_data(request, *args, **kwargs):
     # values().annotate(): Groups objects by attributes inside values() (Here: Lat, Lng, Time),
     # annotates each of these groups, and returns a Queryset of dictionaries
     data = list(data.annotate(
-            concatenated_filters=concat1
-            ).values(
-                Lat,Lng,Time
-                ).annotate(
-                    filter= concat2
-                    ))
-
+            date = TruncMonth(Time)
+            ).annotate(
+                concatenated_filters = Concat( V('"'),Category,V('":'),Entity)
+                ).values(
+                    Lat,Lng,'date'
+                    ).annotate(
+                        filter = Concat( V('{'),GroupConcat('concatenated_filters'), V('}'))
+                        ))
+    print(data)
     # Traverses through list of dictionaries and fixes the datatype of values in each dictionary
     for item in data:
         for key in item:
+            if key == "date":
+                # Changes key name 'date' to Time(='time')
+                item[Time] = item['date']
+                item.pop('date')
+                key = Time
             if key == "filter":
                 # Evaluates a string in JSON format (corresponding to "filter" key) as a dictionary
                 item[key] = eval(item[key]) 
