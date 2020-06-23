@@ -22,6 +22,27 @@ class UtilConvertSchemaTestCase(TestCase):
             password="pass"
         )
 
+    def test_default(self):
+        """
+        This method tests for the default type that is
+        the data is already in the format needed
+        :return:
+        """
+        user = User.objects.get(username="user")
+        Config.objects.create(
+            name=f"Covid_default",
+            heading="covid",
+            description="covid",
+            user=user,
+            filters=json.dumps(SECONDARY_FILTERS[0])
+        )
+        config = Config.objects.get(user=user, name="Config_default")
+        file_path = "tlv_app/data/covid.json"
+        file = open(file_path, 'r')
+        convert_schema(config, file, DB_FORMAT_TYPES['TYPE_ZERO'])
+        count = len(json.load(file))
+        assert count == len(Data.objects.filter())
+
     def test_type_one(self):
         """
         This method tests for the conversion of type one.
