@@ -5,7 +5,6 @@ from django.core.exceptions import ValidationError
 from tlv_app.constants import Lat, Lng, Time, Category, Entity, PRIMARY_FILTERS, \
     SECONDARY_FILTERS, FILTERS, DB_FORMAT_TYPES
 
-
 def convert_schema(config, data_file, type):
     """
     This method converts the user data to the required format
@@ -282,3 +281,40 @@ def data_type_three(file_path):
     with open(file_path, "w") as f:
         f.write(json_data)
     return data
+
+def multidict(pairs,mode=False):
+    """
+    This method aggregates the values corresponding to duplicate
+    keys into a list and creates a dictionary with the obtained 
+    (key,list) pair
+    :param pairs: A list of (key,value) tuples
+    :param mode: Boolean (False by default when called via
+    json.load method)
+    :return: a dictionary containing a list of one or more values
+    corresponding to each key
+    """
+    toret = {}
+    for key, value in pairs:
+        if type(value) != dict and not mode:
+            toret[key] = value
+        else:
+            toret.setdefault(key, []).append(value)
+    return toret
+
+def aggregator(dicts):
+    """
+    This method converts a list of dictionaries into a single 
+    dictionary by aggregating values belonging to duplicate keys:
+    Numeric values are summed up and String values are concatenated
+    :param dicts: A list of dictionaries
+    :return: A single dictionary
+    """
+    counter = Counter()
+    strings = []
+    for d in dicts:
+        numerical = {k: int(v) for k,v in d.items() if str(v).isnumeric()} # Dict with Numerical values
+        nonNumerical = {k: str(v) for k,v in d.items() if not str(v).isnumeric()} # Dict with Non-numerical values
+        counter.update(numerical)
+        strings.extend([(k,v) for k,v in nonNumerical.items()])
+    strings = {k: '; '.join(v) for k,v in multidict(strings,True).items()}
+    return {**counter, **strings}
