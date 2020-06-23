@@ -2,7 +2,8 @@ from collections import Counter
 import json, random
 from tlv_app.models import Data
 from django.core.exceptions import ValidationError
-from tlv_app.constants import Lat, Lng, Time, Category, Entity, PRIMARY_FILTERS, SECONDARY_FILTERS, FILTERS
+from tlv_app.constants import Lat, Lng, Time, Category, Entity, PRIMARY_FILTERS, \
+    SECONDARY_FILTERS, FILTERS, DB_FORMAT_TYPES
 
 
 def convert_schema(config, data_file, type):
@@ -22,15 +23,32 @@ def convert_schema(config, data_file, type):
     if len(data) is 0:
         return
 
-    # type = int(type)
     for row in data:
         keys = list(row.keys())
         values = list(row.values())
         latitude = values[0]
         longitude = values[1]
-        time = values[2]
+        #get the date if datetime is given
+        time = values[2].split(' ')[0]
 
-        if type == '1':
+        if type == DB_FORMAT_TYPES['TYPE_ZERO']:
+            """
+            type 0 refers to the default type i.e.,
+            data is in the same format as out DB Schema
+            """
+            try:
+                Data.objects.create(
+                    latitude=latitude,
+                    longitude=longitude,
+                    time=time,
+                    category=values[3],
+                    entity=values[4],
+                    name=config
+                )
+            except ValidationError:
+                pass
+
+        if type == DB_FORMAT_TYPES['TYPE_ONE']:
             """
             if type is 1 the given data format is:
             data = [
@@ -91,7 +109,7 @@ def convert_schema(config, data_file, type):
                     pass
 
 
-        elif type == '2':
+        elif type == DB_FORMAT_TYPES['TYPE_TWO']:
             """
             if type is 2 the given data format is:
             data = [
@@ -130,7 +148,7 @@ def convert_schema(config, data_file, type):
             except ValidationError:
                 pass
 
-        elif type == '3':
+        elif type == DB_FORMAT_TYPES['TYPE_THREE']:
             """
             the data format for type 3 is :
             data = [
