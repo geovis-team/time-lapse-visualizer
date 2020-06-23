@@ -6,13 +6,12 @@ import {
   Card,
   Row,
   Col,
-  Accordion,
-  DropdownButton,
-  Dropdown
+  Accordion
 } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
+import { Dropdown } from 'semantic-ui-react'
 
 import styles from '../static/css/DefaultVisPage.module.css'
 import NavigationBar from './NavigationBar'
@@ -29,11 +28,18 @@ class AddVis extends Component {
       description: '',
       filters: {},
       file: null,
-      type: 1,
+      type: 0,
+      types: [
+        { text: 'Default', value: 0 },
+        { text: 'Option1', value: 1 },
+        { text: 'Option2', value: 2 },
+        { text: 'Option3', value: 3 }
+      ],
       dataFormats: [
-        ['Option1', require('../static/assets/type1.jpeg'), 3],
-        ['Option2', require('../static/assets/type2.jpeg'), 4],
-        ['Option3', require('../static/assets/type3.jpeg'), 5]
+        ['Default', require('../static/assets/type1.jpeg'), 3],
+        ['Option1', require('../static/assets/type1.jpeg'), 4],
+        ['Option2', require('../static/assets/type2.jpeg'), 5],
+        ['Option3', require('../static/assets/type3.jpeg'), 6]
       ]
     }
   }
@@ -64,7 +70,6 @@ class AddVis extends Component {
 
   render () {
     const { isAutheticated } = this.props
-    console.log(this.state.type)
     return (
       <div className={styles.body}>
         <NavigationBar />
@@ -151,25 +156,20 @@ class AddVis extends Component {
                         }
                       />
                     </Form.File>
-                    <DropdownButton
-                      id='dropdown-basic-button'
-                      title='Data Format Type'
-                      variant='secondary'
-                      style={{ marginBottom: '10%' }}
-                    >
-                      <Dropdown.Item onClick={() => this.setState({ type: 1 })}>
-                        Option1
-                      </Dropdown.Item>
-                      <Dropdown.Item onClick={() => this.setState({ type: 2 })}>
-                        Option2
-                      </Dropdown.Item>
-                      <Dropdown.Item onClick={() => this.setState({ type: 3 })}>
-                        Option3
-                      </Dropdown.Item>
-                    </DropdownButton>
+                    <h6>Select Data structure type</h6>
+                    <Dropdown
+                      style={{ marginRight: '2%' }}
+                      placeholder='Type'
+                      search
+                      selection
+                      options={this.state.types}
+                      onChange={(e, data) =>
+                        this.setState({ type: data.value })
+                      }
+                    />
                     <Button
-                      variant='dark'
                       type='submit'
+                      variant='dark'
                       onClick={this.handleSubmit}
                     >
                       Submit
