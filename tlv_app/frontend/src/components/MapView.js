@@ -21,7 +21,7 @@ const MarkerCluster = props => {
         })
         google.maps.event.addListener(entry, 'click', function (evt) {
           var content = ''
-          // TODO : Can change content formatting and styling if required
+          //Can change content formatting and styling if required
           for (var primary in marker.props.markerParams.obj) {
             content += '<h5>' + primary + '</h5>'
             content +=

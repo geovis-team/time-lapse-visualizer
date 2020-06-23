@@ -1,6 +1,13 @@
 import axios from 'axios'
+import axiosInstance from './utility'
 
-export const getFilters = (model, successCallback) => {
+export const getFilters = (model, isDefault, successCallback) => {
+  var useAxios
+  if (isDefault) {
+    useAxios = axios.create()
+  } else {
+    useAxios = axiosInstance
+  }
   return dispatch => {
     dispatch({
       type: 'SET_MAP_FILTERS_LOADING',
@@ -8,10 +15,11 @@ export const getFilters = (model, successCallback) => {
     })
 
     const arr = []
-    axios
+    useAxios
       .get('http://127.0.0.1:8000/api/visualization/get_filters/', {
         params: {
-          model: model
+          model: model,
+          isDefault: isDefault
         }
       })
       .then(res => {

@@ -15,7 +15,7 @@ class UpdateVis extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      name: props.location.state.name,
+      id: props.location.state.id,
       heading: '',
       description: '',
       filters: {}
@@ -24,7 +24,7 @@ class UpdateVis extends Component {
 
   componentDidMount () {
     axiosInstance
-      .get('http://127.0.0.1:8000/api/config/' + this.state.name)
+      .get('http://127.0.0.1:8000/api/config/' + this.state.id)
       .then(response => {
         this.setState({
           heading: response.data.heading,
@@ -44,7 +44,7 @@ class UpdateVis extends Component {
       filters: this.state.filters
     }
     axiosInstance
-      .patch('http://127.0.0.1:8000/api/config/' + this.state.name + '/', data)
+      .patch('http://127.0.0.1:8000/api/config/' + this.state.id + '/', data)
       .then(response => {
         console.log(response.data)
         this.props.history.push('/defaultvis')
