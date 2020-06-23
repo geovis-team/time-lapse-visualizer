@@ -72,7 +72,7 @@ def filter_data(request, *args, **kwargs):
     model_name = request.GET.get('model', None)
     isDefault = True if request.GET.get('isDefault') == "true" else False
     user = request.user
-    
+    print(request.GET.get('isDefault'))
     if model_name is None:
         return Response(
             status=HTTP_400_BAD_REQUEST,

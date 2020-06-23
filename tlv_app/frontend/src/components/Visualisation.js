@@ -34,7 +34,8 @@ class Visualisation extends Component {
       value: props.vis.value,
       curr: 1,
       loaded: false,
-      checkcount: 1
+      checkcount: 1,
+      isDefault: props.vis.isDefault
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleCheck = this.handleCheck.bind(this)
@@ -63,6 +64,7 @@ class Visualisation extends Component {
     this.props.getMapData(
       this.state.model,
       this.state.filters[0].name,
+      this.state.isDefault,
       this.getDataSuccessCallBack
     )
   }
@@ -114,7 +116,12 @@ class Visualisation extends Component {
       temp[0].status = true
     }
     this.setState({ loaded: false })
-    this.props.getMapData(this.state.model, send, this.getDataSuccessCallBack)
+    this.props.getMapData(
+      this.state.model,
+      send,
+      this.state.isDefault,
+      this.getDataSuccessCallBack
+    )
     this.setState({
       filters: temp,
       curr: 1
@@ -150,6 +157,7 @@ class Visualisation extends Component {
     })
   }
   render () {
+    console.log('this.state ', this.state.isDefault)
     return (
       <Card.Body>
         <Card.Title>{this.state.title}</Card.Title>
