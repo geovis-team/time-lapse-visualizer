@@ -58,6 +58,13 @@ FILTERS = [
     }
 ]
 
+DB_FORMAT_TYPES = {
+    'TYPE_ZERO': '0',
+    'TYPE_ONE': '1',
+    'TYPE_TWO': '2',
+    'TYPE_THREE': '3'
+}
+
 Lat = 'latitude'
 Lng = 'longitude'
 Time = 'time'

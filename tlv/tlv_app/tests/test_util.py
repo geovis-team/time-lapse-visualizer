@@ -6,7 +6,8 @@ from django.contrib.auth.models import User
 
 from tlv_app.utils import convert_schema, data_type_one, data_type_two, data_type_three
 from tlv_app.models import Config, Data
-from tlv_app.constants import FILTERS, PRIMARY_FILTERS, SECONDARY_FILTERS, Lat, Lng, Time, Category, Entity
+from tlv_app.constants import FILTERS, PRIMARY_FILTERS, SECONDARY_FILTERS, Lat, Lng, \
+    Time, Category, Entity, DB_FORMAT_TYPES
 
 
 class UtilConvertSchemaTestCase(TestCase):
@@ -37,7 +38,7 @@ class UtilConvertSchemaTestCase(TestCase):
         config = Config.objects.get(name="Covid1")
         data = data_type_one(file_path)
         file = open(file_path, "r")
-        convert_schema(config, file, '1')
+        convert_schema(config, file, DB_FORMAT_TYPES['TYPE_ONE'])
         added = {
             "latitude": [],
             "longitude": [],
@@ -79,7 +80,7 @@ class UtilConvertSchemaTestCase(TestCase):
         config = Config.objects.get(name="GApps")
         data = data_type_two(file_path)
         file = open(file_path, "r")
-        convert_schema(config, file, '2')
+        convert_schema(config, file, DB_FORMAT_TYPES['TYPE_TWO'])
         assert len(data) == len(Data.objects.filter(name=config))
 
     def test_convert_type_three(self):
@@ -98,7 +99,7 @@ class UtilConvertSchemaTestCase(TestCase):
         config = Config.objects.get(name="Covid3")
         data = data_type_three(file_path)
         file = open(file_path, "r")
-        convert_schema(config, file, '3')
+        convert_schema(config, file, DB_FORMAT_TYPES['TYPE_THREE'])
         count = 0
         for row in data:
             filters = json.loads(config.filters)
