@@ -12,7 +12,7 @@ class JSONSerializerField(serializers.Field):
         return value
 
 
-class ConfigSerializer(serializers.Serializer):
+class ConfigSerializer(serializers.HyperlinkedModelSerializer):
     name = serializers.CharField(required=True, allow_blank=False, max_length=30)
     heading = serializers.CharField(required=True, allow_blank=False, max_length=100)
     description = serializers.CharField(
@@ -35,5 +35,5 @@ class ConfigSerializer(serializers.Serializer):
 
     class Meta:
         model = Config
-        fields = ("name", "heading", "description", "filters", "user")
+        fields = ("id","name", "heading", "description", "filters", "user")
 
