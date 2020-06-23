@@ -27,7 +27,7 @@ class App extends Component {
             <Route exact path='/' component={Landing} />
             <Route path='/log-sign-in' component={Login} />
             <Route path='/defaultvis' component={DefaultVis} />
-            <Route path='/viewvis' component={ViewVis} />
+            <Route path='/viewvis/:id' component={ViewVis} exact />
             <Route path='/addvis' component={AddVis} />
             <Route path='/updatevis' component={UpdateVis} />
           </Switch>

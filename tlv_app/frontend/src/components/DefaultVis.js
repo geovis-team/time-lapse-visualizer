@@ -141,7 +141,7 @@ class DefaultVis extends Component {
                         <Card.Text>{visObj.description}</Card.Text>
                         <Link
                           to={{
-                            pathname: '/viewvis',
+                            pathname: '/viewvis/' + visObj.name,
                             state: visObj
                           }}
                           className={styles.linkitem}
@@ -191,7 +191,7 @@ class DefaultVis extends Component {
                         <Card.Text>{visObj.description}</Card.Text>
                         <Link
                           to={{
-                            pathname: '/viewvis',
+                            pathname: '/viewvis/' + visObj.id,
                             state: visObj
                           }}
                           className={styles.linkitem}
