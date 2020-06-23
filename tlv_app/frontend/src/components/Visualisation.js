@@ -15,6 +15,10 @@ import { getMapData } from '../actions/getMapData'
 import styles from '../static/css/DefaultVisPage.module.css'
 import mapviewstyles from '../static/css/Visualisation.module.css'
 import MapView from './MapView'
+import HeatmapView from './HeatmapView'
+
+
+const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 class Visualisation extends Component {
   constructor (props) {
@@ -159,6 +163,16 @@ class Visualisation extends Component {
       subfilters: tempsub
     })
   }
+  getFormattedDate()
+  {
+    var string = this.state.times[this.state.curr-1]
+    var Year = string.slice(0,4)
+    var Month = monthNames[parseInt(string.slice(5))-1]
+
+    return (
+      Month + " " + Year
+    )
+  }
   render () {
     return (
       <Card.Body>
@@ -167,12 +181,14 @@ class Visualisation extends Component {
           <Row style={mapstyles}>
             <Col md={9} xs={12} lg={10}>
               {this.state.loaded && (
+              <Row>
                 <MapView
                   map={{
                     data: this.state.toSend,
                     time: this.state.value
                   }}
                 />
+              </Row>
               )}
               {!this.state.loaded && (
                 <div className={mapviewstyles.maploader}>
@@ -216,20 +232,23 @@ class Visualisation extends Component {
             </Col>
           </Row>
           <Row>
-            <div className={mapviewstyles.slidecontainer}>
-              <input
-                type='range'
-                min='1'
-                max={this.state.maxval}
-                value={this.state.curr}
-                className={mapviewstyles.slider}
-                id={mapviewstyles.myRange}
-                onChange={this.handleChange}
-              />
-              <p id='output'>
-                <h4>{this.state.times[this.state.curr - 1]}</h4>
-              </p>
-            </div>
+            <Col md={9} xs={12} lg={10} style={{padding: '0'}}>
+              <div className={mapviewstyles.slidecontainer}>
+                <input
+                  type='range'
+                  min='1'
+                  max={this.state.maxval}
+                  value={this.state.curr}
+                  className={mapviewstyles.slider}
+                  id={mapviewstyles.myRange}
+                  onChange={this.handleChange}
+                />
+                <p id='output'>
+                  {/* <h4>{this.state.times[this.state.curr - 1]}</h4> */}
+                  <h4>{this.getFormattedDate()}</h4>
+                </p>
+              </div>
+              </Col>
           </Row>
         </Container>
       </Card.Body>
@@ -239,7 +258,8 @@ class Visualisation extends Component {
 
 const mapstyles = {
   height: '500px',
-  marginBottom: '3%'
+  marginBottom: '3%',
+  position: 'static'
 }
 const checkstyles = {
   paddingLeft: '2%'

@@ -4,8 +4,10 @@
 }
 
 .slidecontainer {
-  width: 70%;
-  padding: 10px;
+  width: 100%;
+  padding: 10px 0px 10px 0px;
+  /* position: relative;
+  top: 500px; */
 }
 
 .slider {
