@@ -21,13 +21,22 @@ const MarkerCluster = props => {
         })
         google.maps.event.addListener(entry, 'click', function (evt) {
           var content = ''
-          //Can change content formatting and styling if required
-          for (var primary in marker.props.markerParams.obj) {
+          let fil = marker.props.markerParams.obj
+          for (var primary in fil) {
             content += '<h5>' + primary + '</h5>'
-            content +=
-              '<p>' +
-              JSON.stringify(marker.props.markerParams.obj[primary]) +
-              '</p>'
+            content += '<style>'
+            content += 'body { background-color: #f0f8ff; }'           
+            content += 'table,tr { border: 1px black solid; }'
+            content += 'tr { background-color: #f0f8ff; }'
+            content += 'tr:hover { background-color: transparent}'
+            content += '</style>'
+            content += '<table style="width:100px" >'
+              for( var prop in fil[primary])
+              {
+                var name = prop[0].toUpperCase() + prop.slice(1)
+                content += '<tr><td>' + name + '</td><td>' + JSON.stringify(fil[primary][prop]) + '</td></tr>'
+              }
+            content += '</table>'
             content += '<br /><br />'
           }
           infoWin.setContent(content)
@@ -106,6 +115,7 @@ class MapView extends Component {
   placeMarkers = () => {
     const data = this.state.data.data
     const month = this.state.time
+    console.log(data)
     const markers = data
       .filter(rows => rows.time.slice(0, 7) === month.slice(0, 7))
       .map((mydata, index) => {
@@ -136,7 +146,7 @@ class MapView extends Component {
   render () {
     return (
       <>
-        <div>
+        <div >
           <Map
             google={this.props.google}
             zoom={3}
