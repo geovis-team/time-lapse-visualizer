@@ -2,14 +2,13 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK, HTTP_404_NOT_FOUND
 from rest_framework.decorators import api_view
 from django.apps import apps
-
-from tlv_app.constants import CLASSES, FILTERS, SECONDARY_FILTERS, APP_NAME, PRIMARY_FILTERS, Lat, Lng, Time, Category, Entity
-
 from django_mysql.models import GroupConcat
-
 from django.db.models import Q, Value as V, Min, Max, F
 from django.db.models.functions import Concat, TruncMonth
+import json
 
+from tlv_app.constants import CLASSES, FILTERS, SECONDARY_FILTERS, APP_NAME, PRIMARY_FILTERS, Lat, Lng, Time, Category, Entity
+from tlv_app.utils import multidict, aggregator
 
 @api_view(['GET'])
 def get_filters(request, *args, **kwargs):
@@ -92,12 +91,12 @@ def filter_data(request, *args, **kwargs):
     mdate = data.aggregate(earliestTime = Min(Time), latestTime = Max(Time))
 
     # list(): Converts queryset of dictionaries into list of dictionaries
-    # annotate(): Creates an attribute for each object based on existing attributes (Here, attribute created is
-    # "concatenated_filters")
-    # values().annotate(): Groups objects by attributes inside values() (Here: Lat, Lng, Time),
+    # annotate(): Creates an attribute for each object based on existing attributes (Here, attributes 
+    # created are "date" and "concatenated_filters")
+    # values().annotate(): Groups objects by attributes inside values() (Here: Lat, Lng, 'date'),
     # annotates each of these groups, and returns a Queryset of dictionaries
     data = list(data.annotate(
-            date = TruncMonth(Time)
+            date = TruncMonth(Time)    # Truncates value of dateField() to Month level
             ).annotate(
                 concatenated_filters = Concat( V('"'),Category,V('":'),Entity)
                 ).values(
@@ -105,7 +104,7 @@ def filter_data(request, *args, **kwargs):
                     ).annotate(
                         filter = Concat( V('{'),GroupConcat('concatenated_filters'), V('}'))
                         ))
-    print(data)
+
     # Traverses through list of dictionaries and fixes the datatype of values in each dictionary
     for item in data:
         for key in item:
@@ -115,16 +114,15 @@ def filter_data(request, *args, **kwargs):
                 item.pop('date')
                 key = Time
             if key == "filter":
-                # Evaluates a string in JSON format (corresponding to "filter" key) as a dictionary
-                item[key] = eval(item[key]) 
+                # Converts a string in JSON format to JSON/python dictionary after aggregating 
+                # values of duplicate keys
+                item[key] = json.loads(item[key], object_pairs_hook=multidict)
+                for k,v in item[key].items():
+                    item[key][k] = aggregator(v)
             else:
-                # Converts values in different data types (Latitude and Longitude in Decimal() type, 
-                # time in datetime.date() type) into String type
+                # Converts values in different data types (Latitude and Longitude in Decimal() 
+                # type, time in datetime.date() type) into String type
                 item[key] = str(item[key]) 
-
-    # Converts datetime.date() values into str()
-    for k in mdate:
-        mdate[k] = str(mdate[k])
 
     return Response(
         status=HTTP_200_OK,
