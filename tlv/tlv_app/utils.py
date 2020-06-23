@@ -41,7 +41,7 @@ def convert_schema(config, data_file, type):
                     longitude=longitude,
                     time=time,
                     category=values[3],
-                    entity=values[4],
+                    entity=json.loads(values[4]),
                     name=config
                 )
             except ValidationError:
@@ -83,12 +83,12 @@ def convert_schema(config, data_file, type):
                                          time=time,
                                          category=category,
                                          name=config)
-                entity = json.loads(entry.entity)
+                entity = entry.entity
                 if entity.get(values[4], None) is not None:
                     entity[values[4]] += 1
                 else:
                     entity[values[4]] = 1
-                entry.entity = json.dumps(entity)
+                entry.entity = entity
                 entry.save()
             except Data.DoesNotExist:
                 # if not then just makes a suitable new entry
@@ -101,7 +101,7 @@ def convert_schema(config, data_file, type):
                         longitude=longitude,
                         time=time,
                         category=category,
-                        entity=json.dumps(entity),
+                        entity=entity,
                         name=config
                     )
                 except ValidationError:
@@ -141,7 +141,7 @@ def convert_schema(config, data_file, type):
                     longitude=longitude,
                     time=time,
                     category=category,
-                    entity=json.dumps(entity),
+                    entity=entity,
                     name=config
                 )
             except ValidationError:
@@ -193,7 +193,7 @@ def convert_schema(config, data_file, type):
                             longitude=longitude,
                             time=time,
                             category=category,
-                            entity=json.dumps(entity),
+                            entity=entity,
                             name=config
                         )
                     except ValidationError:
