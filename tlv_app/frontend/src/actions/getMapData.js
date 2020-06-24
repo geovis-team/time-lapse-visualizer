@@ -7,7 +7,6 @@ export const getMapData = (model, filters, isDefault, successCallback) => {
     useAxios = axios.create()
   } else {
     useAxios = axiosInstance
-    console.log('in custom axios map data')
   }
   return dispatch => {
     dispatch({

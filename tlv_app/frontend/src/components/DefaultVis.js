@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import axios from 'axios'
+import { toast } from 'react-semantic-toasts'
 
 import styles from '../static/css/DefaultVisPage.module.css'
 import NavigationBar from './NavigationBar'
@@ -42,6 +43,37 @@ class DefaultVis extends Component {
       ],
       data: mapdata,
       filters: []
+    }
+    this.handleDelete = this.handleDelete.bind(this)
+  }
+
+  handleDelete (id) {
+    const isAutheticated = this.props.isAutheticated
+    this.setState({ loaded: false })
+    if (isAutheticated) {
+      axiosInstance
+        .delete('http://127.0.0.1:8000/api/config/' + id + '/')
+        .then(response => {
+          this.setState({
+            loaded: false
+          })
+          console.log(response)
+          window.location.reload()
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    } else {
+      this.setState({
+        loaded: true
+      })
+      toast({
+        type: 'error',
+        title: 'Error',
+        description: 'Unauthorized to delete this project',
+        icon: 'frown',
+        time: 4000
+      })
     }
   }
 
@@ -129,9 +161,20 @@ class DefaultVis extends Component {
                           className={styles.visHeading}
                           name={visObj.name}
                           open={false}
+                          style={{ float: 'left' }}
                         >
                           {visObj.name.substring(visObj.name.indexOf('_') + 1)}
                         </h3>
+                        <Link
+                          to={{
+                            pathname: '/viewvis/' + visObj.name,
+                            state: visObj
+                          }}
+                          className={styles.linkitem}
+                          style={{ marginRight: '5%', float: 'right' }}
+                        >
+                          <Button variant='dark'>View Now</Button>
+                        </Link>
                       </Card.Header>
                       <Card.Img
                         variant='top'
@@ -140,16 +183,6 @@ class DefaultVis extends Component {
                       <Card.Body>
                         <Card.Title>{visObj.heading}</Card.Title>
                         <Card.Text>{visObj.description}</Card.Text>
-                        <Link
-                          to={{
-                            pathname: '/viewvis/' + visObj.name,
-                            state: visObj
-                          }}
-                          className={styles.linkitem}
-                          style={{ marginRight: '10%' }}
-                        >
-                          <Button variant='dark'>View Now</Button>
-                        </Link>
                       </Card.Body>
                     </Card>
                   </Col>
@@ -177,11 +210,22 @@ class DefaultVis extends Component {
                       <Card.Header>
                         <h3
                           className={styles.visHeading}
+                          style={{ float: 'left' }}
                           name={visObj.name}
                           open={false}
                         >
                           {visObj.name.substring(visObj.name.indexOf('_') + 1)}
                         </h3>
+                        <Link
+                          to={{
+                            pathname: '/viewvis/' + visObj.id,
+                            state: visObj
+                          }}
+                          className={styles.linkitem}
+                          style={{ marginRight: '5%', float: 'right' }}
+                        >
+                          <Button variant='dark'>View Now</Button>
+                        </Link>
                       </Card.Header>
                       <Card.Img
                         variant='top'
@@ -193,28 +237,25 @@ class DefaultVis extends Component {
                         <div className={styles.visualizationOperations}>
                           <Link
                             to={{
-                              pathname: '/viewvis/' + visObj.id,
-                              state: visObj
-                            }}
-                            className={styles.linkitem}
-                            style={{ marginRight: '10%' }}
-                          >
-                            <Button variant='dark'>View Now</Button>
-                          </Link>
-                          <Link
-                            to={{
                               pathname: '/updatevis',
                               state: visObj
                             }}
                             className={styles.linkitem}
-                            style={{ Left: '10%' }}
                           >
-                            <Button variant='dark'>Edit Project</Button>
+                            <Button variant='outline-secondary'>
+                              Edit Project
+                            </Button>
                           </Link>
                           <AddData
                             projectName={visObj.name}
                             styleName='addData'
                           />
+                          <Button
+                            variant='outline-secondary'
+                            onClick={() => this.handleDelete(visObj.id)}
+                          >
+                            Delete Project
+                          </Button>
                         </div>
                       </Card.Body>
                     </Card>
