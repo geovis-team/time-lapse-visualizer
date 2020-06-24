@@ -30,3 +30,7 @@ export const filterDataUrl = () => {
 export const revokeTokenUrl = () => {
   return `${baseApiUrl()}revoke_token/`
 }
+
+export const addDataUrl = () => {
+  return `${baseApiUrl()}add_data/`
+}

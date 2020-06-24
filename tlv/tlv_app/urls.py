@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from .views import get_filters, filter_data, register, current_user, revoke_token, ConfigViewSet
+from tlv_app.views import get_filters, filter_data, register, current_user, revoke_token, ConfigViewSet, add_data
 from django.urls import path, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from .configUrls import config_list, config_detail
@@ -30,10 +30,6 @@ urlpatterns = [
     path('register/', register, name="register"),
     path('current_user/', current_user, name="current user"),
     path('revoke_token/', revoke_token, name="revoke token"),
-    # path('config_list/', config_list, name="config list")
-    # path('config/', config_list, name="config-list"),
-    # path('config/<int:pk>', config_detail, name="config-detail"),
+    path('add_data/', add_data, name="add data"),
     path('', include(router.urls)),
 ]
-
-# urlpatterns = format_suffix_patterns(urlpatterns)
