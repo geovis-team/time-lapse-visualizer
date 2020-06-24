@@ -103,8 +103,11 @@ class Visualisation extends Component {
       } else {
         c = this.state.checkcount - 1
         // Ensuring first filter is always checked
-        if (c === 0) temp[0].status = true
         temp[num].status = false
+        if (c === 0) {
+          temp[0].status = true
+          c = 1
+        }
       }
       temp.map(fil => {
         if (fil.status) send.push(fil.name)
@@ -115,7 +118,7 @@ class Visualisation extends Component {
       }
       temp[0].status = true
     }
-    this.setState({ loaded: false })
+    this.setState({ loaded: false, checkcount: c })
     this.props.getMapData(
       this.state.model,
       send,
@@ -124,7 +127,8 @@ class Visualisation extends Component {
     )
     this.setState({
       filters: temp,
-      curr: 1
+      curr: 1,
+      value: this.props.vis.value
     })
   }
   handleCheckSub = (sub, event) => {
@@ -136,7 +140,6 @@ class Visualisation extends Component {
     }
 
     var tempdata = JSON.parse(JSON.stringify(this.state.data))
-    // //TODO : double check complexity
     this.state.data.data.map((obj, index) => {
       var o = {}
       for (var primary in obj.filter) {
