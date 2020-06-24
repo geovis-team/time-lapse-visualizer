@@ -107,7 +107,7 @@ class AddData extends Component {
     const { projectName } = this.props
     return (
       <div>
-        <Button variant='dark' onClick={this.handleOpen}>
+        <Button variant='outline-secondary' onClick={this.handleOpen}>
           Add Data
         </Button>
         {openModal === true ? (

@@ -157,7 +157,6 @@ class Visualisation extends Component {
     })
   }
   render () {
-    console.log('this.state ', this.state.isDefault)
     return (
       <Card.Body>
         <Card.Title>{this.state.title}</Card.Title>
