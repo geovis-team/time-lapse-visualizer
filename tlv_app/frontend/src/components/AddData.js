@@ -106,7 +106,7 @@ class AddData extends Component {
     const { openModal, disableDOS } = this.state
     const { projectName } = this.props
     return (
-      <Container>
+      <div>
         <Button variant='dark' onClick={this.handleOpen}>
           Add Data
         </Button>
@@ -149,7 +149,7 @@ class AddData extends Component {
         ) : (
           <div></div>
         )}
-      </Container>
+      </div>
     )
   }
 }
