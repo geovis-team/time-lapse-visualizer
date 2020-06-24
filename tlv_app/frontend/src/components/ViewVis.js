@@ -10,6 +10,7 @@ import styles from '../static/css/DefaultVisPage.module.css'
 import Visualisation from './Visualisation'
 import NavigationBar from './NavigationBar'
 import Footer from './Footer'
+import AddData from './AddData'
 import { data as mapdata } from './visualizer/data'
 
 class ViewVis extends Component {
@@ -132,9 +133,12 @@ class ViewVis extends Component {
           >
             <Card>
               <Card.Header>
-                <h3 className={styles.visHeading}>
-                  {this.state.visObj.heading}
-                </h3>
+                <div>
+                  <h3 className={styles.visHeading}>
+                    {this.state.visObj.heading}
+                  </h3>
+                </div>
+                <AddData projectName={this.state.visObj.name} />
               </Card.Header>
               <Visualisation
                 vis={{
