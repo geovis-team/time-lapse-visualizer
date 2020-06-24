@@ -10,6 +10,7 @@ import NavigationBar from './NavigationBar'
 import Footer from './Footer'
 import { data as mapdata } from './visualizer/data'
 import axiosInstance from '../actions/utility'
+import AddData from './AddData'
 
 class DefaultVis extends Component {
   constructor (props) {
@@ -209,6 +210,12 @@ class DefaultVis extends Component {
                         >
                           <Button variant='dark'>Edit Project</Button>
                         </Link>
+                        <div>
+                          <AddData
+                            projectName={visObj.name}
+                            styleName='addData'
+                          />
+                        </div>
                       </Card.Body>
                     </Card>
                   </Col>

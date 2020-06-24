@@ -39,6 +39,11 @@
   margin: 1%;
 }
 
+.addData {
+  padding: 1%;
+  margin: 1%;
+}
+
 .footer {
   background-color: #f5f5f5;
   text-align: center;
@@ -68,6 +73,7 @@
 
 .visHeading {
   color: black;
+  width: fit-content;
 }
 
 .linkitem {
@@ -76,4 +82,12 @@
 
 .linkitem:hover {
   color: white;
+}
+
+.modal-form {
+  text-align: right;
+}
+
+.addDataHeader {
+  text-align: right;
 }
