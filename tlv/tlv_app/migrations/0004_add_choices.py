@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tlv_app', '0005_auto_20200611_0813'),
+        ('tlv_app', '0003_add_validators'),
     ]
 
     operations = [

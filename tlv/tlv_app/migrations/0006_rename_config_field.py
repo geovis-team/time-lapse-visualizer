@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tlv_app', '0007_config'),
+        ('tlv_app', '0005_config'),
     ]
 
     operations = [

@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tlv_app', '0004_auto_20200611_0649'),
+        ('tlv_app', '0002_default_models'),
     ]
 
     operations = [

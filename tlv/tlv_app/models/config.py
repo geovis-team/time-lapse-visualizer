@@ -16,6 +16,8 @@ class Config(Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
+        """Meta class for config model"""
+        model = Config
         unique_together = ('name', 'user')
     def save(self, *args, **kwargs):
         super(Config, self).save(*args, **kwargs)

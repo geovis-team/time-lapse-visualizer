@@ -15,7 +15,6 @@ export const getMapData = (model, filters, isDefault, successCallback) => {
     })
 
     var qs = require('qs')
-    var assert = require('assert')
     useAxios
       .get('http://127.0.0.1:8000/api/visualization/filter_data/', {
         params: {
@@ -48,7 +47,6 @@ export const getMapData = (model, filters, isDefault, successCallback) => {
             error: true
           }
         })
-        console.log(err)
       })
   }
 }

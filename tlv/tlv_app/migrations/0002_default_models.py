@@ -7,7 +7,7 @@ import django_mysql.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tlv_app', '0001_initial'),
+        ('tlv_app', '0001_dummy_project'),
     ]
 
     operations = [

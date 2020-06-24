@@ -11,7 +11,6 @@ import Visualisation from './Visualisation'
 import NavigationBar from './NavigationBar'
 import Footer from './Footer'
 import AddData from './AddData'
-import { data as mapdata } from './visualizer/data'
 
 class ViewVis extends Component {
   constructor (props) {
@@ -53,8 +52,7 @@ class ViewVis extends Component {
 
   componentDidMount () {
     var id = this.props.match.params.id
-    var isDefault
-    if (id == 'Covid' || id == 'Shops' || id == 'Disasters') {
+    if (id === 'Covid' || id === 'Shops' || id === 'Disasters') {
       this.props.getFilters(
         this.state.visObj.name,
         true,

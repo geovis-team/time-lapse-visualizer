@@ -5,6 +5,9 @@ from tlv_app.models import Config
 
 
 class UserSerializer(serializers.ModelSerializer):
+    """
+    Serializer for user model. It also serializes the configs owned by the user.
+    """
     config = serializers.PrimaryKeyRelatedField(many=True, queryset=Config.objects.all())
     class Meta:
         model = User
@@ -12,11 +15,19 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserSerializerWithToken(serializers.ModelSerializer):
+    """
+    This serializer serializes the user model with appropriate jwt token.
+    """
     token = serializers.SerializerMethodField()
     password = serializers.CharField(write_only=True)
 
     @staticmethod
     def get_token(obj):
+        """
+        This method utilises the jwt handler to return appropriate token.
+        :param obj:
+        :return:
+        """
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
         jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
@@ -25,6 +36,11 @@ class UserSerializerWithToken(serializers.ModelSerializer):
         return token
 
     def create(self, validated_data):
+        """
+        This method overrides the create method of the serializer
+        :param validated_data: validated data to be saved as object
+        :return: the save object instance
+        """
         password = validated_data.pop('password', None)
         instance = self.Meta.model(**validated_data)
         if password is not None:

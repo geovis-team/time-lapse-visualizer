@@ -3,7 +3,6 @@ import { Button, Container, Card, Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import axios from 'axios'
 import { toast } from 'react-semantic-toasts'
 
 import styles from '../static/css/DefaultVisPage.module.css'
@@ -57,12 +56,9 @@ class DefaultVis extends Component {
           this.setState({
             loaded: false
           })
-          console.log(response)
           window.location.reload()
         })
-        .catch(function (error) {
-          console.log(error)
-        })
+        .catch(function (error) {})
     } else {
       this.setState({
         loaded: true
@@ -89,9 +85,7 @@ class DefaultVis extends Component {
             allVisualisations: response.data
           })
         })
-        .catch(function (error) {
-          console.log(error)
-        })
+        .catch(function (error) {})
     } else
       this.setState({
         loaded: true

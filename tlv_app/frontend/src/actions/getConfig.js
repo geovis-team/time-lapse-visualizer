@@ -1,4 +1,3 @@
-import axios from 'axios'
 import axiosInstance from './utility'
 
 export const getConfig = (id, successCallback) => {
@@ -8,7 +7,6 @@ export const getConfig = (id, successCallback) => {
       payload: true
     })
 
-    const arr = []
     axiosInstance
       .get('http://127.0.0.1:8000/api/config/' + id)
       .then(res => {
@@ -31,7 +29,6 @@ export const getConfig = (id, successCallback) => {
             error: true
           }
         })
-        console.log(err)
       })
   }
 }

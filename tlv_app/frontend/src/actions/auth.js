@@ -98,7 +98,6 @@ export const authCheckState = () => {
 export const whoAmI = () => {
   return dispatch => {
     axiosInstance.get(getUserUrl()).then(res => {
-      console.log(res.data)
       dispatch(res.data)
     })
   }
