@@ -42,6 +42,7 @@
 .addData {
   padding: 1%;
   margin: 1%;
+  padding-top: 10%;
 }
 
 .footer {
@@ -73,7 +74,8 @@
 
 .visHeading {
   color: black;
-  width: fit-content;
+  display: flex;
+  justify-content: space-between;
 }
 
 .linkitem {
@@ -90,4 +92,9 @@
 
 .addDataHeader {
   text-align: right;
+}
+
+.visualizationOperations {
+  display: flex;
+  justify-content: space-evenly;
 }

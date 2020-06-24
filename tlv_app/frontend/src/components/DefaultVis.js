@@ -190,27 +190,27 @@ class DefaultVis extends Component {
                       <Card.Body>
                         <Card.Title>{visObj.heading}</Card.Title>
                         <Card.Text>{visObj.description}</Card.Text>
-                        <Link
-                          to={{
-                            pathname: '/viewvis/' + visObj.id,
-                            state: visObj
-                          }}
-                          className={styles.linkitem}
-                          style={{ marginRight: '10%' }}
-                        >
-                          <Button variant='dark'>View Now</Button>
-                        </Link>
-                        <Link
-                          to={{
-                            pathname: '/updatevis',
-                            state: visObj
-                          }}
-                          className={styles.linkitem}
-                          style={{ Left: '10%' }}
-                        >
-                          <Button variant='dark'>Edit Project</Button>
-                        </Link>
-                        <div>
+                        <div className={styles.visualizationOperations}>
+                          <Link
+                            to={{
+                              pathname: '/viewvis/' + visObj.id,
+                              state: visObj
+                            }}
+                            className={styles.linkitem}
+                            style={{ marginRight: '10%' }}
+                          >
+                            <Button variant='dark'>View Now</Button>
+                          </Link>
+                          <Link
+                            to={{
+                              pathname: '/updatevis',
+                              state: visObj
+                            }}
+                            className={styles.linkitem}
+                            style={{ Left: '10%' }}
+                          >
+                            <Button variant='dark'>Edit Project</Button>
+                          </Link>
                           <AddData
                             projectName={visObj.name}
                             styleName='addData'
