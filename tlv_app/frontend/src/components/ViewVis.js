@@ -133,12 +133,14 @@ class ViewVis extends Component {
           >
             <Card>
               <Card.Header>
-                <div>
-                  <h3 className={styles.visHeading}>
-                    {this.state.visObj.heading}
-                  </h3>
-                </div>
-                <AddData projectName={this.state.visObj.name} />
+                <h3 className={styles.visHeading}>
+                  <span>{this.state.visObj.heading}</span>
+                  {this.state.isDefault === false ? (
+                    <AddData projectName={this.state.visObj.name} />
+                  ) : (
+                    <div></div>
+                  )}
+                </h3>
               </Card.Header>
               <Visualisation
                 vis={{
