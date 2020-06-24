@@ -7,10 +7,13 @@ class IsOwner(permissions.BasePermission):
     """
 
     def has_object_permission(self, request, view, obj):
-        # Read permissions are allowed to any request,
-        # so we'll always allow GET, HEAD or OPTIONS requests.
-        # if request.method in permissions.SAFE_METHODS:
-        #     return True
-
-        # Write permissions are only allowed to the owner of the config.
+        """
+        This method returns true if the authorised user is the owner.
+        Thus, all the operations whether GET, POST, PATCH for config
+        can only be performed by the owner.
+        :param request: request made the user
+        :param view: view specifies the specific apiview to be acted upon
+        :param obj: object that needs to be accessed
+        :return: permission (true or false)
+        """
         return obj.user == request.user

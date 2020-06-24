@@ -9,7 +9,7 @@ import django_mysql.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tlv_app', '0008_auto_20200619_1946'),
+        ('tlv_app', '0006_rename_config_field'),
     ]
 
     operations = [

@@ -8,7 +8,6 @@ import {
   Col,
   Accordion
 } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { Dropdown } from 'semantic-ui-react'
@@ -16,7 +15,6 @@ import { Dropdown } from 'semantic-ui-react'
 import styles from '../static/css/DefaultVisPage.module.css'
 import NavigationBar from './NavigationBar'
 import Footer from './Footer'
-import { data as mapdata } from './visualizer/data'
 import axiosInstance from '../actions/utility'
 
 class AddVis extends Component {
@@ -63,13 +61,10 @@ class AddVis extends Component {
           loaded: true
         })
       })
-      .catch(function (error) {
-        console.log(error)
-      })
+      .catch(function (error) {})
   }
 
   render () {
-    const { isAutheticated } = this.props
     return (
       <div className={styles.body}>
         <NavigationBar />

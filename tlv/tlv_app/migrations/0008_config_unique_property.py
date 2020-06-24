@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('tlv_app', '0009_data'),
+        ('tlv_app', '0007_data'),
     ]
 
     operations = [

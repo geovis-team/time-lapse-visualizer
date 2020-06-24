@@ -60,7 +60,6 @@ export const getFilters = (model, isDefault, successCallback) => {
             error: true
           }
         })
-        console.log(err)
       })
   }
 }

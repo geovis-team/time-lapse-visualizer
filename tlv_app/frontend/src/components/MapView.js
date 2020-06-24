@@ -1,6 +1,5 @@
-import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react'
+import { Map, GoogleApiWrapper, Marker } from 'google-maps-react'
 import React, { Component, useEffect } from 'react'
-import styles from '../static/css/Visualisation.module.css'
 import PropTypes from 'prop-types'
 import MarkerClusterer from 'node-js-marker-clusterer'
 
@@ -25,17 +24,21 @@ const MarkerCluster = props => {
           for (var primary in fil) {
             content += '<h5>' + primary + '</h5>'
             content += '<style>'
-            content += 'body { background-color: #f0f8ff; }'           
+            content += 'body { background-color: #f0f8ff; }'
             content += 'table,tr { border: 1px black solid; }'
             content += 'tr { background-color: #f0f8ff; }'
             content += 'tr:hover { background-color: transparent}'
             content += '</style>'
             content += '<table style="width:100px" >'
-              for( var prop in fil[primary])
-              {
-                var name = prop[0].toUpperCase() + prop.slice(1)
-                content += '<tr><td>' + name + '</td><td>' + JSON.stringify(fil[primary][prop]) + '</td></tr>'
-              }
+            for (var prop in fil[primary]) {
+              var name = prop[0].toUpperCase() + prop.slice(1)
+              content +=
+                '<tr><td>' +
+                name +
+                '</td><td>' +
+                JSON.stringify(fil[primary][prop]) +
+                '</td></tr>'
+            }
             content += '</table>'
             content += '<br /><br />'
           }
@@ -115,7 +118,6 @@ class MapView extends Component {
   placeMarkers = () => {
     const data = this.state.data.data
     const month = this.state.time
-    console.log(data)
     const markers = data
       .filter(rows => rows.time.slice(0, 7) === month.slice(0, 7))
       .map((mydata, index) => {
@@ -146,7 +148,7 @@ class MapView extends Component {
   render () {
     return (
       <>
-        <div >
+        <div>
           <Map
             google={this.props.google}
             zoom={3}
@@ -161,7 +163,6 @@ class MapView extends Component {
               mouseover={this.onMouseOver}
               mouseout={this.onMouseOut}
             />
-            {/* {this.placeMarkers()} */}
           </Map>
         </div>
       </>

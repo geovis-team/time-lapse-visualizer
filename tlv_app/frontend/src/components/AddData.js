@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import { Container, Dropdown } from 'semantic-ui-react'
+import { Dropdown } from 'semantic-ui-react'
 import { Form, Button, Modal } from 'react-bootstrap'
 import { toast } from 'react-semantic-toasts'
 
 import axiosInstance from '../actions/utility'
 import { addDataUrl } from '../urls'
-import styles from '../static/css/DefaultVisPage.module.css'
 
 class AddData extends Component {
   constructor (props) {

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Container, Form, Card, Row, Col, Alert } from 'react-bootstrap'
-import { Link, Redirect } from 'react-router-dom'
+import { Button, Container, Form, Row, Col } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { toast } from 'react-semantic-toasts'
@@ -8,7 +7,6 @@ import { toast } from 'react-semantic-toasts'
 import styles from '../static/css/DefaultVisPage.module.css'
 import NavigationBar from './NavigationBar'
 import Footer from './Footer'
-import { data as mapdata } from './visualizer/data'
 import axiosInstance from '../actions/utility'
 
 class UpdateVis extends Component {
@@ -32,9 +30,7 @@ class UpdateVis extends Component {
           filters: response.data.filters
         })
       })
-      .catch(function (error) {
-        console.log(error)
-      })
+      .catch(function (error) {})
   }
 
   handleSubmit = () => {
@@ -46,7 +42,6 @@ class UpdateVis extends Component {
     axiosInstance
       .patch('http://127.0.0.1:8000/api/config/' + this.state.id + '/', data)
       .then(response => {
-        console.log(response.data)
         this.props.history.push('/defaultvis')
       })
       .catch(function (error) {
@@ -61,7 +56,6 @@ class UpdateVis extends Component {
   }
 
   render () {
-    const { isAutheticated } = this.props
     return (
       <div className={styles.body}>
         <NavigationBar />

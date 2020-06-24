@@ -13,6 +13,9 @@ class JSONSerializerField(serializers.Field):
 
 
 class ConfigSerializer(serializers.HyperlinkedModelSerializer):
+    """
+    Serializer for the config model
+    """
     name = serializers.CharField(required=True, allow_blank=False, max_length=30)
     heading = serializers.CharField(required=True, allow_blank=False, max_length=100)
     description = serializers.CharField(
@@ -22,9 +25,13 @@ class ConfigSerializer(serializers.HyperlinkedModelSerializer):
     user = serializers.ReadOnlyField(source="user.username")
 
     def create(self, validated_data):
+        """ Overrides the create method to validate data. """
         return Config.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
+        """
+        Overrides the update method to return the saved instance.
+        """
         instance.name = validated_data.get("name", instance.name)
         instance.heading = validated_data.get("heading", instance.heading)
         instance.description = validated_data.get("description", instance.description)

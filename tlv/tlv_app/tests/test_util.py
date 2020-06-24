@@ -1,7 +1,5 @@
 from django.test import TestCase
-import random
 import json
-from collections import Counter
 from django.contrib.auth.models import User
 
 from tlv_app.utils import convert_schema, data_type_one, data_type_two, data_type_three
@@ -34,9 +32,9 @@ class UtilConvertSchemaTestCase(TestCase):
             heading="covid",
             description="covid",
             user=user,
-            filters=json.dumps(SECONDARY_FILTERS[0])
+            filters=SECONDARY_FILTERS[0]
         )
-        config = Config.objects.get(user=user, name="Config_default")
+        config = Config.objects.get(user=user, name="Covid_default")
         file_path = "tlv_app/data/covid.json"
         file = open(file_path, 'r')
         convert_schema(config, file, DB_FORMAT_TYPES['TYPE_ZERO'])
@@ -53,7 +51,7 @@ class UtilConvertSchemaTestCase(TestCase):
             heading="covid",
             description="covid",
             user=User.objects.get(username="user"),
-            filters=json.dumps(SECONDARY_FILTERS[0])
+            filters=SECONDARY_FILTERS[0]
         )
         file_path = "d1.json"
         config = Config.objects.get(name="Covid1")
@@ -95,7 +93,7 @@ class UtilConvertSchemaTestCase(TestCase):
             heading="GApps",
             description="GApps",
             user=user,
-            filters=json.dumps(SECONDARY_FILTERS[3])
+            filters=SECONDARY_FILTERS[3]
         )
         file_path = "d2.json"
         config = Config.objects.get(name="GApps")

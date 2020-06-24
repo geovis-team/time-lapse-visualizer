@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('tlv_app', '0006_auto_20200618_1858'),
+        ('tlv_app', '0004_add_choices'),
     ]
 
     operations = [
