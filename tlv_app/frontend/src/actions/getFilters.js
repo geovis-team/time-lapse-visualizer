@@ -3,6 +3,8 @@ import axiosInstance from './utility'
 
 export const getFilters = (model, isDefault, successCallback) => {
   var useAxios
+
+  // Use the axiosInstance object or the axios object based on the authentication
   if (isDefault) {
     useAxios = axios.create()
   } else {

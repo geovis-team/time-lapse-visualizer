@@ -16,8 +16,20 @@ import styles from '../static/css/DefaultVisPage.module.css'
 import mapviewstyles from '../static/css/Visualisation.module.css'
 import MapView from './MapView'
 
-
-const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const monthNames = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+]
 
 class Visualisation extends Component {
   constructor (props) {
@@ -95,6 +107,9 @@ class Visualisation extends Component {
     temp[0].status = true
   }
 
+  //This function checks for filters being checked or unchecked.
+  // It also ensures that the first filter is checked by default if
+  // no other filters are checked.
   handleCheck (num, event, button) {
     const temp = this.state.filters
     const send = []
@@ -141,7 +156,9 @@ class Visualisation extends Component {
     } else {
       tempsub[sub] = false
     }
-
+    //This is done to preven the two variables from having the same
+    //memory address because of which altering one may alter the other
+    //as well.
     var tempdata = JSON.parse(JSON.stringify(this.state.data))
     this.state.data.data.map((obj, index) => {
       var o = {}
@@ -162,15 +179,12 @@ class Visualisation extends Component {
       subfilters: tempsub
     })
   }
-  getFormattedDate()
-  {
-    var string = this.state.times[this.state.curr-1]
-    var Year = string.slice(0,4)
-    var Month = monthNames[parseInt(string.slice(5))-1]
+  getFormattedDate () {
+    var string = this.state.times[this.state.curr - 1]
+    var Year = string.slice(0, 4)
+    var Month = monthNames[parseInt(string.slice(5)) - 1]
 
-    return (
-      Month + " " + Year
-    )
+    return Month + ' ' + Year
   }
   render () {
     return (
@@ -180,14 +194,14 @@ class Visualisation extends Component {
           <Row style={mapstyles}>
             <Col md={9} xs={12} lg={10}>
               {this.state.loaded && (
-              <Row>
-                <MapView
-                  map={{
-                    data: this.state.toSend,
-                    time: this.state.value
-                  }}
-                />
-              </Row>
+                <Row>
+                  <MapView
+                    map={{
+                      data: this.state.toSend,
+                      time: this.state.value
+                    }}
+                  />
+                </Row>
               )}
               {!this.state.loaded && (
                 <div className={mapviewstyles.maploader}>
@@ -231,7 +245,7 @@ class Visualisation extends Component {
             </Col>
           </Row>
           <Row>
-            <Col md={9} xs={12} lg={10} style={{padding: '0'}}>
+            <Col md={9} xs={12} lg={10} style={{ padding: '0' }}>
               <div className={mapviewstyles.slidecontainer}>
                 <input
                   type='range'
@@ -247,7 +261,7 @@ class Visualisation extends Component {
                   <h4>{this.getFormattedDate()}</h4>
                 </p>
               </div>
-              </Col>
+            </Col>
           </Row>
         </Container>
       </Card.Body>

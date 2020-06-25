@@ -59,7 +59,7 @@ def get_filters(request, *args, **kwargs):
 
     else:
         filters = {}
-        config = Config.objects.get(name=model_name, user=user)
+        config = get_object_or_404(Config, name=model_name, user=user)
         mdate = Data.objects.filter(name=config).aggregate(earliestTime = Min(Time), latestTime = Max(Time))
         all_filters = json.loads(config.filters)
         

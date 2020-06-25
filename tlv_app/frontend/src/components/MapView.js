@@ -2,7 +2,10 @@ import { Map, GoogleApiWrapper, Marker } from 'google-maps-react'
 import React, { Component, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import MarkerClusterer from 'node-js-marker-clusterer'
+import { ThemeProvider } from 'react-bootstrap'
 
+// This function creates the clusters of markers based on the supplied datapoints
+// It also places the info window and adds evenListeners to them. The
 const MarkerCluster = props => {
   const { map, google, markers } = props
   useEffect(() => {
@@ -115,6 +118,10 @@ class MapView extends Component {
       data: nextProps.map.data
     }
   }
+
+  // This function places all the markers on the map by filtering out the
+  // datapoints according to the position of the timeslider. It is called as
+  // a function in the Marker Clusterer component which then clusters the markers.
   placeMarkers = () => {
     const data = this.state.data.data
     const month = this.state.time
