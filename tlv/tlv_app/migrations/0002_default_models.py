@@ -6,9 +6,9 @@ import django_mysql.models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('tlv_app', '0001_dummy_project'),
-    ]
+    initial=True
+
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
@@ -52,8 +52,5 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-        ),
-        migrations.DeleteModel(
-            name='Project',
-        ),
+        )
     ]
