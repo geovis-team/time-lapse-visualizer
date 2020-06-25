@@ -36,12 +36,15 @@ def convert_schema(config, data_file, type):
             data is in the same format as out DB Schema
             """
             try:
+                entity = values[4]
+                if not isinstance(entity, dict):
+                    entity = json.loads(entity)
                 Data.objects.create(
                     latitude=latitude,
                     longitude=longitude,
                     time=time,
                     category=values[3],
-                    entity=json.loads(values[4]),
+                    entity=entity,
                     name=config
                 )
             except ValidationError:

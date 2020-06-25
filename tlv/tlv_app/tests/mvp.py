@@ -13,7 +13,7 @@ class CovidTestCase(TestCase):
     def setUp(self) -> None:
         file_path = "tlv_app/data/covid.json"
         with open(file_path, 'r') as f:
-            covid_json = json.loads(f)
+            covid_json = json.load(f)
         for covid in covid_json:
             Covid.objects.create(
                 latitude=covid['lat'],
@@ -27,7 +27,7 @@ class CovidTestCase(TestCase):
         """Check if all the entries were added as required"""
         file_path = "tlv_app/data/covid.json"
         with open(file_path, 'r') as f:
-            covid_json = json.loads(f)
+            covid_json = json.load(f)
         json_entries = len(covid_json)
         assert json_entries == Covid.objects.all().count()
 

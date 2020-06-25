@@ -38,6 +38,7 @@ class UtilConvertSchemaTestCase(TestCase):
         file_path = "tlv_app/data/covid.json"
         file = open(file_path, 'r')
         convert_schema(config, file, DB_FORMAT_TYPES['TYPE_ZERO'])
+        file = open(file_path, 'r')
         count = len(json.load(file))
         assert count == len(Data.objects.filter())
 
