@@ -7,11 +7,11 @@ from django.db.models import Q, Value as V, Min, Max, F
 from django.db.models.functions import Concat, TruncMonth
 import json
 from tlv_app.models import Config, Data
+from django.shortcuts import get_object_or_404
 
 from tlv_app.constants import CLASSES, FILTERS, SECONDARY_FILTERS, APP_NAME, PRIMARY_FILTERS, Lat, Lng, Time, Category, Entity
 from tlv_app.utils import multidict, aggregator
 
-from django.shortcuts import get_object_or_404
 
 @api_view(['GET'])
 def get_filters(request, *args, **kwargs):
