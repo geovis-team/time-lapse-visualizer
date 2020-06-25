@@ -78,6 +78,10 @@ class ViewVis extends Component {
         time: 4000
       })
     } else {
+      // With the earliest and latest timestamps, the timeslider span can be
+      // set. This is done by calculating the number of full months between two given
+      // dates. Once the span is calculated, the appropriate steps are also set for the
+      // timeslider to appear on dragging it.
       var earliestTime = {
         dd: parseInt(data.earliestTime.slice(8, 10)),
         mm: parseInt(data.earliestTime.slice(5, 7)),
