@@ -17,7 +17,6 @@ class Config(Model):
 
     class Meta:
         """Meta class for config model"""
-        model = Config
         unique_together = ('name', 'user')
     def save(self, *args, **kwargs):
         super(Config, self).save(*args, **kwargs)
