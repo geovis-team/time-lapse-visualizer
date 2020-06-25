@@ -11,6 +11,8 @@ from tlv_app.models import Config, Data
 from tlv_app.constants import CLASSES, FILTERS, SECONDARY_FILTERS, APP_NAME, PRIMARY_FILTERS, Lat, Lng, Time, Category, Entity
 from tlv_app.utils import multidict, aggregator
 
+from django.shortcuts import get_object_or_404
+
 @api_view(['GET'])
 def get_filters(request, *args, **kwargs):
     """
@@ -20,15 +22,27 @@ def get_filters(request, *args, **kwargs):
     :return: filters
     """
     model_name = request.GET.get('model', None)
-    isDefault = True if request.GET.get('isDefault') == "true" else False
+    isDefault = request.GET.get('isDefault')
     user = request.user
-    if(isDefault):
-        filters = None
-        if model_name is None:
+
+    if(isDefault == "true"):
+        isDefault = True
+    elif(isDefault == "false" and not user.is_anonymous):
+        isDefault = False
+    else:
+        return Response(
+                status=HTTP_400_BAD_REQUEST,
+                data="Invalid isDefault"
+            )
+    if model_name is None:
             return Response(
                 status=HTTP_400_BAD_REQUEST,
                 data="Model name not given in params"
             )
+            
+    if(isDefault):
+        filters = None
+        
         num_models = 3
         
         for i in range(num_models):
@@ -70,9 +84,21 @@ def filter_data(request, *args, **kwargs):
     :return: filtered data in appropriate format
     """
     model_name = request.GET.get('model', None)
-    isDefault = True if request.GET.get('isDefault') == "true" else False
+    isDefault = request.GET.get('isDefault')
     user = request.user
-    print(request.GET.get('isDefault'))
+    
+    isDefault = request.GET.get('isDefault')
+    user = request.user
+    if(isDefault == "true"):
+        isDefault = True
+    elif(isDefault == "false" and not user.is_anonymous):
+        isDefault = False
+    else:
+        return Response(
+                status=HTTP_400_BAD_REQUEST,
+                data="Invalid isDefault"
+            )
+
     if model_name is None:
         return Response(
             status=HTTP_400_BAD_REQUEST,
@@ -80,6 +106,7 @@ def filter_data(request, *args, **kwargs):
         )
     data = {}
     if(isDefault):
+        subtypes = None
         num_models = 3
         for i in range(num_models):
             if model_name == CLASSES[i]:
@@ -95,13 +122,12 @@ def filter_data(request, *args, **kwargs):
         
         model = apps.get_model(app_label=APP_NAME, model_name=model_name)
     else:
-        config = Config.objects.get(name=model_name, user=user)
+        config = get_object_or_404(Config, name=model_name, user=user)
         subtypes = json.loads(config.filters)
         for primary in subtypes:
             default_filter = primary
             break
     filters = request.GET.getlist('filters', [default_filter])
-
     if not all(x in subtypes.keys() for x in filters):
         return Response(
             status=HTTP_400_BAD_REQUEST,

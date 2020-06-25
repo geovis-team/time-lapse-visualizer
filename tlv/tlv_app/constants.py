@@ -70,3 +70,7 @@ Lng = 'longitude'
 Time = 'time'
 Category = 'category'
 Entity = 'entity'
+Data = "data"
+
+primaryFilters = "primaryFilters"
+secondaryFilters = "secondaryFilters"
