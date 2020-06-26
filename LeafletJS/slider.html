@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Time slider data</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="js/jquery.nouislider.min.js"></script>
+     
+	<script src="data/sliderDataUnix.js"></script>
+
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+
+	<link rel="stylesheet" href="css/jquery.nouislider.min.css" />
+
+
+<style>
+  body { margin:0; padding:0; }
+  #map { position:absolute; top:0; bottom:0; width:100%; }
+
+  #slider {position: absolute; bottom: 50px; left: 50px; width: 300px}
+</style>
+</head>
+<body>
+
+<div id='map'></div>
+
+<div class="noUi-base" id="slider"></div>
+
+<script>
+
+function timestamp(str){
+    return new Date(str).getTime();   
+};
+
+$("#slider").noUiSlider({
+  start: [timestamp(1342060264), timestamp(1344371464)],
+  behaviour: 'drag',
+  connect: true,
+  range: {
+        min: timestamp(1342060264),
+        max: timestamp(1344371464)
+  }
+});
+
+
+var geojsonMarkerOptions = {
+    radius: 6,
+    fillColor: "#ff7800",
+    color: "#000",
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 0.8
+};
+
+
+var map = L.map('map').setView([-36.357728,147.390058], 13);
+
+L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}').addTo(map);
+
+      var testlayer = L.geoJson(data, {
+          pointToLayer: function (feature, latlng) {
+                  return L.circleMarker(latlng, geojsonMarkerOptions);
+              },
+    		 filter: function(feature, layer) {
+    		        return (feature.properties.unixtime <= 1344371464) && (feature.properties.unixtime >= 1342060264);
+    		    }
+      });
+
+    var polyline = L.polyline([], {
+    color: '#ff7800'}).addTo(map);
+
+    group = L.featureGroup([testlayer]).addTo(map);
+
+    testlayer.eachLayer(function(l) {
+    polyline.addLatLng(l.getLatLng());
+    });
+
+    map.fitBounds(group.getBounds());
+
+$( "#slider" ).click(function( event ) {
+
+  range = $("#slider").val();
+
+  rangeMin = range.slice(0,1).toString().slice(0,10);
+  rangeMax = range.slice(1).toString().slice(0,10);
+   
+  group.clearLayers();
+  map.removeLayer(polyline);
+
+
+  newlayer = L.geoJson(data, {
+      pointToLayer: function (feature, latlng) {
+              return L.circleMarker(latlng, geojsonMarkerOptions);
+          },
+      filter: function(feature, layer) {
+            return (feature.properties.unixtime <= rangeMax) && (feature.properties.unixtime >= rangeMin);
+          }
+      });
+
+  var polyline2 = L.polyline([], {
+    color: '#ff7800'});
+
+  newlayer.eachLayer(function(l) {
+    polyline2.addLatLng(l.getLatLng());
+    });
+    group = L.featureGroup().addLayer(newlayer).addLayer(polyline2);
+    group.addTo(map);
+  
+ });
+
+</script>
+</body>
+</html>
