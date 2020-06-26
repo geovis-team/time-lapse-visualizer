@@ -113,18 +113,18 @@ class Visualisation extends Component {
   handleCheck (num, event, button) {
     const temp = this.state.filters
     const send = []
-    var c
+    var count
     if (!button) {
       if (event.target.checked) {
-        c = this.state.checkcount + 1
+        count = this.state.checkcount + 1
         temp[num].status = true
       } else {
-        c = this.state.checkcount - 1
+        count = this.state.checkcount - 1
         // Ensuring first filter is always checked
         temp[num].status = false
-        if (c === 0) {
+        if (count === 0) {
           temp[0].status = true
-          c = 1
+          count = 1
         }
       }
       temp.map(fil => {
@@ -136,7 +136,7 @@ class Visualisation extends Component {
       }
       temp[0].status = true
     }
-    this.setState({ loaded: false, checkcount: c })
+    this.setState({ loaded: false, checkcount: count })
     this.props.getMapData(
       this.state.model,
       send,
@@ -156,12 +156,12 @@ class Visualisation extends Component {
     } else {
       tempsub[sub] = false
     }
-    //This is done to preven the two variables from having the same
+    //This is done to prevent the two variables from having the same
     //memory address because of which altering one may alter the other
     //as well.
     var tempdata = JSON.parse(JSON.stringify(this.state.data))
     this.state.data.data.map((obj, index) => {
-      var o = {}
+      var filters = {}
       for (var primary in obj.filter) {
         var fil = {}
         for (var secondary in obj.filter[primary]) {
@@ -169,9 +169,9 @@ class Visualisation extends Component {
             fil[secondary] = obj.filter[primary][secondary]
           }
         }
-        o[primary] = fil
+        filters[primary] = fil
       }
-      tempdata.data[index].filter = o
+      tempdata.data[index].filter = filters
     })
 
     this.setState({
@@ -257,7 +257,6 @@ class Visualisation extends Component {
                   onChange={this.handleChange}
                 />
                 <p id='output'>
-                  {/* <h4>{this.state.times[this.state.curr - 1]}</h4> */}
                   <h4>{this.getFormattedDate()}</h4>
                 </p>
               </div>
