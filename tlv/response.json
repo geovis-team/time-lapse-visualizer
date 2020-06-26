@@ -1,62 +1,62 @@
 [
-    {
-        "latitude": "41.288052",
-        "longitude": "119.612090",
-        "filter": {
-            "Medium": {
-                "symptomatic": 36
-            },
-            "Mild": {
-                "unreported": 24
-            },
-            "Severe": {
-                "recovered": 12
-            }
-        },
-        "time": "2001-11-01"
+  {
+    "latitude": "41.288052",
+    "longitude": "119.612090",
+    "filter": {
+      "Medium": {
+        "symptomatic": 36
+      },
+      "Mild": {
+        "unreported": 24
+      },
+      "Severe": {
+        "recovered": 12
+      }
     },
-    {
-        "latitude": "41.288052",
-        "longitude": "-158.414900",
-        "filter": {
-            "Medium": {
-                "asymptomatic": 43,
-                "symptomatic": 10
-            },
-            "Mild": {
-                "unreported": 35
-            },
-            "Severe": {
-                "dead": 9
-            }
-        },
-        "time": "2001-12-01"
+    "time": "2001-11-01"
+  },
+  {
+    "latitude": "41.288052",
+    "longitude": "-158.414900",
+    "filter": {
+      "Medium": {
+        "asymptomatic": 43,
+        "symptomatic": 10
+      },
+      "Mild": {
+        "unreported": 35
+      },
+      "Severe": {
+        "dead": 9
+      }
     },
-    {
-        "latitude": "-9.896499",
-        "longitude": "119.612090",
-        "filter": {
-            "Severe": {
-                "dead": 22,
-                "recovered": 13
-            }
-        },
-        "time": "2001-10-01"
+    "time": "2001-12-01"
+  },
+  {
+    "latitude": "-9.896499",
+    "longitude": "119.612090",
+    "filter": {
+      "Severe": {
+        "dead": 22,
+        "recovered": 13
+      }
     },
-    {
-        "latitude": "-9.896499",
-        "longitude": "-158.414900",
-        "filter": {
-            "Medium": {
-                "symptomatic": 10
-            },
-            "Mild": {
-                "reported": 34
-            },
-            "Severe": {
-                "dead": 37
-            }
-        },
-        "time": "2002-11-01"
-    }
+    "time": "2001-10-01"
+  },
+  {
+    "latitude": "-9.896499",
+    "longitude": "-158.414900",
+    "filter": {
+      "Medium": {
+        "symptomatic": 10
+      },
+      "Mild": {
+        "reported": 34
+      },
+      "Severe": {
+        "dead": 37
+      }
+    },
+    "time": "2002-11-01"
+  }
 ]

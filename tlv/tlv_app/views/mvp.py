@@ -6,10 +6,11 @@ from django_mysql.models import GroupConcat
 from django.db.models import Q, Value as V, Min, Max, F
 from django.db.models.functions import Concat, TruncMonth
 import json
-from tlv_app.models import Config, Data
 from django.shortcuts import get_object_or_404
 
-from tlv_app.constants import CLASSES, FILTERS, SECONDARY_FILTERS, APP_NAME, PRIMARY_FILTERS, Lat, Lng, Time, Category, Entity
+from tlv_app.models import Config, Data
+from tlv_app.constants import CLASSES, FILTERS, SECONDARY_FILTERS, APP_NAME, PRIMARY_FILTERS, Lat, Lng, Time, Category, \
+    Entity
 from tlv_app.utils import multidict, aggregator
 
 
@@ -22,29 +23,29 @@ def get_filters(request, *args, **kwargs):
     :return: filters
     """
     model_name = request.GET.get('model', None)
-    isDefault = request.GET.get('isDefault')
+    is_default = request.GET.get('isDefault')
     user = request.user
 
-    if(isDefault == "true"):
-        isDefault = True
-    elif(isDefault == "false" and not user.is_anonymous):
-        isDefault = False
+    if is_default == "true":
+        is_default = True
+    elif is_default == "false" and not user.is_anonymous:
+        is_default = False
     else:
         return Response(
-                status=HTTP_400_BAD_REQUEST,
-                data="Invalid isDefault"
-            )
+            status=HTTP_400_BAD_REQUEST,
+            data="Invalid isDefault"
+        )
     if model_name is None:
-            return Response(
-                status=HTTP_400_BAD_REQUEST,
-                data="Model name not given in params"
-            )
-            
-    if(isDefault):
+        return Response(
+            status=HTTP_400_BAD_REQUEST,
+            data="Model name not given in params"
+        )
+
+    if (is_default):
         filters = None
-        
+
         num_models = 3
-        
+
         for i in range(num_models):
             if model_name == CLASSES[i]:
                 filters = FILTERS[i]
@@ -55,23 +56,23 @@ def get_filters(request, *args, **kwargs):
                 data="Model with the given name not found"
             )
         model = apps.get_model(app_label=APP_NAME, model_name=model_name)
-        mdate = model.objects.aggregate(earliestTime = Min(Time), latestTime = Max(Time))
+        mdate = model.objects.aggregate(earliestTime=Min(Time), latestTime=Max(Time))
 
     else:
         filters = {}
         config = get_object_or_404(Config, name=model_name, user=user)
-        mdate = Data.objects.filter(name=config).aggregate(earliestTime = Min(Time), latestTime = Max(Time))
+        mdate = Data.objects.filter(name=config).aggregate(earliestTime=Min(Time), latestTime=Max(Time))
         all_filters = json.loads(config.filters)
-        
-        all_primary =[]
+
+        all_primary = []
         for primary in all_filters:
-            all_primary.append(primary) 
+            all_primary.append(primary)
         filters["secondaryFilters"] = all_filters
         filters["primaryFilters"] = all_primary
 
     return Response(
         status=HTTP_200_OK,
-        data={**filters,**mdate}
+        data={**filters, **mdate}
     )
 
 
@@ -84,28 +85,28 @@ def filter_data(request, *args, **kwargs):
     :return: filtered data in appropriate format
     """
     model_name = request.GET.get('model', None)
-    isDefault = request.GET.get('isDefault')
+    is_default = request.GET.get('isDefault')
     user = request.user
-    
-    isDefault = request.GET.get('isDefault')
+
+    is_default = request.GET.get('isDefault')
     user = request.user
-    if(isDefault == "true"):
-        isDefault = True
-    elif(isDefault == "false" and not user.is_anonymous):
-        isDefault = False
+    if is_default == "true":
+        is_default = True
+    elif is_default == "false" and not user.is_anonymous:
+        is_default = False
     else:
         return Response(
-                status=HTTP_400_BAD_REQUEST,
-                data="Invalid isDefault"
-            )
+            status=HTTP_400_BAD_REQUEST,
+            data="Invalid isDefault"
+        )
 
     if model_name is None:
         return Response(
             status=HTTP_400_BAD_REQUEST,
             data="Model name not passed in params"
         )
-    data = {}
-    if(isDefault):
+
+    if is_default:
         subtypes = None
         num_models = 3
         for i in range(num_models):
@@ -119,7 +120,7 @@ def filter_data(request, *args, **kwargs):
                 status=HTTP_404_NOT_FOUND,
                 data="Model with given name does not exist"
             )
-        
+
         model = apps.get_model(app_label=APP_NAME, model_name=model_name)
     else:
         config = get_object_or_404(Config, name=model_name, user=user)
@@ -133,21 +134,20 @@ def filter_data(request, *args, **kwargs):
             status=HTTP_400_BAD_REQUEST,
             data="Filters specified do not exist for the given model"
         )
-    
+
     # Aggregate conditions with "OR" operations
     conditions = Q()
     for filter in filters:
         conditions = conditions | Q(category=filter)
-    
+
     # Apply conditions to filter
-    if(isDefault):
+    if is_default:
         data = model.objects.filter(conditions)
     else:
         config = Config.objects.get(name=model_name, user=user)
         data = Data.objects.filter(name=config)
 
-        
-    # # Get Earliest and Latest timestamp in dataset (to be used as range for slider)   
+    # Get Earliest and Latest timestamp in dataset (to be used as range for slider)
     # mdate = data.aggregate(earliestTime = Min(Time), latestTime = Max(Time))
 
     # list(): Converts queryset of dictionaries into list of dictionaries
@@ -156,14 +156,14 @@ def filter_data(request, *args, **kwargs):
     # values().annotate(): Groups objects by attributes inside values() (Here: Lat, Lng, 'date'),
     # annotates each of these groups, and returns a Queryset of dictionaries
     data = list(data.annotate(
-            date = TruncMonth(Time)    # Truncates value of dateField() to Month level
-            ).annotate(
-                concatenated_filters = Concat( V('"'),Category,V('":'),Entity)
-                ).values(
-                    Lat,Lng,'date'
-                    ).annotate(
-                        filter = Concat( V('{'),GroupConcat('concatenated_filters'), V('}'))
-                        ))
+        date=TruncMonth(Time)  # Truncates value of dateField() to Month level
+    ).annotate(
+        concatenated_filters=Concat(V('"'), Category, V('":'), Entity)
+    ).values(
+        Lat, Lng, 'date'
+    ).annotate(
+        filter=Concat(V('{'), GroupConcat('concatenated_filters'), V('}'))
+    ))
 
     # Traverses through list of dictionaries and fixes the datatype of values in each dictionary
     for item in data:
@@ -177,12 +177,12 @@ def filter_data(request, *args, **kwargs):
                 # Converts a string in JSON format to JSON/python dictionary after aggregating 
                 # values of duplicate keys
                 item[key] = json.loads(item[key], object_pairs_hook=multidict)
-                for k,v in item[key].items():
+                for k, v in item[key].items():
                     item[key][k] = aggregator(v)
             else:
                 # Converts values in different data types (Latitude and Longitude in Decimal() 
                 # type, time in datetime.date() type) into String type
-                item[key] = str(item[key]) 
+                item[key] = str(item[key])
 
     return Response(
         status=HTTP_200_OK,

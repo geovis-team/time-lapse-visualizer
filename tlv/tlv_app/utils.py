@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from tlv_app.constants import Lat, Lng, Time, Category, Entity, PRIMARY_FILTERS, \
     SECONDARY_FILTERS, FILTERS, DB_FORMAT_TYPES
 
+
 def convert_schema(config, data_file, type):
     """
     This method converts the user data to the required format
@@ -27,7 +28,7 @@ def convert_schema(config, data_file, type):
         values = list(row.values())
         latitude = values[0]
         longitude = values[1]
-        #get the date if datetime is given
+        # get the date if datetime is given
         time = values[2].split(' ')[0]
 
         if type == DB_FORMAT_TYPES['TYPE_ZERO']:
@@ -202,6 +203,7 @@ def convert_schema(config, data_file, type):
                     except ValidationError:
                         pass
 
+
 def get_time():
     """This method returns a random date in suitable format."""
     yr = random.randint(2000, 2020)
@@ -285,7 +287,7 @@ def data_type_three(file_path):
     return data
 
 
-def multidict(pairs,mode=False):
+def multidict(pairs, mode=False):
     """
     This method aggregates the values corresponding to duplicate
     keys into a list and creates a dictionary with the obtained 
@@ -316,11 +318,11 @@ def aggregator(dicts):
     counter = Counter()
     strings = []
     for d in dicts:
-        numerical = {k: int(v) for k,v in d.items() if str(v).isnumeric()} # Dict with Numerical values
-        nonNumerical = {k: str(v) for k,v in d.items() if not str(v).isnumeric()} # Dict with Non-numerical values
+        numerical = {k: int(v) for k, v in d.items() if str(v).isnumeric()}  # Dict with Numerical values
+        nonNumerical = {k: str(v) for k, v in d.items() if not str(v).isnumeric()}  # Dict with Non-numerical values
         counter.update(numerical)
-        strings.extend([(k,v) for k,v in nonNumerical.items()])
-    strings = {k: '; '.join(v) for k,v in multidict(strings,True).items()}
+        strings.extend([(k, v) for k, v in nonNumerical.items()])
+    strings = {k: '; '.join(v) for k, v in multidict(strings, True).items()}
     return {**counter, **strings}
 
 
@@ -333,7 +335,7 @@ def getRandomList(low, high, length=5):
     :return: a set
     """
     numbers = set()
-    if high-low+1 < length:
+    if high - low + 1 < length:
         return numbers
 
     for i in range(length):
@@ -353,7 +355,7 @@ def getRandomChoice(values, length=5):
     """
     choices = set()
     if length > len(values):
-        return choices 
+        return choices
     for i in range(length):
         fil = random.choice(values)
         while fil in choices:
@@ -372,33 +374,32 @@ def dummyDataDefault(rfile_path, dfile_path):
     :return: 
     """
 
-
     # Create data in response format
 
-    latitudes = [str(x/1000000) for x in getRandomList(-90000000,90000000)]
-    longitudes = [str(x/1000000) for x in getRandomList(-180000000,180000000)]
-    
+    latitudes = [str(x / 1000000) for x in getRandomList(-90000000, 90000000)]
+    longitudes = [str(x / 1000000) for x in getRandomList(-180000000, 180000000)]
+
     data = []
     start = 0
     year = 2000
     for lat in latitudes:
         for lng in longitudes:
             temp = {
-                "latitude": lat + '0'*(6 - len(lat.split('.')[1])),  # Add trailing zeroes to match response format
-                "longitude": lng + '0'*(6 - len(lng.split('.')[1])), # (6 precision spaces)
+                "latitude": lat + '0' * (6 - len(lat.split('.')[1])),  # Add trailing zeroes to match response format
+                "longitude": lng + '0' * (6 - len(lng.split('.')[1])),  # (6 precision spaces)
                 "filter": {}
             }
             if not start:
-                year+=1
-            start= (start+1)%3
+                year += 1
+            start = (start + 1) % 3
 
-            PF = sorted(getRandomChoice(PRIMARY_FILTERS[0],random.randint(1,3)))
+            PF = sorted(getRandomChoice(PRIMARY_FILTERS[0], random.randint(1, 3)))
             for key in PF:
                 temp["filter"][key] = {}
-                SF = sorted(getRandomChoice(SECONDARY_FILTERS[0][key],random.randint(1,2)))
-                for value in SF :
-                    temp["filter"][key][value] = random.randint(1,50)
-            temp["time"] = str(year)+"-"+str(10+start)+"-01"
+                SF = sorted(getRandomChoice(SECONDARY_FILTERS[0][key], random.randint(1, 2)))
+                for value in SF:
+                    temp["filter"][key][value] = random.randint(1, 50)
+            temp["time"] = str(year) + "-" + str(10 + start) + "-01"
             data.append(temp)
 
     response_data = json.dumps(data, indent=4)
@@ -409,36 +410,27 @@ def dummyDataDefault(rfile_path, dfile_path):
     db_data = []
     for tup in data:
         for primary in tup["filter"]:
-                for secondary in tup["filter"][primary]:
-                    temp = {
-                            "latitude": tup["latitude"],
-                            "longitude": tup["longitude"],
-                            "time": tup["time"][:-2]+str(random.randint(10,28)),
-                            "Category": primary,
-                            "Entity": {secondary: tup["filter"][primary][secondary]}
-                        }
-                    if tup["filter"][primary][secondary] > 1 and not random.randint(0,3): # Randomly split subfilter values
-                        temp1 = {**temp}
-                        temp1["Entity"] = {**temp["Entity"]}
-                        temp1["Entity"][secondary] = temp1["Entity"][secondary]//2
-                        temp2 = {**temp}
-                        temp2["Entity"] = {**temp["Entity"]}
-                        temp2["Entity"][secondary] = tup["filter"][primary][secondary] - temp1["Entity"][secondary]
-                        db_data.append(temp1)
-                        db_data.append(temp2)
-                    else:
-                        db_data.append(temp)
+            for secondary in tup["filter"][primary]:
+                temp = {
+                    "latitude": tup["latitude"],
+                    "longitude": tup["longitude"],
+                    "time": tup["time"][:-2] + str(random.randint(10, 28)),
+                    "Category": primary,
+                    "Entity": {secondary: tup["filter"][primary][secondary]}
+                }
+                if tup["filter"][primary][secondary] > 1 and not random.randint(0,
+                                                                                3):  # Randomly split subfilter values
+                    temp1 = {**temp}
+                    temp1["Entity"] = {**temp["Entity"]}
+                    temp1["Entity"][secondary] = temp1["Entity"][secondary] // 2
+                    temp2 = {**temp}
+                    temp2["Entity"] = {**temp["Entity"]}
+                    temp2["Entity"][secondary] = tup["filter"][primary][secondary] - temp1["Entity"][secondary]
+                    db_data.append(temp1)
+                    db_data.append(temp2)
+                else:
+                    db_data.append(temp)
 
     source_data = json.dumps(db_data, indent=4)
     with open(dfile_path, "w") as f:
         f.write(source_data)
-
-
-
-
-
-                
-
-
-
-    
