@@ -1,3 +1,5 @@
+// data lists that can be used in the visualizer
+
 var locations = [
   {lat: -31.563910, lng: 147.154312},
   {lat: -33.718234, lng: 150.363181},
