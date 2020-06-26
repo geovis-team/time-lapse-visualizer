@@ -1,128 +1,128 @@
 [
-    {
-        "latitude": "41.288052",
-        "longitude": "119.612090",
-        "time": "2001-11-12",
-        "Category": "Medium",
-        "Entity": {
-            "symptomatic": 36
-        }
-    },
-    {
-        "latitude": "41.288052",
-        "longitude": "119.612090",
-        "time": "2001-11-27",
-        "Category": "Mild",
-        "Entity": {
-            "unreported": 12
-        }
-    },
-    {
-        "latitude": "41.288052",
-        "longitude": "119.612090",
-        "time": "2001-11-27",
-        "Category": "Mild",
-        "Entity": {
-            "unreported": 12
-        }
-    },
-    {
-        "latitude": "41.288052",
-        "longitude": "119.612090",
-        "time": "2001-11-16",
-        "Category": "Severe",
-        "Entity": {
-            "recovered": 12
-        }
-    },
-    {
-        "latitude": "41.288052",
-        "longitude": "-158.414900",
-        "time": "2001-12-14",
-        "Category": "Medium",
-        "Entity": {
-            "asymptomatic": 43
-        }
-    },
-    {
-        "latitude": "41.288052",
-        "longitude": "-158.414900",
-        "time": "2001-12-20",
-        "Category": "Medium",
-        "Entity": {
-            "symptomatic": 10
-        }
-    },
-    {
-        "latitude": "41.288052",
-        "longitude": "-158.414900",
-        "time": "2001-12-26",
-        "Category": "Mild",
-        "Entity": {
-            "unreported": 35
-        }
-    },
-    {
-        "latitude": "41.288052",
-        "longitude": "-158.414900",
-        "time": "2001-12-28",
-        "Category": "Severe",
-        "Entity": {
-            "dead": 9
-        }
-    },
-    {
-        "latitude": "-9.896499",
-        "longitude": "119.612090",
-        "time": "2001-10-23",
-        "Category": "Severe",
-        "Entity": {
-            "dead": 22
-        }
-    },
-    {
-        "latitude": "-9.896499",
-        "longitude": "119.612090",
-        "time": "2001-10-22",
-        "Category": "Severe",
-        "Entity": {
-            "recovered": 13
-        }
-    },
-    {
-        "latitude": "-9.896499",
-        "longitude": "-158.414900",
-        "time": "2002-11-23",
-        "Category": "Medium",
-        "Entity": {
-            "symptomatic": 5
-        }
-    },
-    {
-        "latitude": "-9.896499",
-        "longitude": "-158.414900",
-        "time": "2002-11-23",
-        "Category": "Medium",
-        "Entity": {
-            "symptomatic": 5
-        }
-    },
-    {
-        "latitude": "-9.896499",
-        "longitude": "-158.414900",
-        "time": "2002-11-27",
-        "Category": "Mild",
-        "Entity": {
-            "reported": 34
-        }
-    },
-    {
-        "latitude": "-9.896499",
-        "longitude": "-158.414900",
-        "time": "2002-11-12",
-        "Category": "Severe",
-        "Entity": {
-            "dead": 37
-        }
+  {
+    "latitude": "41.288052",
+    "longitude": "119.612090",
+    "time": "2001-11-12",
+    "Category": "Medium",
+    "Entity": {
+      "symptomatic": 36
     }
+  },
+  {
+    "latitude": "41.288052",
+    "longitude": "119.612090",
+    "time": "2001-11-27",
+    "Category": "Mild",
+    "Entity": {
+      "unreported": 12
+    }
+  },
+  {
+    "latitude": "41.288052",
+    "longitude": "119.612090",
+    "time": "2001-11-27",
+    "Category": "Mild",
+    "Entity": {
+      "unreported": 12
+    }
+  },
+  {
+    "latitude": "41.288052",
+    "longitude": "119.612090",
+    "time": "2001-11-16",
+    "Category": "Severe",
+    "Entity": {
+      "recovered": 12
+    }
+  },
+  {
+    "latitude": "41.288052",
+    "longitude": "-158.414900",
+    "time": "2001-12-14",
+    "Category": "Medium",
+    "Entity": {
+      "asymptomatic": 43
+    }
+  },
+  {
+    "latitude": "41.288052",
+    "longitude": "-158.414900",
+    "time": "2001-12-20",
+    "Category": "Medium",
+    "Entity": {
+      "symptomatic": 10
+    }
+  },
+  {
+    "latitude": "41.288052",
+    "longitude": "-158.414900",
+    "time": "2001-12-26",
+    "Category": "Mild",
+    "Entity": {
+      "unreported": 35
+    }
+  },
+  {
+    "latitude": "41.288052",
+    "longitude": "-158.414900",
+    "time": "2001-12-28",
+    "Category": "Severe",
+    "Entity": {
+      "dead": 9
+    }
+  },
+  {
+    "latitude": "-9.896499",
+    "longitude": "119.612090",
+    "time": "2001-10-23",
+    "Category": "Severe",
+    "Entity": {
+      "dead": 22
+    }
+  },
+  {
+    "latitude": "-9.896499",
+    "longitude": "119.612090",
+    "time": "2001-10-22",
+    "Category": "Severe",
+    "Entity": {
+      "recovered": 13
+    }
+  },
+  {
+    "latitude": "-9.896499",
+    "longitude": "-158.414900",
+    "time": "2002-11-23",
+    "Category": "Medium",
+    "Entity": {
+      "symptomatic": 5
+    }
+  },
+  {
+    "latitude": "-9.896499",
+    "longitude": "-158.414900",
+    "time": "2002-11-23",
+    "Category": "Medium",
+    "Entity": {
+      "symptomatic": 5
+    }
+  },
+  {
+    "latitude": "-9.896499",
+    "longitude": "-158.414900",
+    "time": "2002-11-27",
+    "Category": "Mild",
+    "Entity": {
+      "reported": 34
+    }
+  },
+  {
+    "latitude": "-9.896499",
+    "longitude": "-158.414900",
+    "time": "2002-11-12",
+    "Category": "Severe",
+    "Entity": {
+      "dead": 37
+    }
+  }
 ]
